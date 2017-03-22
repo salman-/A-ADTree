@@ -11,7 +11,7 @@ public interface CRUD {
 	
 	public Map<String, ArrayList<String>> selectAll(String table) throws Exception;
 	
-	public Map<String, ArrayList<String>> select(String table,int id) throws Exception;
+	public Map<String, ArrayList<String>> select(String table,String id) throws Exception;
 	
 	public int delete(String table,String id) throws Exception;
     

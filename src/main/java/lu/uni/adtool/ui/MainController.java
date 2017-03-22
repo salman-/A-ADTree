@@ -84,6 +84,8 @@ import bibliothek.gui.dock.common.event.CFocusListener;
 import bibliothek.gui.dock.common.intern.CDockable;
 import bibliothek.gui.dock.common.theme.ThemeMap;
 import ee.ut.smartadtool.ui.Asset;
+import ee.ut.smartadtool.ui.Impact;
+import ee.ut.smartadtool.ui.Vulnerability;
 
 
 public final class MainController implements CControlListener, CFocusListener {
@@ -934,33 +936,37 @@ public final class MainController implements CControlListener, CFocusListener {
   ///*  
     Asset= new ADAction("Assets") {
    
-	private static final long serialVersionUID = -4439670565041318275L;
+	//private static final long serialVersionUID = -4439670565041318275L;
 
 	public void actionPerformed(final ActionEvent e) {
-                Asset asset=new Asset();
+           
                // AssetHandler assetHandler=new AssetHandler();
-                System.out.println("Edit Asset Lists");
+                System.out.println("Edit Asset List");
                 try {
                         new Asset().setVisible(true);
                     } catch (Exception e1) {}
         }
       }; 
       
-      EditAttacks= new ADAction("Edit Attacks") {
+      EditAttacks= new ADAction("Atomic Attacks") {
     	   
-  		private static final long serialVersionUID = -4439670565041318275L;
+  	//   private static final long serialVersionUID = -4439670565041318275L;
 
-  		public void actionPerformed(final ActionEvent e) {
+  	    public void actionPerformed(final ActionEvent e) {
             System.out.println("Edit Attack List");
-           // new EditAsset().setVisible(true);
+            try {
+                 new Asset().setVisible(true);
+             } catch (Exception e1) {}
           }
         }; 
       
        EditImpact= new ADAction("Impacts") {
     	   
-  		private static final long serialVersionUID = -4439670565041318275L;
+  	//	
+           private static final long serialVersionUID = -4439670565041318275L;
 
-  		public void actionPerformed(final ActionEvent e) {
+  	public void actionPerformed(final ActionEvent e) {
+                    new Impact().setVisible(true);
             System.out.println("Edit Impact List");
            // new EditAsset().setVisible(true);
           }
@@ -968,17 +974,19 @@ public final class MainController implements CControlListener, CFocusListener {
       
          EditVulnerabilities= new ADAction("Vulnerabilities") {
     	   
-  		private static final long serialVersionUID = -4439670565041318275L;
+  	//	private static final long serialVersionUID = -4439670565041318275L;
 
   		public void actionPerformed(final ActionEvent e) {
-            System.out.println("Edit Vulnerabilities List");
-           // new EditAsset().setVisible(true);
+           
+              try {
+                        new Vulnerability().setVisible(true);
+                    } catch (Exception e1) {}
           }
         };
          
-        EditCountermeasures= new ADAction("Countermeasures") {
+        EditCountermeasures= new ADAction("Atomic Countermeasures") {
     	   
-  		private static final long serialVersionUID = -4439670565041318275L;
+  	//	private static final long serialVersionUID = -4439670565041318275L;
 
   		public void actionPerformed(final ActionEvent e) {
             System.out.println("Edit Countermeasures List");

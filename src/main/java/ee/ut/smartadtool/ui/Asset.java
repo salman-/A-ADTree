@@ -19,7 +19,6 @@ import ee.ut.smartadtool.service.DataPopulator;
 
 public class Asset extends javax.swing.JPanel {
 
-     
     AssetDBSerivice assetDBSerivice;
    
     public Asset() {
@@ -188,7 +187,7 @@ public class Asset extends javax.swing.JPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
                 .addGap(49, 49, 49)
                 .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 88, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 122, Short.MAX_VALUE)
                 .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(62, 62, 62))
         );
@@ -209,20 +208,20 @@ public class Asset extends javax.swing.JPanel {
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(assetTabbedPane)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addComponent(assetTabbedPane, javax.swing.GroupLayout.PREFERRED_SIZE, 506, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addComponent(assetTabbedPane, javax.swing.GroupLayout.PREFERRED_SIZE, 450, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(assetTabbedPane)
         );
 
         javax.swing.GroupLayout assetFrameLayout = new javax.swing.GroupLayout(assetFrame.getContentPane());
         assetFrame.getContentPane().setLayout(assetFrameLayout);
         assetFrameLayout.setHorizontalGroup(
             assetFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 472, Short.MAX_VALUE)
+            .addGap(0, 506, Short.MAX_VALUE)
             .addGroup(assetFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(assetFrameLayout.createSequentialGroup()
                     .addGap(0, 0, Short.MAX_VALUE)
@@ -253,7 +252,11 @@ public class Asset extends javax.swing.JPanel {
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         System.out.println("Update");
-        UpdateAsset ua=new UpdateAsset(jTable2.getValueAt(jTable2.getSelectedRow(), 0).toString());
+        try {
+            new UpdateAsset(jTable2.getValueAt(jTable2.getSelectedRow(), 0).toString()).setVisible(true);
+        } catch (Exception ex) {
+            Logger.getLogger(Asset.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
     }//GEN-LAST:event_jButton5ActionPerformed
 

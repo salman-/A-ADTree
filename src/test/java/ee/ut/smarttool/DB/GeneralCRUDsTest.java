@@ -26,7 +26,7 @@ public class GeneralCRUDsTest {
 
 	@Test
 	public void testSelect() throws Exception {
-		Map<String, ArrayList<String>> res = g.select("vulnerability",2);
+		Map<String, ArrayList<String>> res = g.select("vulnerability","2");
 		//	assertEquals(3,res.size() );                                           //Number of columns
 			assertEquals(1,res.get("name").size() );
 	}

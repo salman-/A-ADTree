@@ -6,28 +6,36 @@
 package ee.ut.smartadtool.ui;
 
 import ee.ut.smarttool.DB.AssetDBSerivice;
-import javax.swing.JFrame;
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author Salman
  */
-public class UpdateAsset extends javax.swing.JPanel {
+public class UpdateAsset extends javax.swing.JFrame {
 
     private final AssetDBSerivice assetDBSerivice;
-
+    String   id;
     /**
      * Creates new form UpdateAsset
-     * @param id
      */
-    public UpdateAsset(String id) {
-        assetDBSerivice= new AssetDBSerivice();
-        initComponents();
+    public UpdateAsset(String id) throws Exception {
+         assetDBSerivice= new AssetDBSerivice();
         
-     //   updateAssetFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        updateAssetFrame.pack();
-        updateAssetFrame.show();
-        System.out.print(id);
+        initComponents();
+        Map<String, ArrayList<String>> res = assetDBSerivice.select("asset", id);
+        System.out.print(id+" "+res.get("id").get(0));
+        for(int i=0;i<res.keySet().size();i++)
+           System.out.println(res.keySet().toArray()[i]);
+        AssetId.setText(res.get("id").get(0));
+        editAssetTF.setText(res.get("name").get(0));
+        editDescriptionTA.setText(res.get("description").get(0));
+      //  editTiimes.setValue( Integer.valueOf(editDescriptionTA.setText(res.get("description").get(0))));
+        editValueTF.setText(res.get("value").get(0));
+    
     }
 
     /**
@@ -39,23 +47,21 @@ public class UpdateAsset extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        updateAssetFrame = new javax.swing.JInternalFrame();
         jPanel3 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
-        editAssetTF1 = new javax.swing.JTextField();
+        editAssetTF = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
-        editTiimes1 = new javax.swing.JSpinner();
-        editValueTF1 = new javax.swing.JTextField();
+        editTimes = new javax.swing.JSpinner();
+        editValueTF = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        editDescriptionTA1 = new javax.swing.JTextArea();
+        editDescriptionTA = new javax.swing.JTextArea();
         jButton2 = new javax.swing.JButton();
         jLabel11 = new javax.swing.JLabel();
-        jLabel12 = new javax.swing.JLabel();
+        AssetId = new javax.swing.JLabel();
 
-        updateAssetFrame.setTitle("Update Asset");
-        updateAssetFrame.setVisible(true);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jLabel5.setText("Asset Name");
 
@@ -65,9 +71,9 @@ public class UpdateAsset extends javax.swing.JPanel {
 
         jLabel10.setText("Description");
 
-        editDescriptionTA1.setColumns(20);
-        editDescriptionTA1.setRows(5);
-        jScrollPane2.setViewportView(editDescriptionTA1);
+        editDescriptionTA.setColumns(20);
+        editDescriptionTA.setRows(5);
+        jScrollPane2.setViewportView(editDescriptionTA);
 
         jButton2.setText("Add Asset");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -78,7 +84,7 @@ public class UpdateAsset extends javax.swing.JPanel {
 
         jLabel11.setText("ID");
 
-        jLabel12.setText("Asset ID");
+        AssetId.setText("Asset ID");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -98,15 +104,15 @@ public class UpdateAsset extends javax.swing.JPanel {
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addGap(101, 101, 101)
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(editAssetTF1)
-                                    .addComponent(editTiimes1)
+                                    .addComponent(editAssetTF)
+                                    .addComponent(editTimes)
                                     .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 244, Short.MAX_VALUE)))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(editValueTF1, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(editValueTF, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addGap(109, 109, 109)
-                                .addComponent(jLabel12))))
+                                .addComponent(AssetId))))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGap(93, 93, 93)
                         .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -118,18 +124,18 @@ public class UpdateAsset extends javax.swing.JPanel {
                 .addGap(30, 30, 30)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel11)
-                    .addComponent(jLabel12))
+                    .addComponent(AssetId))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(editAssetTF1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(editAssetTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(editValueTF1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(editValueTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel8))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(editTiimes1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(editTimes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel9))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -140,58 +146,57 @@ public class UpdateAsset extends javax.swing.JPanel {
                 .addGap(27, 27, 27))
         );
 
-        javax.swing.GroupLayout updateAssetFrameLayout = new javax.swing.GroupLayout(updateAssetFrame.getContentPane());
-        updateAssetFrame.getContentPane().setLayout(updateAssetFrameLayout);
-        updateAssetFrameLayout.setHorizontalGroup(
-            updateAssetFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-            .addGroup(updateAssetFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(updateAssetFrameLayout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
-        );
-        updateAssetFrameLayout.setVerticalGroup(
-            updateAssetFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-            .addGroup(updateAssetFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(updateAssetFrameLayout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
-        );
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 487, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 357, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
         );
+
+        pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
+
+        try {
+            assetDBSerivice.updateAsset(editAssetTF.getText(),editValueTF.getText(),editTimes.getValue().toString(), editDescriptionTA.getText(), AssetId.getText());
+        } catch (Exception ex) {
+            Logger.getLogger(UpdateAsset.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    /**
+     * @param args the command line arguments
+     */
+  
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField editAssetTF1;
-    private javax.swing.JTextArea editDescriptionTA1;
-    private javax.swing.JSpinner editTiimes1;
-    private javax.swing.JTextField editValueTF1;
+    private javax.swing.JLabel AssetId;
+    private javax.swing.JTextField editAssetTF;
+    private javax.swing.JTextArea editDescriptionTA;
+    private javax.swing.JSpinner editTimes;
+    private javax.swing.JTextField editValueTF;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JInternalFrame updateAssetFrame;
     // End of variables declaration//GEN-END:variables
 }

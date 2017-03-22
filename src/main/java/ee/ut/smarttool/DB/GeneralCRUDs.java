@@ -13,9 +13,9 @@ public class GeneralCRUDs implements CRUD {
 	}
 
 	@Override
-	public Map<String, ArrayList<String>> select(String table,int id) throws Exception {
+	public Map<String, ArrayList<String>> select(String table,String id) throws Exception {
 		String query="select * from '?' where id=?";
-    	query=QueryMaker.queryFitter(query, QueryMaker.createArgList(table,Integer.toString(id)));
+    	query=QueryMaker.queryFitter(query, QueryMaker.createArgList(table,id));
 		return DB.selectQuery(query);
 	}
 

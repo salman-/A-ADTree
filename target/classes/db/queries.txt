@@ -28,3 +28,7 @@
 --delete from attack
 --select * from attack  where id=1
 --select * from attack
+
+CREATE TABLE "asset" ("id" INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL , "name" VARCHAR NOT NULL , "value" DOUBLE NOT NULL , "times" NUMERIC NOT NULL  DEFAULT 0, "description" VARCHAR)
+
+CREATE  TABLE "main"."impact" ("id" INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL , "impact" VARCHAR, "description" VARCHAR, "level" INTEGER)
