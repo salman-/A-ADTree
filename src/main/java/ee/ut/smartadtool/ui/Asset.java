@@ -253,8 +253,8 @@ public class Asset extends javax.swing.JPanel {
     private void insertAssetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_insertAssetActionPerformed
     //   System.out.println(assetNameTF.getText()+" "+assetValueTF.getText()+" "+assetTimesSpinner.getValue()+" "+assetDescriptionTA.getText());
         try {
-      //      assetDBSerivice.insert(assetNameTF.getText(),  assetDescriptionTA.getText(),
-       //                            assetValueTF.getText(),assetTimesSpinner.getValue().toString());
+            assetDBSerivice.insert(assetNameTF.getText(),  assetDescriptionTA.getText(),
+                                   assetValueTF.getText(),assetTimesSpinner.getValue().toString());
         } catch (Exception ex) {
             Logger.getLogger(Asset.class.getName()).log(Level.SEVERE, null, ex);
         }
