@@ -68,7 +68,8 @@
       <groupId>org.reflections</groupId>
       <artifactId>reflections</artifactId>
       <version>[0.9,)</version>
-    </dependency>  
+    </dependency> 
+
     <dependency>
       <groupId>org.abego.treelayout</groupId>
       <artifactId>org.abego.treelayout.core</artifactId>
@@ -126,11 +127,11 @@
           </includes>
         </configuration>
         <executions>
-          <execution>
+          <!--execution>
             <goals>
               <goal>check</goal>
             </goals>
-          </execution>
+          </execution-->
         </executions>
       </plugin>
       <plugin>

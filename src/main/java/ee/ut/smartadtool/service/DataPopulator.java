@@ -1,13 +1,8 @@
 package ee.ut.smartadtool.service;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
-import lombok.Data;
-
-//@Data
 public class DataPopulator {
 	
 	static int rows;

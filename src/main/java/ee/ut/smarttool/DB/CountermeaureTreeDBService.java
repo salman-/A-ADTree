@@ -1,8 +1,6 @@
 package ee.ut.smarttool.DB;
 
-import lombok.Data;
 
-@Data
 public class CountermeaureTreeDBService {
 
 	public int insertCountermeaureTree(int parentId,int childId) throws Exception{

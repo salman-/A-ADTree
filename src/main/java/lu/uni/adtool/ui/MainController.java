@@ -83,7 +83,8 @@ import bibliothek.gui.dock.common.event.CControlListener;
 import bibliothek.gui.dock.common.event.CFocusListener;
 import bibliothek.gui.dock.common.intern.CDockable;
 import bibliothek.gui.dock.common.theme.ThemeMap;
-import ee.ut.smartadtool.ui.EditAsset;
+import ee.ut.smartadtool.ui.Asset;
+
 
 public final class MainController implements CControlListener, CFocusListener {
 
@@ -496,7 +497,7 @@ public final class MainController implements CControlListener, CFocusListener {
     editMenu.add(menuItem);
     editMenu.addSeparator();
     
-    menuItem = editMenu.add(EditAssets );
+    menuItem = editMenu.add(Asset );
     menuItem = editMenu.add(EditAttacks );
     
     menuItem.addMouseListener(mouseHandler);
@@ -929,20 +930,17 @@ public final class MainController implements CControlListener, CFocusListener {
     editPaste.setSmallIcon(iconFac.createImageIcon("/icons/paste.png"));
     
   ///*  
-    EditAssets= new ADAction("Edit Asset Lists") {
+    Asset= new ADAction("Edit Asset Lists") {
    
-        /**
-		 * 
-		 */
-		private static final long serialVersionUID = -4439670565041318275L;
+	private static final long serialVersionUID = -4439670565041318275L;
 
-		public void actionPerformed(final ActionEvent e) {
-          System.out.println("Edit Asset Lists");
-          try {
-			new EditAsset().setVisible(true);
-		} catch (Exception e1) {
-			e1.printStackTrace();
-		}
+	public void actionPerformed(final ActionEvent e) {
+                Asset asset=new Asset();
+               // AssetHandler assetHandler=new AssetHandler();
+                System.out.println("Edit Asset Lists");
+                try {
+                        new Asset().setVisible(true);
+                    } catch (Exception e1) {}
         }
       }; 
       
@@ -1325,7 +1323,7 @@ public final class MainController implements CControlListener, CFocusListener {
   private static ADAction      editCopy;
   private static ADAction      editCut;
   
-  private static ADAction      EditAssets;
+  private static ADAction      Asset;
   private static ADAction      EditAttacks;
   
   private static ADAction      editPaste;
