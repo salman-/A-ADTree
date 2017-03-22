@@ -500,8 +500,8 @@ public final class MainController implements CControlListener, CFocusListener {
     menuItem = editMenu.add(Asset );
     menuItem = editMenu.add(EditAttacks );
     menuItem = editMenu.add(EditImpact ); 
-    menuItem = editMenu.add(EditVulnerabilities );
-    
+    menuItem = editMenu.add(EditVulnerabilities ); 
+    menuItem = editMenu.add(EditCountermeasures );
     menuItem.addMouseListener(mouseHandler);
     editMenu.add(menuItem);
     
@@ -975,8 +975,18 @@ public final class MainController implements CControlListener, CFocusListener {
            // new EditAsset().setVisible(true);
           }
         };
+         
+        EditCountermeasures= new ADAction("Countermeasures") {
+    	   
+  		private static final long serialVersionUID = -4439670565041318275L;
+
+  		public void actionPerformed(final ActionEvent e) {
+            System.out.println("Edit Countermeasures List");
+           // new EditAsset().setVisible(true);
+          }
+        };
       
-      //    editCopy.setMnemonic(KeyStroke.getKeyStroke(Options.getMsg("Edit Attack Method Lists")));
+
 
     
     editCopy = new ADAction(Options.getMsg("edit.copy.txt")) {
@@ -1348,6 +1358,7 @@ public final class MainController implements CControlListener, CFocusListener {
   private static ADAction      EditAttacks;
   private static ADAction      EditImpact;
   private static ADAction      EditVulnerabilities;
+  private static ADAction      EditCountermeasures;
   
   private static ADAction      editPaste;
   private static ADAction      editUndo;
