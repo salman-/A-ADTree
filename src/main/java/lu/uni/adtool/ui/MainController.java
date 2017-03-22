@@ -499,6 +499,7 @@ public final class MainController implements CControlListener, CFocusListener {
     
     menuItem = editMenu.add(Asset );
     menuItem = editMenu.add(EditAttacks );
+    menuItem = editMenu.add(EditImpact ); 
     
     menuItem.addMouseListener(mouseHandler);
     editMenu.add(menuItem);
@@ -930,7 +931,7 @@ public final class MainController implements CControlListener, CFocusListener {
     editPaste.setSmallIcon(iconFac.createImageIcon("/icons/paste.png"));
     
   ///*  
-    Asset= new ADAction("Edit Asset Lists") {
+    Asset= new ADAction("Assets") {
    
 	private static final long serialVersionUID = -4439670565041318275L;
 
@@ -944,7 +945,17 @@ public final class MainController implements CControlListener, CFocusListener {
         }
       }; 
       
-      EditAttacks= new ADAction("Edit Attack Lists") {
+      EditAttacks= new ADAction("Edit Attacks") {
+    	   
+  		private static final long serialVersionUID = -4439670565041318275L;
+
+  		public void actionPerformed(final ActionEvent e) {
+            System.out.println("Edit Attack List");
+           // new EditAsset().setVisible(true);
+          }
+        }; 
+      
+       EditImpact= new ADAction("Impacts") {
     	   
   		private static final long serialVersionUID = -4439670565041318275L;
 
@@ -1325,6 +1336,7 @@ public final class MainController implements CControlListener, CFocusListener {
   
   private static ADAction      Asset;
   private static ADAction      EditAttacks;
+  private static ADAction      EditImpact;
   
   private static ADAction      editPaste;
   private static ADAction      editUndo;

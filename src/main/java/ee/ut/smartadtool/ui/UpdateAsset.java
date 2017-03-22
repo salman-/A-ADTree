@@ -24,9 +24,9 @@ public class UpdateAsset extends javax.swing.JPanel {
         assetDBSerivice= new AssetDBSerivice();
         initComponents();
         
-        updateAssetFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+     //   updateAssetFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         updateAssetFrame.pack();
-        updateAssetFrame.setVisible(true);
+        updateAssetFrame.show();
         System.out.print(id);
     }
 
