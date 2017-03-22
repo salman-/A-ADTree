@@ -23,7 +23,7 @@ public class Asset extends javax.swing.JPanel {
     AssetDBSerivice assetDBSerivice;
    
     public Asset() {
-         assetDBSerivice= new AssetDBSerivice();
+        assetDBSerivice= new AssetDBSerivice();
         initComponents();
         assetFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         assetFrame.pack();
@@ -171,6 +171,11 @@ public class Asset extends javax.swing.JPanel {
 
         jButton6.setBackground(new java.awt.Color(255, 0, 0));
         jButton6.setText("Delete Asset");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -248,6 +253,8 @@ public class Asset extends javax.swing.JPanel {
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         System.out.println("Update");
+        UpdateAsset ua=new UpdateAsset(jTable2.getValueAt(jTable2.getSelectedRow(), 0).toString());
+        
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void insertAssetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_insertAssetActionPerformed
@@ -272,6 +279,17 @@ public class Asset extends javax.swing.JPanel {
          } catch (Exception e1) {}
         
     }//GEN-LAST:event_assetTabbedPaneStateChanged
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        try {
+            assetDBSerivice.delete("asset", jTable2.getValueAt(jTable2.getSelectedRow(), 0).toString());
+            Object[][] assetData= DataPopulator.DataPreprocessor(assetDBSerivice.selectAll("asset"));
+            String[] columns= DataPopulator.getColumn(assetDBSerivice.selectAll("asset"));
+            jTable2.setModel(new javax.swing.table.DefaultTableModel(assetData,columns) );
+        } catch (Exception ex) {
+            Logger.getLogger(Asset.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButton6ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

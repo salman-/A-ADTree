@@ -5,17 +5,29 @@
  */
 package ee.ut.smartadtool.ui;
 
+import ee.ut.smarttool.DB.AssetDBSerivice;
+import javax.swing.JFrame;
+
 /**
  *
  * @author Salman
  */
 public class UpdateAsset extends javax.swing.JPanel {
 
+    private final AssetDBSerivice assetDBSerivice;
+
     /**
      * Creates new form UpdateAsset
+     * @param id
      */
-    public UpdateAsset() {
+    public UpdateAsset(String id) {
+        assetDBSerivice= new AssetDBSerivice();
         initComponents();
+        
+        updateAssetFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        updateAssetFrame.pack();
+        updateAssetFrame.setVisible(true);
+        System.out.print(id);
     }
 
     /**
@@ -42,6 +54,7 @@ public class UpdateAsset extends javax.swing.JPanel {
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
 
+        updateAssetFrame.setTitle("Update Asset");
         updateAssetFrame.setVisible(true);
 
         jLabel5.setText("Asset Name");
@@ -95,7 +108,7 @@ public class UpdateAsset extends javax.swing.JPanel {
                                 .addGap(109, 109, 109)
                                 .addComponent(jLabel12))))
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(89, 89, 89)
+                        .addGap(93, 93, 93)
                         .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -122,9 +135,9 @@ public class UpdateAsset extends javax.swing.JPanel {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel10)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
                 .addComponent(jButton2)
-                .addContainerGap())
+                .addGap(27, 27, 27))
         );
 
         javax.swing.GroupLayout updateAssetFrameLayout = new javax.swing.GroupLayout(updateAssetFrame.getContentPane());
