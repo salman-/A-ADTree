@@ -43,9 +43,9 @@ public class DB
   
     public static Map<String, ArrayList<String>> selectQuery(String query) throws Exception{
 	  
-	  openConnection();
+      openConnection();
 	  
-	  ResultSet rs = statement.executeQuery(query);
+      ResultSet rs = statement.executeQuery(query);
       Map<String, ArrayList<String>> table = printRows(rs);
       
       closeConnection();
@@ -93,6 +93,8 @@ public class DB
         System.err.println(e);
       } 
   }
+
+    
 
   
 }

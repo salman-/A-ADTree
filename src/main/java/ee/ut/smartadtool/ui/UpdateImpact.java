@@ -25,7 +25,7 @@ public class UpdateImpact extends javax.swing.JFrame {
         initComponents();
         Map<String, ArrayList<String>> res = impactDBService.select("impact", id);
         impactID.setText(id);
-        impactTF.setText(res.get("impact").get(0));
+        impactNameTF.setText(res.get("name").get(0));
         impactDescriptionTA.setText(res.get("description").get(0));
         System.out.println(id);
 
@@ -42,7 +42,7 @@ public class UpdateImpact extends javax.swing.JFrame {
 
         jPanel4 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
-        impactTF = new javax.swing.JTextField();
+        impactNameTF = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
@@ -54,7 +54,7 @@ public class UpdateImpact extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         impactID = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jLabel5.setText("Impact Name");
 
@@ -99,7 +99,7 @@ public class UpdateImpact extends javax.swing.JFrame {
                             .addComponent(jLabel2))
                         .addGap(101, 101, 101)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(impactTF)
+                            .addComponent(impactNameTF)
                             .addComponent(impactTypeCombo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jScrollPane3)
                             .addComponent(impactLevelCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -119,7 +119,7 @@ public class UpdateImpact extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel5)
-                    .addComponent(impactTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(impactNameTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
@@ -164,15 +164,13 @@ public class UpdateImpact extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void updateImpactActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateImpactActionPerformed
-        System.out.println(impactTF.getText()+" "+impactLevelCombo.getSelectedItem().toString()+" "+impactTypeCombo.getSelectedItem().toString()+" "+impactDescriptionTA.getText());
+        System.out.println("Values are: "+impactNameTF.getText()+" "+impactLevelCombo.getSelectedItem().toString()+" "+impactTypeCombo.getSelectedItem().toString()+" "+impactDescriptionTA.getText());
         try {
-            impactDBService.updateImpact(impactTF.getText(), 
+            impactDBService.updateImpact(impactID.getText(),impactNameTF.getText(), 
                             impactDescriptionTA.getText(),
                             impactLevelCombo.getSelectedItem().toString(),
-                            impactTypeCombo.getSelectedItem().toString(),impactID.getText());
-        } catch (Exception ex) {
-            Logger.getLogger(Asset.class.getName()).log(Level.SEVERE, null, ex);
-        }
+                            impactTypeCombo.getSelectedItem().toString());
+        } catch (Exception ex) { Logger.getLogger(Asset.class.getName()).log(Level.SEVERE, null, ex); }
     }//GEN-LAST:event_updateImpactActionPerformed
 
     /**
@@ -191,7 +189,7 @@ public class UpdateImpact extends javax.swing.JFrame {
     private javax.swing.JTextArea impactDescriptionTA;
     private javax.swing.JLabel impactID;
     private javax.swing.JComboBox<String> impactLevelCombo;
-    private javax.swing.JTextField impactTF;
+    private javax.swing.JTextField impactNameTF;
     private javax.swing.JComboBox<String> impactTypeCombo;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

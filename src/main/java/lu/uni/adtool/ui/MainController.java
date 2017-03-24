@@ -84,6 +84,8 @@ import bibliothek.gui.dock.common.event.CFocusListener;
 import bibliothek.gui.dock.common.intern.CDockable;
 import bibliothek.gui.dock.common.theme.ThemeMap;
 import ee.ut.smartadtool.ui.Asset;
+import ee.ut.smartadtool.ui.AtomicAttack;
+import ee.ut.smartadtool.ui.AtomicCountermeasure;
 import ee.ut.smartadtool.ui.Impact;
 import ee.ut.smartadtool.ui.Vulnerability;
 
@@ -501,9 +503,10 @@ public final class MainController implements CControlListener, CFocusListener {
     
     menuItem = editMenu.add(Asset );
     menuItem = editMenu.add(EditAttacks );
+    menuItem = editMenu.add(EditCountermeasures );
     menuItem = editMenu.add(EditImpact ); 
     menuItem = editMenu.add(EditVulnerabilities ); 
-    menuItem = editMenu.add(EditCountermeasures );
+    ;
     menuItem.addMouseListener(mouseHandler);
     editMenu.add(menuItem);
     
@@ -955,7 +958,7 @@ public final class MainController implements CControlListener, CFocusListener {
   	    public void actionPerformed(final ActionEvent e) {
             System.out.println("Edit Attack List");
             try {
-                 new Asset().setVisible(true);
+                 new AtomicAttack().setVisible(true);
              } catch (Exception e1) {}
           }
         }; 
@@ -987,10 +990,10 @@ public final class MainController implements CControlListener, CFocusListener {
         EditCountermeasures= new ADAction("Atomic Countermeasures") {
     	   
   	//	private static final long serialVersionUID = -4439670565041318275L;
-
+                 
   		public void actionPerformed(final ActionEvent e) {
             System.out.println("Edit Countermeasures List");
-           // new EditAsset().setVisible(true);
+             new AtomicCountermeasure().setVisible(true);
           }
         };
       

@@ -7,7 +7,7 @@ public class CountermeasureDBService extends GeneralCRUDs{
     public int insertCountermeasure(String name,String description
     		                         ,String cost,String operation,String probability
     		                         ,int attackId,String failure_times ) throws Exception{
-    	String query="insert into  countermeasure ( name,description,cost,operation,probability,attack_id,failure_times) values('?','?','?','?','?','?','?')";
+    	String query="insert into  countermeasure ( name,description,cost,probability) values('?','?','?','?')";
 		query=QueryMaker.queryFitter(query, QueryMaker.createArgList( name,description,cost,operation,probability
                                                                      ,Integer.toString(attackId),failure_times));
 		return DB.executeQuery(query);

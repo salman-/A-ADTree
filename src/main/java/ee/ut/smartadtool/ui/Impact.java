@@ -213,7 +213,7 @@ public class Impact extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void insertImpactActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_insertImpactActionPerformed
-          System.out.println(impactTF.getText()+" "+impactLevelCombo.getSelectedItem().toString()+" "+impactTypeCombo.getSelectedItem().toString()+" "+impactDescriptionTA.getText());
+       //   System.out.println(impactTF.getText()+" "+impactLevelCombo.getSelectedItem().toString()+" "+impactTypeCombo.getSelectedItem().toString()+" "+impactDescriptionTA.getText());
         try {
             impactDBService.insertImpact(impactTF.getText(),  impactDescriptionTA.getText(),
                 impactLevelCombo.getSelectedItem().toString(),impactTypeCombo.getSelectedItem().toString());
@@ -234,7 +234,7 @@ public class Impact extends javax.swing.JFrame {
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         try {
-            impactDBService.delete("impact", jTable2.getValueAt(jTable2.getSelectedRow(), 0).toString());
+            impactDBService.deleteByName("impact", jTable2.getValueAt(jTable2.getSelectedRow(), 0).toString());
             Object[][] data= DataPopulator.DataPreprocessor(impactDBService.selectAll("impact"));
             String[] columns= DataPopulator.getColumn(impactDBService.selectAll("impact"));
             jTable2.setModel(new javax.swing.table.DefaultTableModel(data,columns) );
