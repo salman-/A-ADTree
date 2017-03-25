@@ -33,9 +33,10 @@ import lu.uni.adtool.ui.canvas.SandTreeCanvas;
 public class AddChild extends EditAction {
 
 
-  public AddChild(Node parent) {
-    this.parentPath = parent.toPath();
-  }
+  public AddChild(Node parent) { 
+	  this.parentPath = parent.toPath(); 
+	//  System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@"+" parentid:"+parent.getParentId());
+}
 
   public void undo(AbstractTreeCanvas canvas) {
     Node parent = canvas.getTree().getRoot(true).fromPath(parentPath, 0);
@@ -70,7 +71,7 @@ public class AddChild extends EditAction {
 
 
   public String getName(){
-    return Options.getMsg("action.addchild");
+	  return Options.getMsg("action.addchild");
   }
 
   private ArrayList<Integer> parentPath;

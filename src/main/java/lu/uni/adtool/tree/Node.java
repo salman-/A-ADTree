@@ -20,44 +20,45 @@
  */
 package lu.uni.adtool.tree;
 
+
 import java.io.Serializable;
 import java.util.ArrayList;
+import ee.ut.smarttool.DB.IDGenerator;
 
 public abstract class Node implements Serializable{
 
   public Node() {
+
+    this.id=IDGenerator.nextId();
     this.name = "root";
     this.parent = null;
     this.comment = "";
   }
 
   public Node(String name) {
+    this.id=IDGenerator.nextId();
     this.parent = null;
     this.name = name;
-    this.comment = "";
+    this.comment ="";//Integer.toString(IDGenerator.nextId());
   }
 
+  public int getId() {
+    return this.id;
+  }
+  
+ // public int getParentId() { return this.parentId; }
+  
   public abstract String toString();
 
-  public final void setName(final String n) {
-    this.name = n;
-  }
+  public final void setName(final String n) { this.name = n;}
 
-  public String getName() {
-    return this.name;
-  }
+  public String getName() {return this.name;}
 
-  public String getComment() {
-    return this.comment;
-  }
+  public String getComment() {return this.comment;}
 
-  public void setComment(String comment) {
-    this.comment = comment;
-  }
+  public void setComment(String comment) {this.comment = comment; }
 
-  public final void setParent(final Node p) {
-    this.parent = p;
-  }
+  public final void setParent(final Node p) {    this.parent = p;}
 
   public final boolean isLeaf() {
     if (children == null) return true;
@@ -65,22 +66,16 @@ public abstract class Node implements Serializable{
     return false;
   }
 
-  public boolean hasDefault() {
-    return isLeaf();
-  }
+  public boolean hasDefault() {return isLeaf();}
 
-  public final Node getParent() {
-    return this.parent;
-  }
+  public final Node getParent() { return this.parent;}
 
   public void addChild(Node child) {
     getNotNullChildren().add(child);
     child.setParent(this);
   }
 
-  public ArrayList<Node> getChildren() {
-    return this.children;
-  }
+  public ArrayList<Node> getChildren() {return this.children; }
 
   public ArrayList<Integer> toPath() {
     if (parent == null ) {
@@ -114,9 +109,7 @@ public abstract class Node implements Serializable{
     return this.getChildren();
   }
 
-  public void setChildren(ArrayList<Node> newChildren) {
-    this.children = newChildren;
-  }
+  public void setChildren(ArrayList<Node> newChildren) {this.children = newChildren;}
 
   /**
    * Removes all children of a node.
@@ -180,5 +173,6 @@ public abstract class Node implements Serializable{
   private String            name;
   private String            comment;
   private Node              parent;
+  private int                id;
   private static final long serialVersionUID = -983678473499189388L;
 }

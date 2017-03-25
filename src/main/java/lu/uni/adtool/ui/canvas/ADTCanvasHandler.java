@@ -32,7 +32,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.KeyStroke;
 
-import ee.ut.smartadtool.ui.Properties;
+
 import lu.uni.adtool.tools.Options;
 import lu.uni.adtool.tree.ADTNode;
 import lu.uni.adtool.tree.GuiNode;
@@ -420,7 +420,7 @@ public class ADTCanvasHandler extends AbstractCanvasHandler {
    *
    */
   private void changeLabelActionPerformed() {
-	  new Properties().setVisible(true);
+	 // new Properties().setVisible(true);
   }
 
   // private ADTreeCanvas canvas;

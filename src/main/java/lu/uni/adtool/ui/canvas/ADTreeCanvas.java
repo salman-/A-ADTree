@@ -54,8 +54,7 @@ public class ADTreeCanvas<Type> extends AbstractTreeCanvas {
     this.addMouseListener(listener);
     this.addMouseMotionListener(listener);
     this.addKeyListener(listener);
-    this.configuration =
-        new DefaultConfiguration<Node>(Options.canv_gapBetweenLevels, Options.canv_gapBetweenNodes);
+    this.configuration = new DefaultConfiguration<Node>(Options.canv_gapBetweenLevels, Options.canv_gapBetweenNodes);
     if (tree != null) {
       this.setFocus(null);
       this.lastFocused = (GuiNode) tree.getRoot(false);

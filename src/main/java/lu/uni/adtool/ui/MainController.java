@@ -739,6 +739,7 @@ public final class MainController implements CControlListener, CFocusListener {
 
     fileNewADT = new ADAction(Options.getMsg("file.newADT.txt")) {
       public void actionPerformed(final ActionEvent e) {
+    //	System.out.println("Make a new ADTRee");  
         TreeLayout layout = new TreeLayout(frame.getTreeFactory().getNewUniqueId(), new ADTNode());
         final TreeDockable treeDockable = new TreeDockable(frame.getTreeFactory(), layout, false);
         addTreeDockable(treeDockable);

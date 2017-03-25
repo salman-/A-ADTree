@@ -212,7 +212,7 @@ public class AtomicCountermeasure extends javax.swing.JFrame {
 
 
 
-            countermeasureDBService.insertAttack(name,description,probaility,costOfDamage,costOfAttack, assetId,impactId,vulnerabilityId);
+            countermeasureDBService.insertCountermeasure(name,description,probaility,costOfDamage,costOfAttack);
 
         } catch (Exception ex) {
             Logger.getLogger(AtomicAttack.class.getName()).log(Level.SEVERE, null, ex);
@@ -269,9 +269,9 @@ public class AtomicCountermeasure extends javax.swing.JFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         try {
             String id= jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString();
-            attackDBService.delete("attack",id );
-            Object[][] assetData= DataPopulator.DataPreprocessor(attackDBService.selectAllAttack());
-            String[] columns= DataPopulator.getColumn(attackDBService.selectAllAttack());
+            countermeasureDBService.delete("countermeasure",id );
+            Object[][] assetData= DataPopulator.DataPreprocessor(countermeasureDBService.selectAll("countermeasure"));
+            String[] columns= DataPopulator.getColumn(countermeasureDBService.selectAll("countermeasure"));
             jTable1.setModel(new javax.swing.table.DefaultTableModel(assetData,columns) );
         } catch (Exception ex) {
             Logger.getLogger(AtomicAttack.class.getName()).log(Level.SEVERE, null, ex);

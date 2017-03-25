@@ -77,6 +77,7 @@ public class ADTNode extends GuiNode {
 
   public ADTNode(Type type) {
     super();
+//	System.out.println("Node Parent ID"+this.getParentId()+" Node ID:"+this.getId());
     this.type = type;
   }
 

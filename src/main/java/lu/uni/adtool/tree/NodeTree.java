@@ -136,6 +136,7 @@ public class NodeTree {
    *          [!hasNode(node)]
    */
   public void addChild(Node parentNode, Node node) {
+	System.out.println("**********************Parent Node id:"+parentNode.getId()+" Child node id: "+node.getId()); 
     boolean refresh = parentNode.hasDefault();
     parentNode.addChild(node);
     if (!((GuiNode) parentNode).isFolded()) {
@@ -194,11 +195,13 @@ public class NodeTree {
    * Returns true if subtree was added, false otherwise
    */
   public boolean addSubtree(Node parent, Node subtree) {
+	  System.out.println("**********************Parent Node id:"+parent.getId()+" Child node id: "+subtree.getId());  
     if (parent instanceof SandNode) {
       parent.addChild(subtree);
     }
     else {
       if (((ADTNode) parent).getRole() != ((ADTNode) subtree).getRole()) {
+    	  
         if (!((ADTNode) parent).isCountered()) {
           ((ADTNode) parent).addCounter((ADTNode) subtree);
         }
@@ -217,6 +220,7 @@ public class NodeTree {
   }
 
   public void addCounter(ADTNode parentNode, ADTNode node) {
+	  System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$Parent Node id:"+parentNode.getId()+" Child node id: "+node.getId());  
     boolean refresh = parentNode.hasDefault();
     // checkArg(hasNode(parentNode), "parentNode is not in the tree");
     // checkArg(!hasNode(node), "node is already in the tree");

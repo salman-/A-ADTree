@@ -114,6 +114,7 @@ public class RankingDockable extends PermaDockable implements KeyListener, ListS
   public void setFocus(AbstractTreeCanvas canvas, Node root, boolean recalculate) {
     if (canvas != this.canvas || this.table == null || root == null) {
       Debug.log("Setting canvas with no node - using root");
+      
       setCanvas(canvas);
     }
     else {
@@ -121,7 +122,8 @@ public class RankingDockable extends PermaDockable implements KeyListener, ListS
           .getValues().getDomain() instanceof AdtRankingDomain) ||
           ((AbstractDomainCanvas<Ring>) canvas)
               .getValues().getDomain() instanceof SandRank) {
-        Debug.log("Root used with name:" + root.getName());
+    	  System.out.println("ID is: "+root.getId());
+    	  Debug.log("Root used with name:" + root.getName());
         RankingTableModel model = ((RankingTableModel) this.table.getModel());
         if (model != null) {
           Debug.log("has model");
@@ -132,10 +134,12 @@ public class RankingDockable extends PermaDockable implements KeyListener, ListS
           model.setCanvas((AbstractDomainCanvas<Ring>) canvas, root, recalculate);
         }
         else {
+        	 System.out.println("ID is: "+root.getId());
           setCanvas(canvas);
         }
       }
       else {
+    	  System.out.println("ID should be here ");
         // TODO - put message?
       }
     }
