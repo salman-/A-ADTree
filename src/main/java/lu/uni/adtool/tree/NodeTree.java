@@ -136,7 +136,12 @@ public class NodeTree {
    *          [!hasNode(node)]
    */
   public void addChild(Node parentNode, Node node) {
-	System.out.println("**********************Parent Node id:"+parentNode.getId()+" Child node id: "+node.getId()); 
+
+	System.out.println("Parent Node"); 
+	printNodeInfo(parentNode);
+	System.out.println("Added Node"); 
+	printNodeInfo(node);  
+	  
     boolean refresh = parentNode.hasDefault();
     parentNode.addChild(node);
     if (!((GuiNode) parentNode).isFolded()) {
@@ -156,13 +161,20 @@ public class NodeTree {
     sharedExtentProvider.updateNodeSize(node);
   }
 
-  /**
+  private void printNodeInfo(Node node) {
+	  System.out.println("Node id: "+node.getId()+" Type is: "+node.getNodeType().toString()+"Name is: "+node.getName() ); 	
+}
+
+/**
    * Removes a subtree from the tree.
    *
    * @param node
    *          a root of a subtree to be removed.
    */
   public void removeTree(Node node) {
+
+	System.out.println("Removed Node"); 
+	printNodeInfo(node); 
     if (node.getParent() != null) {
       unfoldNode(node);
       node.getParent().getChildren().remove(node);
@@ -195,7 +207,10 @@ public class NodeTree {
    * Returns true if subtree was added, false otherwise
    */
   public boolean addSubtree(Node parent, Node subtree) {
-	  System.out.println("**********************Parent Node id:"+parent.getId()+" Child node id: "+subtree.getId());  
+	System.out.println("Parent Node"); 
+	printNodeInfo(parent);
+	System.out.println("Added Node"); 
+	printNodeInfo(subtree); 
     if (parent instanceof SandNode) {
       parent.addChild(subtree);
     }
@@ -220,8 +235,12 @@ public class NodeTree {
   }
 
   public void addCounter(ADTNode parentNode, ADTNode node) {
-	  System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$Parent Node id:"+parentNode.getId()+" Child node id: "+node.getId());  
-    boolean refresh = parentNode.hasDefault();
+	System.out.println("Parent Node"); 
+	printNodeInfo(parentNode);
+	System.out.println("Added Node"); 
+	printNodeInfo(node);
+	
+	boolean refresh = parentNode.hasDefault();
     // checkArg(hasNode(parentNode), "parentNode is not in the tree");
     // checkArg(!hasNode(node), "node is already in the tree");
     parentNode.addCounter(node);
@@ -238,6 +257,12 @@ public class NodeTree {
 
   }
 
+  public void printNodeInfo(ADTNode node){
+		System.out.println("Parent Node id: "+node.getId()+" Parent Type is: "+node.getType().toString()+ " Name is: "+node.getName() ); 
+
+  }
+  
+  
   public void removeAllChildren(Node node) {
     unfoldNode(node);
     node.getChildren().clear();

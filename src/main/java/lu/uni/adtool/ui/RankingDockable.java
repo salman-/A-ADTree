@@ -113,7 +113,7 @@ public class RankingDockable extends PermaDockable implements KeyListener, ListS
   @SuppressWarnings("unchecked")
   public void setFocus(AbstractTreeCanvas canvas, Node root, boolean recalculate) {
     if (canvas != this.canvas || this.table == null || root == null) {
-      Debug.log("Setting canvas with no node - using root");
+    //  Debug.log("Setting canvas with no node - using root");
       
       setCanvas(canvas);
     }

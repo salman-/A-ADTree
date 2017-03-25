@@ -113,7 +113,7 @@ public class AbstractDomainCanvas<Type extends Ring> extends AbstractTreeCanvas 
       this.values.treeChanged((ADTNode) tree.getRoot(true));
     }
     if (!this.localExtentProvider) {
-      Debug.log("before updateTreeSize");
+  //    Debug.log("before updateTreeSize");
       this.getSharedExtentProvider().updateTreeSize(tree.getRoot(true));
       this.getSharedExtentProvider().notifyTreeChanged();
     } else {
@@ -185,7 +185,7 @@ public class AbstractDomainCanvas<Type extends Ring> extends AbstractTreeCanvas 
         value = (Ring) (dialog.showInputDialog(value));
       }
       else {
-        Debug.log("Unknown value type " + value);
+  //      Debug.log("Unknown value type " + value);
       }
       if (value != null) {
         addEditAction(new SetValuation(value, oldValue, key, proponent, getDomainId()));

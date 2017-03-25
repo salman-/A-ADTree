@@ -583,7 +583,7 @@ public abstract class AbstractTreeCanvas extends JPanel
    *
    */
   protected void recalculateLayout() {
-    Debug.log("tree " + tree);
+   // Debug.log("tree " + tree);
     this.sizeX = 0;
     this.sizeY = 0;
     bufferedLayout = null;
@@ -592,7 +592,7 @@ public abstract class AbstractTreeCanvas extends JPanel
       extentProvider = new LocalExtentProvider(this);
     }
     else {
-      Debug.log("tree:" + tree);
+   //   Debug.log("tree:" + tree);
       extentProvider = tree.getSharedExtentProvider();
     }
     org.abego.treelayout.TreeLayout<Node> treeLayout = new org.abego.treelayout.TreeLayout<Node>(

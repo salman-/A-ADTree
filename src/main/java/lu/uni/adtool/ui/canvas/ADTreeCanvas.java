@@ -102,6 +102,7 @@ public class ADTreeCanvas<Type> extends AbstractTreeCanvas {
    */
   public void addChild(Node node) {
     addEditAction(new AddChild(node));
+    System.out.println("It creates an ATTACK node.");
     Node child = new ADTNode(((ADTNode) node).getType());
     child.setName(this.getNewLabel());
     tree.addChild(node, child);
@@ -109,15 +110,16 @@ public class ADTreeCanvas<Type> extends AbstractTreeCanvas {
     terms.updateTerms();
   }
 
-  public void addCounter(Node node) {
-    if (((ADTNode) node).isCountered()) {
+  public void addCounter(Node parent) {
+	  System.out.println("It creates a COUNTERMEASURE node.");
+    if (((ADTNode) parent).isCountered()) {
       return;
     }
-    addEditAction(new AddCounter(node));
-    Node child = new ADTNode(((ADTNode) node).getType());
+    addEditAction(new AddCounter(parent));
+    Node child = new ADTNode(((ADTNode) parent).getType());
     ((ADTNode) child).toggleRole();
     child.setName(this.getNewLabel());
-    tree.addCounter((ADTNode) node, (ADTNode) child);
+    tree.addCounter((ADTNode) parent, (ADTNode) child);
     this.notifyAllTreeChanged();
     terms.updateTerms();
   }

@@ -32,33 +32,18 @@ public abstract class Node implements Serializable{
     this.id=IDGenerator.nextId();
     this.name = "root";
     this.parent = null;
-    this.comment = "";
+    this.Nodetype="Attack";
+    this.operation="And";
+    this.description = "";
   }
 
   public Node(String name) {
     this.id=IDGenerator.nextId();
     this.parent = null;
     this.name = name;
-    this.comment ="";//Integer.toString(IDGenerator.nextId());
+    this.description ="";
   }
 
-  public int getId() {
-    return this.id;
-  }
-  
- // public int getParentId() { return this.parentId; }
-  
-  public abstract String toString();
-
-  public final void setName(final String n) { this.name = n;}
-
-  public String getName() {return this.name;}
-
-  public String getComment() {return this.comment;}
-
-  public void setComment(String comment) {this.comment = comment; }
-
-  public final void setParent(final Node p) {    this.parent = p;}
 
   public final boolean isLeaf() {
     if (children == null) return true;
@@ -171,8 +156,61 @@ public abstract class Node implements Serializable{
 
   protected ArrayList<Node> children;
   private String            name;
-  private String            comment;
+  private String            description;
   private Node              parent;
-  private int                id;
+  private int               id;
+  private int               parent_id;
+  private String            operation;
+  private int               probability;
+  private String            Nodetype;
+  private String            cost;
+  private String            costOfDamage;   //Only for attack Node
   private static final long serialVersionUID = -983678473499189388L;
+  
+  
+  
+  
+  
+  public String getCost() {	return cost;}
+
+  public void setCost(String cost) {this.cost = cost;}
+
+  public String getCostOfDamage() {return costOfDamage;}
+
+  public void setCostOfDamage(String costOfDamage) {this.costOfDamage = costOfDamage;}
+
+  public String getDescription() {return description;}
+
+  public void setDescription(String description) {	this.description = description;}
+	
+  public int getParent_id() {return parent_id;}
+	
+  public void setParent_id(int parent_id) {this.parent_id = parent_id;}
+	
+  public String getOperation() {	return operation;}
+	
+  public void setOperation(String operation) {	this.operation = operation;}
+	
+  public int getProbability() {	return probability;}
+	
+  public void setProbability(int probability) {this.probability = probability;}
+	
+  public String getNodeType() {	return Nodetype;}
+	
+  public void setNodeType(String type) {	this.Nodetype = type;} 
+
+  public int getId() {return this.id;}
+	  	  
+  public abstract String toString();
+
+  public final void setName(final String n) { this.name = n;}
+
+  public String getName() {return this.name;}
+
+  public String getComment() {return this.description;}
+
+  public void setComment(String comment) {this.description = comment; }
+
+  public final void setParent(final Node p) {    this.parent = p;}
+
 }

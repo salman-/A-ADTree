@@ -154,8 +154,10 @@ public class ADTCanvasHandler extends AbstractCanvasHandler {
    * @see MouseListener#mouseClicked(MouseEvent)
    */
   public final void mouseClicked(final MouseEvent e) {
+	try{  
     canvas.requestFocusInWindow();
     final Node node = this.canvas.getNode(e.getX(), e.getY());
+    System.out.println("ID of Selected Node is: "+node.getId()+" Type is: "+node.getNodeType());
     if (node != null) {
       if (e.getModifiers() == InputEvent.BUTTON3_MASK || e.getModifiers() == InputEvent.CTRL_MASK) {
         menuNode = node;
@@ -174,6 +176,7 @@ public class ADTCanvasHandler extends AbstractCanvasHandler {
         }
       }
     }
+   }catch(Exception e1){}
   }
 
   /**
