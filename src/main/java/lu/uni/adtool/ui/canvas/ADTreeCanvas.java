@@ -99,16 +99,27 @@ public class ADTreeCanvas<Type> extends AbstractTreeCanvas {
    * Adds a child or a counter to the node.
    *
    * @param node
+ * @param selectedNodeId 
    */
-  public void addChild(Node node) {
+  public void addChild(Node node, String selectedNodeId) {
     addEditAction(new AddChild(node));
-    System.out.println("It creates an ATTACK node.");
+    System.out.println("It creates an ATTACK node. Parent Node is: "+selectedNodeId);
     Node child = new ADTNode(((ADTNode) node).getType());
     child.setName(this.getNewLabel());
     tree.addChild(node, child);
     this.notifyAllTreeChanged();
     terms.updateTerms();
   }
+  
+  public void addChild(Node node) {
+	    addEditAction(new AddChild(node));
+	    System.out.println("It creates an ATTACK node.");
+	    Node child = new ADTNode(((ADTNode) node).getType());
+	    child.setName(this.getNewLabel());
+	    tree.addChild(node, child);
+	    this.notifyAllTreeChanged();
+	    terms.updateTerms();
+	  }
 
   public void addCounter(Node parent) {
 	  System.out.println("It creates a COUNTERMEASURE node.");

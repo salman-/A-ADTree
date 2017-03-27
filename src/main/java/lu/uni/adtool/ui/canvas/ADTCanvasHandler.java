@@ -20,6 +20,15 @@
  */
 package lu.uni.adtool.ui.canvas;
 
+import ee.ut.smarttool.DB.AttackDBService;
+import ee.ut.smarttool.DB.AttackTreeDBService;
+import ee.ut.smarttool.DB.CountermeasureDBService;
+import ee.ut.smarttool.DB.CountermeaureTreeDBService;
+import ee.ut.smarttool.tree.dialogbox.Add_AtomicAction;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.GridLayout;
+//import ee.ut.smarttool.tree.dialogbox;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
@@ -27,10 +36,19 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JLabel;
 
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.KeyStroke;
+import javax.swing.SwingConstants;
 
 
 import lu.uni.adtool.tools.Options;
@@ -38,6 +56,7 @@ import lu.uni.adtool.tree.ADTNode;
 import lu.uni.adtool.tree.GuiNode;
 import lu.uni.adtool.tree.Node;
 import lu.uni.adtool.ui.MultiLineInput;
+import org.apache.commons.lang3.ObjectUtils.Null;
 
 /**
  * A handler for ADTreeCanvas.
@@ -45,7 +64,9 @@ import lu.uni.adtool.ui.MultiLineInput;
  * @author Piotr Kordy
  */
 public class ADTCanvasHandler extends AbstractCanvasHandler {
-  /**
+
+  
+/**
    * Constructs a new instance.
    *
    * @param canvas
@@ -54,6 +75,8 @@ public class ADTCanvasHandler extends AbstractCanvasHandler {
   public ADTCanvasHandler(final ADTreeCanvas<?> canvas) {
     super(canvas);
     initPopupMenu();
+    attackDBService=new AttackDBService();
+    counterDBService=new CountermeasureDBService();
   }
 
   /**
@@ -153,11 +176,29 @@ public class ADTCanvasHandler extends AbstractCanvasHandler {
    *
    * @see MouseListener#mouseClicked(MouseEvent)
    */
+  public void getNodeType(final MouseEvent e){
+	  try{ 
+		  selectedNode=  (ADTNode) this.canvas.getNode(e.getX(), e.getY());
+		 String[] res = selectedNode.getType().toString().split("_"); 
+		 selectedNodeOperation = res[0];
+		 selectedNodeType=res[1];
+		 selectedNodeId=Integer.toString(selectedNode.getId());
+                 System.out.println("ID of Selected Node is: "+selectedNodeId+" Type is: "+selectedNodeType+" Operation: "+selectedNodeOperation);	
+                 isSelectedNodeAllowedToBeAtomic=hasChildren(selectedNodeId,selectedNodeType);
+               //  new PopupMenu(this, selectedNodeId,isSelectedNodeAllowedToBeAtomic);
+	//	 hasChildren=  (selectedNode.getChildren().size()>0) ? true :false;
+	  }catch(Exception e1){
+                   isSelectedNodeAllowedToBeAtomic=true;
+		  System.out.println("Failed to get the ADTree Node");
+	  }
+  }
+  
   public final void mouseClicked(final MouseEvent e) {
 	try{  
     canvas.requestFocusInWindow();
     final Node node = this.canvas.getNode(e.getX(), e.getY());
-    System.out.println("ID of Selected Node is: "+node.getId()+" Type is: "+node.getNodeType());
+    getNodeType(e);
+   // System.out.println("ID of Selected Node is: "+node.getId()+" Type is: "+node.getType());
     if (node != null) {
       if (e.getModifiers() == InputEvent.BUTTON3_MASK || e.getModifiers() == InputEvent.CTRL_MASK) {
         menuNode = node;
@@ -240,27 +281,35 @@ public class ADTCanvasHandler extends AbstractCanvasHandler {
   private void initPopupMenu() {
     this.pmenu = new JPopupMenu();
     menuNode = null;
-    JMenuItem menuItem = new JMenuItem(Options.getMsg("handler.changelabel.txt"));
-    menuItem.setAccelerator(KeyStroke.getKeyStroke(Options.getMsg("handler.changelabel.key")));
-    
-    menuItem.addActionListener(new ActionListener() {
+    editNode = new JMenuItem(Options.getMsg("handler.changeName.txt"));
+    editNode.addActionListener(new ActionListener() {
       public void actionPerformed(final ActionEvent evt) {
-        changeLabelActionPerformed();
+    //    new Add_AtomicAction(selectedNodeId).setVisible(true);
+    
       }
     });
+    pmenu.add(editNode);         
+            
+    properties = new JMenuItem(Options.getMsg("handler.changelabel.txt"));
+    properties.setAccelerator(KeyStroke.getKeyStroke(Options.getMsg("handler.changelabel.key")));
     
-    pmenu.add(menuItem);
-    menuItem = new JMenuItem(Options.getMsg("handler.changeoperator.txt"));
-    menuItem.setAccelerator(KeyStroke.getKeyStroke(Options.getMsg("handler.changeoperator.key")));
-    menuItem.addActionListener(new ActionListener() {
+    properties.addActionListener(new ActionListener() {
+      public void actionPerformed(final ActionEvent evt) {
+     //   new Properties().setVisible(true);
+      }
+    });
+    pmenu.add(properties);
+    
+    assignAnAtomicAction = new JMenuItem(Options.getMsg("handler.assignAnAtomicAction.txt"));
+    assignAnAtomicAction.addActionListener(new ActionListener() {
       public void actionPerformed(final ActionEvent evt) {
         if (menuNode != null) {
           ((ADTreeCanvas<?>) canvas).toggleOp(menuNode);
         }
       }
     });
+    pmenu.add(assignAnAtomicAction);
     
-    pmenu.add(menuItem);
     toggleAboveFold = new JMenuItem(Options.getMsg("handler.foldabove.txt"));
     toggleAboveFold.setAccelerator(KeyStroke.getKeyStroke(Options.getMsg("handler.foldabove.key")));
     toggleAboveFold.addActionListener(new ActionListener() {
@@ -270,8 +319,8 @@ public class ADTCanvasHandler extends AbstractCanvasHandler {
         }
       }
     });
-    
     pmenu.add(toggleAboveFold);
+    
     toggleFold = new JMenuItem(Options.getMsg("handler.foldbelow.txt"));
     toggleFold.setAccelerator(KeyStroke.getKeyStroke(Options.getMsg("handler.foldbelow.key")));
     toggleFold.addActionListener(new ActionListener() {
@@ -281,36 +330,59 @@ public class ADTCanvasHandler extends AbstractCanvasHandler {
         }
       }
     });
-    
     pmenu.add(toggleFold);
-
     pmenu.addSeparator();
 
-    menuItem = new JMenuItem(Options.getMsg("handler.addchild.txt"));
-    menuItem.setAccelerator(KeyStroke.getKeyStroke(Options.getMsg("handler.addchild.key")));
-    menuItem.addActionListener(new ActionListener() {
+    addChild = new JMenuItem(Options.getMsg("handler.addchild.txt"));
+    addChild.setAccelerator(KeyStroke.getKeyStroke(Options.getMsg("handler.addchild.key")));
+    addChild.addActionListener(new ActionListener() {
       public void actionPerformed(final ActionEvent evt) {
         if (menuNode != null) {
-          ((ADTreeCanvas<?>) canvas).addChild(menuNode);
+        	// new Edit_LabelAtomicAction(selectedNodeId).setVisible(true);
+          ((ADTreeCanvas<?>) canvas).addChild(menuNode,selectedNodeId);
         }
       }
     });
-    pmenu.add(menuItem);
+    pmenu.add(addChild);
 
     addCounter = new JMenuItem(Options.getMsg("handler.counter.txt"));
     addCounter.setAccelerator(KeyStroke.getKeyStroke(Options.getMsg("handler.counter.key")));
     addCounter.addActionListener(new ActionListener() {
+        private JPanel p;
+       
       public void actionPerformed(final ActionEvent evt) {
         if (menuNode != null) {
+
+             
+            JPanel panel = createDialogPanel();
+            int res=JOptionPane.showConfirmDialog(null, panel, "Create Atomic Action", JOptionPane.OK_CANCEL_OPTION);
+            if(res == JOptionPane.OK_OPTION)
+            {
+                    try {
+                        System.out.println("Submit is press Name"+name.getText()+"  "+description.getText());
+                        if(selectedNodeType.equals("PRO"))
+                            attackDBService.insertAttack(name.getText(), description.getText());
+                        else
+                            counterDBService.insertCountermeasure(name.getText(), description.getText());
+
+                    } catch (Exception ex) {
+                        Logger.getLogger(ADTCanvasHandler.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+            }else
+                System.out.println("Cancel press");
+
           ((ADTreeCanvas<?>) canvas).addCounter(menuNode);
         }
       }
+
+        
     });
     pmenu.add(addCounter);
 
     addLeft = new JMenuItem(Options.getMsg("handler.addleftsibling.txt"));
     addLeft.setAccelerator(KeyStroke.getKeyStroke(Options.getMsg("handler.addleftsibling.key")));
     addLeft.addActionListener(new ActionListener() {
+      @Override
       public void actionPerformed(final ActionEvent evt) {
         if (menuNode != null) {
           ((ADTreeCanvas<?>) canvas).addSibling(menuNode, true);
@@ -322,6 +394,7 @@ public class ADTCanvasHandler extends AbstractCanvasHandler {
     addRight = new JMenuItem(Options.getMsg("handler.addrightsibling.txt"));
     addRight.setAccelerator(KeyStroke.getKeyStroke(Options.getMsg("handler.addrightsibling.key")));
     addRight.addActionListener(new ActionListener() {
+      @Override
       public void actionPerformed(final ActionEvent evt) {
         if (menuNode != null) {
           ((ADTreeCanvas<?>) canvas).addSibling(menuNode, false);
@@ -356,6 +429,7 @@ public class ADTCanvasHandler extends AbstractCanvasHandler {
     removeTree = new JMenuItem(Options.getMsg("handler.removetree.txt"));
     removeTree.setAccelerator(KeyStroke.getKeyStroke(Options.getMsg("handler.removetree.key")));
     removeTree.addActionListener(new ActionListener() {
+      @Override
       public void actionPerformed(final ActionEvent evt) {
         if (menuNode != null) {
           ((ADTreeCanvas<?>) canvas).removeTree(menuNode);
@@ -367,6 +441,7 @@ public class ADTCanvasHandler extends AbstractCanvasHandler {
     removeChildren
         .setAccelerator(KeyStroke.getKeyStroke(Options.getMsg("handler.removechildren.key")));
     removeChildren.addActionListener(new ActionListener() {
+      @Override
       public void actionPerformed(final ActionEvent evt) {
         if (menuNode != null) {
           ((ADTreeCanvas<?>) canvas).removeChildren(menuNode);
@@ -374,19 +449,25 @@ public class ADTCanvasHandler extends AbstractCanvasHandler {
       }
     });
     pmenu.add(removeChildren);
-    /*  pmenu.addSeparator();
-     
-     menuItem = new JMenuItem("Threat Agent Profile");
-     menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_K, InputEvent.CTRL_MASK));
-     menuItem.addActionListener(new ActionListener() {
-     public void actionPerformed(ActionEvent evt) {
-    // changeBAActionPerformed(evt);
+    ///*
+    if(isSelectedNodeAllowedToBeAtomic){
+        pmenu.addSeparator(); 
+        assignAction = new JMenuItem("Assign An Atomic Action");
+        assignAction.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_K, InputEvent.CTRL_MASK));
+        assignAction.addActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent evt) {
+          //  if(selectedNodeType.equals("PRO"))
+            //    new AssignnAnAtomicAttack().setVisible(true);
+         //   else
+          //      new AssignAnAtomicCountermeasure().setVisible(true);
+        }
+        });
+        pmenu.add(assignAction);
      }
-     });
-     pmenu.add(menuItem);
-     pmenu.addSeparator();
+   //  pmenu.addSeparator();
 
-     menuItem = new JMenuItem("Probability");
+  /*   menuItem = new JMenuItem("Probability");
      menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_T,
      InputEvent.CTRL_MASK));
      menuItem.addActionListener(new ActionListener() {
@@ -404,8 +485,8 @@ public class ADTCanvasHandler extends AbstractCanvasHandler {
      public void actionPerformed(ActionEvent evt) {
      //propertiesActionPerformed(evt);
      }  
-     });*/
-     pmenu.add(menuItem);
+     });
+     pmenu.add(menuItem); */
   }
 
   /**
@@ -414,6 +495,25 @@ public class ADTCanvasHandler extends AbstractCanvasHandler {
    * @param s
    * @return
    */
+  private JPanel createDialogPanel() {
+            
+            JPanel p = new JPanel(new BorderLayout(5, 5));
+            
+            JPanel labels = new JPanel(new BorderLayout());
+            labels.add(new JLabel("Name", SwingConstants.RIGHT),BorderLayout.NORTH);
+            labels.add(new JLabel("Description", SwingConstants.RIGHT), BorderLayout.CENTER);
+            p.add(labels, BorderLayout.WEST);
+
+            JPanel controls = new JPanel(new BorderLayout());
+             name = new JTextField();
+            controls.add(name, BorderLayout.NORTH);
+            JTextArea description = new JTextArea();
+            JScrollPane sp = new JScrollPane(description);
+            sp.setPreferredSize(new Dimension(250, 100));
+            controls.add(sp, BorderLayout.CENTER);
+            p.add(controls, BorderLayout.CENTER);
+            return p;
+        }
   private boolean validLabel(String s) {
     return ((ADTreeCanvas<?>) canvas).validLabel(s);
   }
@@ -426,17 +526,53 @@ public class ADTCanvasHandler extends AbstractCanvasHandler {
 	 // new Properties().setVisible(true);
   }
 
-  // private ADTreeCanvas canvas;
+  private JMenuItem assignAnAtomicAction;
+  private JMenuItem properties;
+  private JMenuItem editNode;
+  
+  private JMenuItem assignAction;  
   private JMenuItem toggleAboveFold;
   private JMenuItem toggleFold;
   private JMenuItem addCounter;
+  private JMenuItem addChild;
   private JMenuItem addLeft;
   private JMenuItem addRight;
   private JMenuItem removeTree;
   private JMenuItem removeChildren;
   private JMenuItem switchLeft;
   private JMenuItem switchRight;
+  
+   private JTextField name;
+   private JTextArea description;
+   
+  private final AttackDBService attackDBService;
+  private final  CountermeasureDBService counterDBService;
+  
+  private boolean hasChildren;  
+  private String selectedNodeType;
+  private String selectedNodeId;
+  private String selectedNodeOperation;
+  private boolean isSelectedNodeAllowedToBeAtomic;
+  
+  public static ADTNode selectedNode;
+  
   // private Point2D dragStart;
   // private boolean dragScroll;
+
+    private boolean hasChildren(String selectedNodeId, String selectedNodeType) throws Exception {
+        String childId=null;
+        boolean res=false;
+        if(selectedNodeType.equals("PRO")){
+            AttackTreeDBService attackTree=new AttackTreeDBService();
+            childId=attackTree.selectIdFromField("attackTree", "parent_id", selectedNodeId);
+            
+        }else{
+            CountermeaureTreeDBService counterTree=new CountermeaureTreeDBService();
+            childId=counterTree.selectIdFromField("attackTree", "parent_id", selectedNodeId);
+        }
+        System.out.println("The selected Node hasChildren?"+res);
+        res=(childId==null);
+        return res;
+    }
 
 }

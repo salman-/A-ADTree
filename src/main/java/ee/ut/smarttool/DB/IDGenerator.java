@@ -5,17 +5,17 @@
  */
 package ee.ut.smarttool.DB;
 
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  *
  * @author Salman
  */
 public class IDGenerator {
-
-public static int id=0;
+	private static final AtomicInteger counter = new AtomicInteger();
 
     public static int nextId(){
-       return (id++);
+    	 return counter.getAndIncrement();
     }
 
 }

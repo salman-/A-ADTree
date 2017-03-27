@@ -28,7 +28,7 @@ public class GeneralCRUDs implements CRUD {
         
         
 	public String selectIdFromField(String table, String fieldName, String fieldValue ) throws Exception {
-		String query="select * from '?' where ?='?'";
+		String query="select * from ? where ?=?";
                 query=QueryMaker.queryFitter(query, QueryMaker.createArgList(table,fieldName,fieldValue));
 		Map<String, ArrayList<String>>res= DB.selectQuery(query);
                 String id=res.get("id").toArray()[0].toString();

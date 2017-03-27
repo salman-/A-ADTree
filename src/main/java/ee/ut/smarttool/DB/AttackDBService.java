@@ -22,6 +22,13 @@ public class AttackDBService extends GeneralCRUDs {
         query=QueryMaker.queryFitter(query, QueryMaker.createArgList( name,description,reportDate,probaility,costOfDamage,costOfAttack, assetId,impactId,vulnerabilityId));
 		return DB.executeQuery(query);
     }
+    
+        public int insertAttack(String name,String description) throws Exception{
+
+	String query="insert into  attack ( name,description) values('?','?')";
+        query=QueryMaker.queryFitter(query, QueryMaker.createArgList( name,description));
+        return DB.executeQuery(query);
+    }
                       
     public int updateAttack(int id,String name,String description,int threatAgent_id,int asset_id
     		,String success,String times,String probability,int countermeasure_id,String operation

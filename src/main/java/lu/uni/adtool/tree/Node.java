@@ -32,7 +32,7 @@ public abstract class Node implements Serializable{
     this.id=IDGenerator.nextId();
     this.name = "root";
     this.parent = null;
-    this.Nodetype="Attack";
+  //  this.Nodetype="Attack";
     this.operation="And";
     this.description = "";
   }

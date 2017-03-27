@@ -1,7 +1,7 @@
 package ee.ut.smarttool.DB;
 
 
-public class CountermeaureTreeDBService {
+public class CountermeaureTreeDBService extends GeneralCRUDs{
 
 	public int insertCountermeaureTree(int parentId,int childId) throws Exception{
 		String query="insert into  countermeaureTree (parent_id,child_id) values(?,?)";

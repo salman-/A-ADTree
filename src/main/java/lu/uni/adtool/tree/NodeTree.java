@@ -144,6 +144,7 @@ public class NodeTree {
 	  
     boolean refresh = parentNode.hasDefault();
     parentNode.addChild(node);
+  //  insertIntoDB(node);
     if (!((GuiNode) parentNode).isFolded()) {
       recalculateSiblings();
     }
@@ -160,9 +161,16 @@ public class NodeTree {
     }
     sharedExtentProvider.updateNodeSize(node);
   }
-
+  private void insertIntoDB(Node node){
+	  try{
+		  
+		 // System.out.println("It is an attack node"+node.get);
+	  }catch(Exception e){
+		  System.out.println("Failed to insert the attack node");
+	  }
+  }
   private void printNodeInfo(Node node) {
-	  System.out.println("Node id: "+node.getId()+" Type is: "+node.getNodeType().toString()+"Name is: "+node.getName() ); 	
+	  System.out.println("Node id: "+node.getId()+"Name is: "+node.getName() ); 	
 }
 
 /**
