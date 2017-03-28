@@ -59,6 +59,7 @@ public class AddChild extends EditAction {
   }
 
 @SuppressWarnings("unchecked")
+  @Override
   public void redo(AbstractTreeCanvas canvas) {
     Node parent = canvas.getTree().getRoot(true).fromPath(parentPath, 0);
     if (parent instanceof SandNode) {
@@ -70,6 +71,7 @@ public class AddChild extends EditAction {
   }
 
 
+  @Override
   public String getName(){
 	  return Options.getMsg("action.addchild");
   }

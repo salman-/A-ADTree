@@ -39,8 +39,21 @@ import java.util.Set;
 import bibliothek.util.xml.XAttribute;
 import bibliothek.util.xml.XElement;
 import bibliothek.util.xml.XException;
+import ee.ut.smarttool.DB.AttackCounterTreeDBService;
+import ee.ut.smarttool.DB.AttackDBService;
+import ee.ut.smarttool.DB.AttackTreeDBService;
+import ee.ut.smarttool.DB.CounterAttackTreeDBService;
+import ee.ut.smarttool.DB.CountermeasureDBService;
+import ee.ut.smarttool.DB.CountermeaureTreeDBService;
+import ee.ut.smarttool.DB.IDGenerator;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class ADTNode extends GuiNode {
+
+    
+
+
 
   public enum Type {
     AND_OPP, OR_OPP, AND_PRO, OR_PRO
@@ -56,7 +69,9 @@ public class ADTNode extends GuiNode {
   }
 
   public ADTNode(ADTreeNode node) {
+
     super(node.getLabel());
+
     if (node.getType() == ADTreeNode.Type.OPPONENT) {
       if (node.getRefinmentType() == ADTreeNode.RefinementType.DISJUNCTIVE) {
         type = Type.OR_OPP;
@@ -77,10 +92,71 @@ public class ADTNode extends GuiNode {
 
   public ADTNode(Type type) {
     super();
-//	System.out.println("Node Parent ID"+this.getParentId()+" Node ID:"+this.getId());
+	
     this.type = type;
+    System.out.println("Node ID "+this.getId()+" Node Parent ID "+this.getParent_id()+" Node Type: "+type.toString());
   }
 
+    public ADTNode(String selectedNodeId, Type type,int sign) {
+        super(selectedNodeId);
+        this.type = type;
+        AttackDBService attack=new AttackDBService();
+        CountermeasureDBService counter=new CountermeasureDBService();
+        
+
+      try {
+            switch (sign) {
+            //parent attack child attack
+                case 1:
+                    {
+                        System.out.println("parent Attack child Attack");
+
+                        attack.insertAttack(this.getId(),"attack"+getId(), "", "0");
+                        String childId = attack.selectIdFromField("attack", "name", "'"+("attack"+getId())+"'");
+                        AttackTreeDBService tree = new AttackTreeDBService();
+                        tree.insertAttackTree(this.getParent_id(),childId);
+                        break;
+                    }
+            //parent attack child counter
+                case 2:
+                    {
+                        System.out.println("parent Attack child Counter");
+                        counter.insertCountermeasure(this.getId(),"counter"+getId(), "", "0");
+                        String childId = attack.selectIdFromField("countermeasure", "name", "'"+("counter"+getId())+"'");
+                        AttackCounterTreeDBService tree=new AttackCounterTreeDBService();
+                        tree.insertAttackCountermeaureTree(this.getParent_id(),childId);
+                        break;
+                    }
+            //parent counter child counter
+                case 3:
+                    {
+                        System.out.println("parent Counter child Counter");
+                        counter.insertCountermeasure(this.getId(),"counter"+getId(), "", "0");
+                        String childId = counter.selectIdFromField("countermeasure", "name", "'"+("counter"+getId())+"'");
+                        CountermeaureTreeDBService tree=new CountermeaureTreeDBService();
+                        tree.insertCountermeaureTree(selectedNodeId, childId);
+                        break;
+                    }
+                //parent counter child attack
+                    case 4:
+                    {
+                        System.out.println("parent Counter child Attack");
+                        attack.insertAttack(this.getId(),"attack"+getId(), "", "0");
+                        String childId = counter.selectIdFromField("attack", "name", "'"+("attack"+getId())+"'");
+                        CounterAttackTreeDBService tree=new CounterAttackTreeDBService();
+                        tree.insertCountermeaureAttackTree(selectedNodeId, childId);
+                        break;
+                    }
+                    default:
+                    {    
+                        System.out.println("parent Null child Attack-----------------Root");
+                        attack.insertAttack(this.getId(),"attack"+getId(), "", "0");
+                        break;
+                    }
+            }
+      } catch (Exception ex) { } 
+    }
+  
   public void addCounter(ADTNode counter) {
     getNotNullChildren().add(counter);
     counter.setParent(this);
@@ -101,8 +177,8 @@ public class ADTNode extends GuiNode {
     String name = in.readUTF();
     Type type = Type.values()[in.readInt()];
     ADTNode result = new ADTNode(type);
-    result.setParent(null);
-    result.setName(name);
+   // result.setParent(null);
+  //  result.setName(name);
     int noChildren = in.readInt();
     for (int i = 0; i < noChildren; i++) {
       ADTNode child = ADTNode.readStream(in);

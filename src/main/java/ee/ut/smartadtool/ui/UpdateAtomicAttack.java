@@ -166,7 +166,7 @@ public class UpdateAtomicAttack extends javax.swing.JFrame {
         vulnerabilityCombo.setBounds(170, 250, 166, 20);
 
         addAtomicAttack.setBackground(new java.awt.Color(255, 0, 51));
-        addAtomicAttack.setText("Add Atomic Attack");
+        addAtomicAttack.setText("Update Atomic Attack");
         addAtomicAttack.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 addAtomicAttackActionPerformed(evt);
@@ -332,7 +332,7 @@ public class UpdateAtomicAttack extends javax.swing.JFrame {
             String vulnerability=vulnerabilityCombo.getSelectedItem().toString();
             String vulnerabilityId=assetDBSerivce.selectIdFromField("vulnerability","name",vulnerability);
 
-            attackDBService.insertAttack(name,description,probaility,costOfDamage,costOfAttack, assetId,impactId,vulnerabilityId);
+          //  attackDBService.updateAttack(attackIDLabel.getText(),name,description,probaility,costOfDamage,costOfAttack, assetId,impactId,vulnerabilityId);
 
         } catch (Exception ex) {
             Logger.getLogger(AtomicAttack.class.getName()).log(Level.SEVERE, null, ex);

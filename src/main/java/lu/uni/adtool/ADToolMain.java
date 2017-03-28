@@ -60,6 +60,7 @@ import bibliothek.util.Path;
 import bibliothek.util.xml.XException;
 import ee.ut.smarttool.DB.AssetDBSerivice;
 import ee.ut.smarttool.DB.DB;
+import ee.ut.smarttool.DB.GeneralCRUDs;
 import ee.ut.smarttool.DB.VulnerabilityDBService;
 import lu.uni.adtool.tools.Clo;
 import lu.uni.adtool.tools.Debug;
@@ -180,7 +181,8 @@ public final class ADToolMain extends JFrame {
   }
 
   public static void main(String[] args) throws Exception {
-	  
+    GeneralCRUDs gDB=new GeneralCRUDs();
+    gDB.deleteAllRecords();
     Clo clo = new Clo();
     if (clo.parse(args)) {
       

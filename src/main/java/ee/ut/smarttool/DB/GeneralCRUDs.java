@@ -28,12 +28,14 @@ public class GeneralCRUDs implements CRUD {
         
         
 	public String selectIdFromField(String table, String fieldName, String fieldValue ) throws Exception {
-		String query="select * from ? where ?=?";
+            try{
+                String query="select * from ? where ?=?";
                 query=QueryMaker.queryFitter(query, QueryMaker.createArgList(table,fieldName,fieldValue));
 		Map<String, ArrayList<String>>res= DB.selectQuery(query);
                 String id=res.get("id").toArray()[0].toString();
-                System.out.println("Table:"+table+" "+"ID is: "+id);
+            //    System.out.println("Table:"+table+" "+"ID is: "+id);
                 return id;
+            }catch(Exception e){return null;}
 	}
         
 
@@ -59,4 +61,21 @@ public class GeneralCRUDs implements CRUD {
 		return DB.executeQuery(query);
 	}
 
+        public void deleteAllRecords() throws Exception{
+        String[] query={
+           "delete from attackTree;",
+            "delete from countermeaureTree;",            
+            "delete  from 'attack-counterTree';" ,
+            "delete from 'counter-attackTree';",
+            "delete from attack;" ,
+            "delete from countermeasure;",
+                           
+                      };
+            for(int i=0;i<query.length;i++){
+                
+            int res = DB.executeQuery(query[i]);
+                System.out.println(query[i]+ " Result was:"+res);
+            }
+        
+        }
 }

@@ -9,6 +9,7 @@ import ee.ut.smartadtool.service.DataPopulator;
 import ee.ut.smarttool.DB.AssetDBSerivice;
 import ee.ut.smarttool.DB.AttackDBService;
 import ee.ut.smarttool.DB.DB;
+import ee.ut.smarttool.DB.IDGenerator;
 import ee.ut.smarttool.DB.ImpactDBService;
 import ee.ut.smarttool.DB.VulnerabilityDBService;
 import java.io.File;
@@ -431,8 +432,8 @@ public class AtomicAttack extends javax.swing.JFrame {
             
             String vulnerability=vulnerabilityCombo.getSelectedItem().toString();
             String vulnerabilityId=assetDBSerivce.selectIdFromField("vulnerability","name",vulnerability);
-            
-            attackDBService.insertAttack(name,description,probaility,costOfDamage,costOfAttack, assetId,impactId,vulnerabilityId);
+            String id= IDGenerator.nextId();
+            attackDBService.insertAttack(id,name,description,probaility,costOfDamage,costOfAttack, assetId,impactId,vulnerabilityId);
         
         } catch (Exception ex) {
             Logger.getLogger(AtomicAttack.class.getName()).log(Level.SEVERE, null, ex);

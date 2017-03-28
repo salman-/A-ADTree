@@ -20,6 +20,8 @@
  */
 package lu.uni.adtool.tree;
 
+import lu.uni.adtool.tree.ADTNode.Type;
+
 public abstract class GuiNode extends Node {
 
   public GuiNode() {
@@ -28,12 +30,12 @@ public abstract class GuiNode extends Node {
     aboveFolded = false;
   }
 
-  public GuiNode(String name) {
-    super(name);
+
+    public GuiNode(String parentId) {
+    super(parentId);
     folded = false;
     aboveFolded = false;
   }
-
   /**
    * Returns parent of the node.
    *

@@ -212,7 +212,7 @@ public class AtomicCountermeasure extends javax.swing.JFrame {
 
 
 
-            countermeasureDBService.insertCountermeasure(name,description,probaility,costOfDamage,costOfAttack);
+        //    countermeasureDBService.insertCountermeasure(name,description,probaility,costOfDamage,costOfAttack);
 
         } catch (Exception ex) {
             Logger.getLogger(AtomicAttack.class.getName()).log(Level.SEVERE, null, ex);

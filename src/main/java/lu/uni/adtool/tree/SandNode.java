@@ -60,7 +60,7 @@ public class SandNode extends GuiNode {
     String comment = in.readUTF();
     Type type = Type.values()[in.readInt()];
     SandNode result = new SandNode(type);
-    result.setParent(null);
+   // result.setParent(null);
     result.setName(name);
     result.setComment(comment);
     int noChildren = in.readInt();

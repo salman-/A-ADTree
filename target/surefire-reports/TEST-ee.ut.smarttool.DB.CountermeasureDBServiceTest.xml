@@ -61,13 +61,13 @@
     <property name="sun.desktop" value="windows"/>
     <property name="sun.cpu.isalist" value="amd64"/>
   </properties>
-  <testcase classname="ee.ut.smarttool.DB.CountermeasureDBServiceTest" name="testInsertAsset" time="0.003">
+  <testcase classname="ee.ut.smarttool.DB.CountermeasureDBServiceTest" name="testInsertAsset" time="0">
     <error message="no such column: operation" type="java.sql.SQLException">java.sql.SQLException: no such column: operation
 	at org.sqlite.NativeDB.throwex(NativeDB.java:210)
 	at org.sqlite.NativeDB._exec(Native Method)
 	at org.sqlite.Stmt.executeUpdate(Stmt.java:152)
 	at ee.ut.smarttool.DB.DB.executeQuery(DB.java:39)
-	at ee.ut.smarttool.DB.CountermeasureDBService.updateCountermeasure(CountermeasureDBService.java:29)
+	at ee.ut.smarttool.DB.CountermeasureDBService.updateCountermeasure(CountermeasureDBService.java:28)
 	at ee.ut.smarttool.DB.CountermeasureDBServiceTest.testInsertAsset(CountermeasureDBServiceTest.java:25)
 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)

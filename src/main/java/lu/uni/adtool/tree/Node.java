@@ -21,43 +21,41 @@
 package lu.uni.adtool.tree;
 
 
-import ee.ut.smarttool.DB.AttackDBService;
-import ee.ut.smarttool.DB.AttackTreeDBService;
 import java.io.Serializable;
 import java.util.ArrayList;
 import ee.ut.smarttool.DB.IDGenerator;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import lu.uni.adtool.tree.ADTNode.Type;
 
 public abstract class Node implements Serializable{
 
   public Node()  {
 
-    AttackTreeDBService attackTreeDBService = new AttackTreeDBService();
-    AttackDBService attackDBService=new AttackDBService();
     this.id=IDGenerator.nextId();
     this.name = "root";
     this.parent = null;
-      try {
-          attackDBService.insertAttack(name+id, "", "0");
-          String res = attackDBService.selectIdFromField("attack", "name", "'"+name+id+"'");
-          this.id=res;
-          attackTreeDBService.insertAttackTree(res, res);
-      } catch (Exception ex) {
-          Logger.getLogger(Node.class.getName()).log(Level.SEVERE, null, ex);
-      } 
+ 
     this.operation="And";
     this.description = "";
   }
 
-  public Node(String name) {
+  public Node(String parentId,Type type) {
+      
+ //   System.out.println("parentId is: "+parentId+" Type is: "+type);
     this.id=IDGenerator.nextId();
+    this.parent_id=parentId;
     this.parent = null;
-    this.name = name;
     this.description ="";
   }
 
-
+  public Node(String parentId) {
+      
+    this.id=IDGenerator.nextId();
+    this.parent = null;
+    this.parent_id=parentId;
+    this.description ="";
+  }
+  
+  
   public final boolean isLeaf() {
     if (children == null) return true;
     if (children.size() == 0) return true;
@@ -172,7 +170,7 @@ public abstract class Node implements Serializable{
   private String            description;
   private Node              parent;
   private String               id;
-  private int               parent_id;
+  private String               parent_id;
   private String            operation;
   private int               probability;
   private String            Nodetype;
@@ -196,9 +194,9 @@ public abstract class Node implements Serializable{
 
   public void setDescription(String description) {	this.description = description;}
 	
-  public int getParent_id() {return parent_id;}
+  public String getParent_id() {return parent_id;}
 	
-  public void setParent_id(int parent_id) {this.parent_id = parent_id;}
+  public void setParent_id(String parent_id) {this.parent_id = parent_id;}
 	
   public String getOperation() {	return operation;}
 	
@@ -225,5 +223,9 @@ public abstract class Node implements Serializable{
   public void setComment(String comment) {this.description = comment; }
 
   public final void setParent(final Node p) {    this.parent = p;}
+
+    public void setParent(String selectedNodeId) {
+        
+    }
 
 }

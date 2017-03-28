@@ -102,10 +102,15 @@ public class ADTreeCanvas<Type> extends AbstractTreeCanvas {
  * @param selectedNodeId 
    */
   public void addChild(Node node, String selectedNodeId) {
+    Node child =null;
     addEditAction(new AddChild(node));
-    System.out.println("It creates an ATTACK node. Parent Node is: "+selectedNodeId);
-    Node child = new ADTNode(((ADTNode) node).getType());
+ //   Node child = new ADTNode(((ADTNode) node).getType());
+    if(((ADTNode) node).getType().toString().contains("PRO"))                   //Parent attack child attack
+        child = new ADTNode(selectedNodeId,((ADTNode) node).getType(),1);
+    else                                                                        //Parent Counter child Counter
+        child = new ADTNode(selectedNodeId,((ADTNode) node).getType(),3);
     child.setName(this.getNewLabel());
+    child.setParent(selectedNodeId);
     tree.addChild(node, child);
     this.notifyAllTreeChanged();
     terms.updateTerms();
@@ -121,8 +126,26 @@ public class ADTreeCanvas<Type> extends AbstractTreeCanvas {
 	    terms.updateTerms();
 	  }
 
+  public void addCounter(Node parent,String parentId) {
+      
+    if (((ADTNode) parent).isCountered()) {
+      return;
+    }
+    addEditAction(new AddCounter(parent));
+    Node child=null;
+    if(((ADTNode) parent).getType().toString().contains("PRO")){      // Parent is attack
+         child = new ADTNode(parentId,((ADTNode) parent).getType(),2);
+    }else{                                                           // Parent is countermeasure
+        child = new ADTNode(parentId,((ADTNode) parent).getType(),4);
+    }    
+    ((ADTNode) child).toggleRole();
+    child.setName(this.getNewLabel());
+    tree.addCounter((ADTNode) parent, (ADTNode) child);
+    this.notifyAllTreeChanged();
+    terms.updateTerms();
+  }
   public void addCounter(Node parent) {
-	  System.out.println("It creates a COUNTERMEASURE node.");
+      
     if (((ADTNode) parent).isCountered()) {
       return;
     }
@@ -134,7 +157,7 @@ public class ADTreeCanvas<Type> extends AbstractTreeCanvas {
     this.notifyAllTreeChanged();
     terms.updateTerms();
   }
-
+  
   public void setTerms(TermView terms) {
     this.terms = terms;
   }

@@ -23,7 +23,7 @@ public class DB
 		    File file = new File(DB.class.getClassLoader().getResource("db/smartADTool.sqlite").getFile());
 		    
 		    String DBPath=file.getAbsolutePath();
-		    System.out.println(DBPath);
+		 //   System.out.println(DBPath);
 		    connection = DriverManager.getConnection("jdbc:sqlite:"+DBPath);
 		    connection.setAutoCommit(true);
 		    statement = connection.createStatement();

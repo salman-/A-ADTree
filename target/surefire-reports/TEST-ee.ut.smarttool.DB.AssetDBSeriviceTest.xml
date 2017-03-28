@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite tests="2" failures="0" name="ee.ut.smarttool.DB.AssetDBSeriviceTest" time="0.004" errors="2" skipped="0">
+<testsuite tests="2" failures="0" name="ee.ut.smarttool.DB.AssetDBSeriviceTest" time="0.002" errors="2" skipped="0">
   <properties>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
     <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk1.8.0_60\jre\bin"/>
@@ -61,7 +61,7 @@
     <property name="sun.desktop" value="windows"/>
     <property name="sun.cpu.isalist" value="amd64"/>
   </properties>
-  <testcase classname="ee.ut.smarttool.DB.AssetDBSeriviceTest" name="testUpdateAsset" time="0">
+  <testcase classname="ee.ut.smarttool.DB.AssetDBSeriviceTest" name="testUpdateAsset" time="0.001">
     <error message="no such column: times" type="java.sql.SQLException">java.sql.SQLException: no such column: times
 	at org.sqlite.NativeDB.throwex(NativeDB.java:210)
 	at org.sqlite.NativeDB._exec(Native Method)
@@ -104,7 +104,7 @@
 update asset set name=&apos;Special Router***&apos;, value=&apos;it is expensive&apos;,times=&apos;10000&apos;,description=&apos;6&apos; where id=11
 </system-out>
   </testcase>
-  <testcase classname="ee.ut.smarttool.DB.AssetDBSeriviceTest" name="testInsertAsset" time="0.004">
+  <testcase classname="ee.ut.smarttool.DB.AssetDBSeriviceTest" name="testInsertAsset" time="0">
     <error message="table asset has no column named times" type="java.sql.SQLException">java.sql.SQLException: table asset has no column named times
 	at org.sqlite.NativeDB.throwex(NativeDB.java:210)
 	at org.sqlite.NativeDB._exec(Native Method)

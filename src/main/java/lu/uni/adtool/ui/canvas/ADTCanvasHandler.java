@@ -65,6 +65,8 @@ import org.apache.commons.lang3.ObjectUtils.Null;
  */
 public class ADTCanvasHandler extends AbstractCanvasHandler {
 
+    private String selectedNodeParentId;
+
   
 /**
    * Constructs a new instance.
@@ -176,30 +178,45 @@ public class ADTCanvasHandler extends AbstractCanvasHandler {
    *
    * @see MouseListener#mouseClicked(MouseEvent)
    */
-  public void getNodeType(final MouseEvent e){
+  public void getNodeType(final MouseEvent e) throws Exception{
 	  try{ 
 		  selectedNode=  (ADTNode) this.canvas.getNode(e.getX(), e.getY());
 		 String[] res = selectedNode.getType().toString().split("_"); 
 		 selectedNodeOperation = res[0];
 		 selectedNodeType=res[1];
 		 selectedNodeId=selectedNode.getId();
-                 System.out.println("ID of Selected Node is: "+selectedNodeId+" Type is: "+selectedNodeType+" Operation: "+selectedNodeOperation);	
+                 selectedNodeParentId=selectedNode.getParent_id();
+               
+                 if(!checkIfNodeRegistered(selectedNodeId,selectedNodeType))
+                    RegisterNode(selectedNode);
+                 System.out.println("ID of Selected Node is: "+selectedNodeId+" parentID: "+selectedNodeParentId+" Type is: "+selectedNodeType+" Operation: "+selectedNodeOperation);	
             //     isSelectedNodeAllowedToBeAtomic=hasChildren(selectedNodeId,selectedNodeType);
           
 	//	 hasChildren=  (selectedNode.getChildren().size()>0) ? true :false;
 	  }catch(Exception e1){
                    isSelectedNodeAllowedToBeAtomic=true;
-		  System.out.println("Failed to get the ADTree Node");
+		  System.out.println("Failed to get the ADTree Node"+e1.getMessage());
 	  }
   }
   
+  public void RegisterNode(ADTNode selectedNode) throws Exception{
+       AttackDBService attack=new AttackDBService();
+       attack.insertAttack(selectedNode.getId(), selectedNode.getName(), selectedNode.getDescription(), "0");
+       
+  }
+   private boolean checkIfNodeRegistered(String selectedNodeId, String selectedNodeType1) throws Exception {
+        AttackDBService attack=new AttackDBService();
+        String res = attack.selectIdFromField("attack", "id", selectedNodeId);
+        return (res!=null);
+    }
+
   @Override
   public final void mouseClicked(final MouseEvent e) {
 	try{  
     canvas.requestFocusInWindow();
     final Node node = this.canvas.getNode(e.getX(), e.getY());
     getNodeType(e);
-   // System.out.println("ID of Selected Node is: "+node.getId()+" Type is: "+node.getType());
+
     if (node != null) {
       if (e.getModifiers() == InputEvent.BUTTON3_MASK || e.getModifiers() == InputEvent.CTRL_MASK) {
         menuNode = node;
@@ -352,7 +369,6 @@ public class ADTCanvasHandler extends AbstractCanvasHandler {
     addChild.addActionListener(new ActionListener() {
       public void actionPerformed(final ActionEvent evt) {
         if (menuNode != null) {
-        	// new Edit_LabelAtomicAction(selectedNodeId).setVisible(true);
           ((ADTreeCanvas<?>) canvas).addChild(menuNode,selectedNodeId);
         }
       }
@@ -362,11 +378,11 @@ public class ADTCanvasHandler extends AbstractCanvasHandler {
     addCounter = new JMenuItem(Options.getMsg("handler.counter.txt"));
     addCounter.setAccelerator(KeyStroke.getKeyStroke(Options.getMsg("handler.counter.key")));
     addCounter.addActionListener(new ActionListener() {
-        private JPanel p;
-       
+      @Override
       public void actionPerformed(final ActionEvent evt) {
         if (menuNode != null) {
-    
+            ((ADTreeCanvas<?>) canvas).addCounter(menuNode,selectedNodeId);
+  /*  
             JPanel panel = createDialogPanel();
             int res=JOptionPane.showConfirmDialog(null, panel, "Create Atomic Action", JOptionPane.OK_CANCEL_OPTION);
             if(res == JOptionPane.OK_OPTION)
@@ -376,15 +392,15 @@ public class ADTCanvasHandler extends AbstractCanvasHandler {
                         if(selectedNodeType.equals("PRO"))
                             attackDBService.insertAttack(name.getText(), description.getText(),"0");
                         else
-                            counterDBService.insertCountermeasure(name.getText(), description.getText());
+                            counterDBService.insertCountermeasure(name.getText(), description.getText(),"0");
 
                     } catch (Exception ex) {
                         Logger.getLogger(ADTCanvasHandler.class.getName()).log(Level.SEVERE, null, ex);
                     }
             }else
                 System.out.println("Cancel press");
-
-          ((ADTreeCanvas<?>) canvas).addCounter(menuNode);
+*/
+          
         }
       }
 
@@ -516,5 +532,6 @@ public class ADTCanvasHandler extends AbstractCanvasHandler {
         res=(childId==null);
         return res;
     }
+
 
 }

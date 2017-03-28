@@ -83,6 +83,7 @@ public class NodeTree {
   /**
    */
   public void setRoot(GuiNode root) {
+
     this.viewRoot = (GuiNode) root;
     this.layout.setRoot(root);
     Debug.log(" before updateTreeSize");
@@ -137,11 +138,11 @@ public class NodeTree {
    */
   public void addChild(Node parentNode, Node node) {
 
-	System.out.println("Parent Node"); 
+/*	System.out.println("Parent Node"); 
 	printNodeInfo(parentNode);
 	System.out.println("Added Node"); 
 	printNodeInfo(node);  
-	  
+*/	  
     boolean refresh = parentNode.hasDefault();
     parentNode.addChild(node);
   //  insertIntoDB(node);
@@ -161,14 +162,7 @@ public class NodeTree {
     }
     sharedExtentProvider.updateNodeSize(node);
   }
-  private void insertIntoDB(Node node){
-	  try{
-		  
-		 // System.out.println("It is an attack node"+node.get);
-	  }catch(Exception e){
-		  System.out.println("Failed to insert the attack node");
-	  }
-  }
+
   private void printNodeInfo(Node node) {
 	  System.out.println("Node id: "+node.getId()+"Name is: "+node.getName() ); 	
 }
@@ -266,8 +260,9 @@ public class NodeTree {
   }
 
   public void printNodeInfo(ADTNode node){
-		System.out.println("Parent Node id: "+node.getId()+" Parent Type is: "+node.getType().toString()+ " Name is: "+node.getName() ); 
-
+        System.out.println("Parent Node id: "+node.getId()+
+                            " Parent Type is: "+node.getType().toString()+ 
+                            " Name is: "+node.getName() ); 
   }
   
   
