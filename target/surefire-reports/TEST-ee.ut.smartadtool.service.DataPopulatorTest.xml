@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite tests="5" failures="3" name="ee.ut.smartadtool.service.DataPopulatorTest" time="0.442" errors="0" skipped="0">
+<testsuite tests="5" failures="3" name="ee.ut.smartadtool.service.DataPopulatorTest" time="0.301" errors="0" skipped="0">
   <properties>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
     <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk1.8.0_60\jre\bin"/>
@@ -61,7 +61,7 @@
     <property name="sun.desktop" value="windows"/>
     <property name="sun.cpu.isalist" value="amd64"/>
   </properties>
-  <testcase classname="ee.ut.smartadtool.service.DataPopulatorTest" name="testRowCounter" time="0.269">
+  <testcase classname="ee.ut.smartadtool.service.DataPopulatorTest" name="testRowCounter" time="0.2">
     <failure message="expected:&lt;1&gt; but was:&lt;4&gt;" type="java.lang.AssertionError">java.lang.AssertionError: expected:&lt;1&gt; but was:&lt;4&gt;
 	at org.junit.Assert.fail(Assert.java:88)
 	at org.junit.Assert.failNotEquals(Assert.java:834)
@@ -102,7 +102,7 @@
     <system-out>C:\Users\Salman\Desktop\Courses\Thesis\Code\AlignedADTool\AlignedADTree\target\classes\db\smartADTool.sqlite
 </system-out>
   </testcase>
-  <testcase classname="ee.ut.smartadtool.service.DataPopulatorTest" name="testColumnCounter" time="0.016">
+  <testcase classname="ee.ut.smartadtool.service.DataPopulatorTest" name="testColumnCounter" time="0">
     <failure message="expected:&lt;5&gt; but was:&lt;3&gt;" type="java.lang.AssertionError">java.lang.AssertionError: expected:&lt;5&gt; but was:&lt;3&gt;
 	at org.junit.Assert.fail(Assert.java:88)
 	at org.junit.Assert.failNotEquals(Assert.java:834)
@@ -143,8 +143,8 @@
     <system-out>C:\Users\Salman\Desktop\Courses\Thesis\Code\AlignedADTool\AlignedADTree\target\classes\db\smartADTool.sqlite
 </system-out>
   </testcase>
-  <testcase classname="ee.ut.smartadtool.service.DataPopulatorTest" name="testDataPopulator" time="0.006"/>
-  <testcase classname="ee.ut.smartadtool.service.DataPopulatorTest" name="testGetCell" time="0.01">
+  <testcase classname="ee.ut.smartadtool.service.DataPopulatorTest" name="testDataPopulator" time="0"/>
+  <testcase classname="ee.ut.smartadtool.service.DataPopulatorTest" name="testGetCell" time="0.015">
     <failure message="expected:&lt;[asset1]&gt; but was:&lt;[router]&gt;" type="org.junit.ComparisonFailure">org.junit.ComparisonFailure: expected:&lt;[asset1]&gt; but was:&lt;[router]&gt;
 	at org.junit.Assert.assertEquals(Assert.java:115)
 	at org.junit.Assert.assertEquals(Assert.java:144)
@@ -183,5 +183,5 @@
     <system-out>C:\Users\Salman\Desktop\Courses\Thesis\Code\AlignedADTool\AlignedADTree\target\classes\db\smartADTool.sqlite
 </system-out>
   </testcase>
-  <testcase classname="ee.ut.smartadtool.service.DataPopulatorTest" name="testPrintRow" time="0.006"/>
+  <testcase classname="ee.ut.smartadtool.service.DataPopulatorTest" name="testPrintRow" time="0"/>
 </testsuite>

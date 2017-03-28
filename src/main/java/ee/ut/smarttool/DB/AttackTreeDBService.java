@@ -2,9 +2,9 @@ package ee.ut.smarttool.DB;
 
 public class AttackTreeDBService extends GeneralCRUDs {
 	
-	public int insertAttackTree(int parentId,int childId) throws Exception{
+	public int insertAttackTree(String parentId,String childId) throws Exception{
 		String query="insert into  attackTree (parent_id,child_id) values(?,?)";
-		query=QueryMaker.queryFitter(query, QueryMaker.createArgList(Integer.toString(parentId),Integer.toString(childId)));
+		query=QueryMaker.queryFitter(query, QueryMaker.createArgList(parentId,childId));
 		return DB.executeQuery(query);
 	}
 

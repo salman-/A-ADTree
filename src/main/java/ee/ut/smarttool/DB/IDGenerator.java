@@ -14,8 +14,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class IDGenerator {
 	private static final AtomicInteger counter = new AtomicInteger();
 
-    public static int nextId(){
-    	 return counter.getAndIncrement();
+    public static String nextId(){
+    	 return Integer.toString(counter.getAndIncrement());
     }
 
 }

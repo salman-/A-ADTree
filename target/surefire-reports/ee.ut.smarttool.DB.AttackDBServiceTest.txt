@@ -1,14 +1,14 @@
 -------------------------------------------------------------------------------
 Test set: ee.ut.smarttool.DB.AttackDBServiceTest
 -------------------------------------------------------------------------------
-Tests run: 2, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.002 sec <<< FAILURE!
-testUpdateAttack(ee.ut.smarttool.DB.AttackDBServiceTest)  Time elapsed: 0 sec  <<< ERROR!
+Tests run: 2, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.008 sec <<< FAILURE!
+testUpdateAttack(ee.ut.smarttool.DB.AttackDBServiceTest)  Time elapsed: 0.004 sec  <<< ERROR!
 java.sql.SQLException: no such column: success
 	at org.sqlite.NativeDB.throwex(NativeDB.java:210)
 	at org.sqlite.NativeDB._exec(Native Method)
 	at org.sqlite.Stmt.executeUpdate(Stmt.java:152)
 	at ee.ut.smarttool.DB.DB.executeQuery(DB.java:39)
-	at ee.ut.smarttool.DB.AttackDBService.updateAttack(AttackDBService.java:34)
+	at ee.ut.smarttool.DB.AttackDBService.updateAttack(AttackDBService.java:41)
 	at ee.ut.smarttool.DB.AttackDBServiceTest.testUpdateAttack(AttackDBServiceTest.java:25)
 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)

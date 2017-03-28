@@ -1,8 +1,8 @@
 -------------------------------------------------------------------------------
 Test set: ee.ut.smartadtool.service.DataPopulatorTest
 -------------------------------------------------------------------------------
-Tests run: 5, Failures: 3, Errors: 0, Skipped: 0, Time elapsed: 0.442 sec <<< FAILURE!
-testRowCounter(ee.ut.smartadtool.service.DataPopulatorTest)  Time elapsed: 0.269 sec  <<< FAILURE!
+Tests run: 5, Failures: 3, Errors: 0, Skipped: 0, Time elapsed: 0.301 sec <<< FAILURE!
+testRowCounter(ee.ut.smartadtool.service.DataPopulatorTest)  Time elapsed: 0.2 sec  <<< FAILURE!
 java.lang.AssertionError: expected:<1> but was:<4>
 	at org.junit.Assert.fail(Assert.java:88)
 	at org.junit.Assert.failNotEquals(Assert.java:834)
@@ -39,7 +39,7 @@ java.lang.AssertionError: expected:<1> but was:<4>
 	at org.apache.maven.surefire.booter.SurefireStarter.invokeProvider(SurefireStarter.java:175)
 	at org.apache.maven.surefire.booter.SurefireStarter.runSuitesInProcessWhenForked(SurefireStarter.java:107)
 	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:68)
-testColumnCounter(ee.ut.smartadtool.service.DataPopulatorTest)  Time elapsed: 0.016 sec  <<< FAILURE!
+testColumnCounter(ee.ut.smartadtool.service.DataPopulatorTest)  Time elapsed: 0 sec  <<< FAILURE!
 java.lang.AssertionError: expected:<5> but was:<3>
 	at org.junit.Assert.fail(Assert.java:88)
 	at org.junit.Assert.failNotEquals(Assert.java:834)
@@ -76,7 +76,7 @@ java.lang.AssertionError: expected:<5> but was:<3>
 	at org.apache.maven.surefire.booter.SurefireStarter.invokeProvider(SurefireStarter.java:175)
 	at org.apache.maven.surefire.booter.SurefireStarter.runSuitesInProcessWhenForked(SurefireStarter.java:107)
 	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:68)
-testGetCell(ee.ut.smartadtool.service.DataPopulatorTest)  Time elapsed: 0.01 sec  <<< FAILURE!
+testGetCell(ee.ut.smartadtool.service.DataPopulatorTest)  Time elapsed: 0.015 sec  <<< FAILURE!
 org.junit.ComparisonFailure: expected:<[asset1]> but was:<[router]>
 	at org.junit.Assert.assertEquals(Assert.java:115)
 	at org.junit.Assert.assertEquals(Assert.java:144)

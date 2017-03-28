@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite tests="2" failures="0" name="ee.ut.smarttool.DB.ImpactTest" time="0.015" errors="1" skipped="0">
+<testsuite tests="2" failures="0" name="ee.ut.smarttool.DB.ImpactTest" time="0" errors="1" skipped="0">
   <properties>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
     <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk1.8.0_60\jre\bin"/>
@@ -61,8 +61,8 @@
     <property name="sun.desktop" value="windows"/>
     <property name="sun.cpu.isalist" value="amd64"/>
   </properties>
-  <testcase classname="ee.ut.smarttool.DB.ImpactTest" name="testUpdateImpact" time="0.001"/>
-  <testcase classname="ee.ut.smarttool.DB.ImpactTest" name="testInsertImpact" time="0.009">
+  <testcase classname="ee.ut.smarttool.DB.ImpactTest" name="testUpdateImpact" time="0"/>
+  <testcase classname="ee.ut.smarttool.DB.ImpactTest" name="testInsertImpact" time="0">
     <error message="no such table: impact" type="java.sql.SQLException">java.sql.SQLException: no such table: impact
 	at org.sqlite.NativeDB.throwex(NativeDB.java:210)
 	at org.sqlite.NativeDB._exec(Native Method)

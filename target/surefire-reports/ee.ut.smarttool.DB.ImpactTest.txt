@@ -1,8 +1,8 @@
 -------------------------------------------------------------------------------
 Test set: ee.ut.smarttool.DB.ImpactTest
 -------------------------------------------------------------------------------
-Tests run: 2, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.015 sec <<< FAILURE!
-testInsertImpact(ee.ut.smarttool.DB.ImpactTest)  Time elapsed: 0.009 sec  <<< ERROR!
+Tests run: 2, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.016 sec <<< FAILURE!
+testInsertImpact(ee.ut.smarttool.DB.ImpactTest)  Time elapsed: 0 sec  <<< ERROR!
 java.sql.SQLException: no such table: impact
 	at org.sqlite.NativeDB.throwex(NativeDB.java:210)
 	at org.sqlite.NativeDB._exec(Native Method)

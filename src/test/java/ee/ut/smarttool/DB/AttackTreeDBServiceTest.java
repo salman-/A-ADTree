@@ -16,7 +16,7 @@ public class AttackTreeDBServiceTest {
 	
 	@Test
 	public void testInsertAttackTree() throws Exception {
-		int res=attackTreeDBService.insertAttackTree(10, 30);
+		int res=attackTreeDBService.insertAttackTree("10", "30");
 		assertEquals(1, res);
 	}
 

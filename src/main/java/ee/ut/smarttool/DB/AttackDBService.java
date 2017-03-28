@@ -23,10 +23,10 @@ public class AttackDBService extends GeneralCRUDs {
 		return DB.executeQuery(query);
     }
     
-        public int insertAttack(String name,String description) throws Exception{
+        public int insertAttack(String name,String description,String isAtomic) throws Exception{
 
-	String query="insert into  attack ( name,description) values('?','?')";
-        query=QueryMaker.queryFitter(query, QueryMaker.createArgList( name,description));
+	String query="insert into  attack ( name,description,isAtomic) values('?','?',?)";
+        query=QueryMaker.queryFitter(query, QueryMaker.createArgList( name,description,isAtomic));
         return DB.executeQuery(query);
     }
                       
@@ -38,6 +38,14 @@ public class AttackDBService extends GeneralCRUDs {
     	query=QueryMaker.queryFitter(query, QueryMaker.createArgList( name,description,Integer.toString(threatAgent_id),Integer.toString(asset_id),
                 success,times,probability,Integer.toString(countermeasure_id),
                 operation,cost_of_damage,cost_of_attack,Integer.toString(impact_id),Integer.toString(id)));
+    	return DB.executeQuery(query);
+    }
+    
+    
+    public int updateAttack(String id,String name,String description) throws Exception{
+
+    	String query= "update attack set name='?',description='?' where id=?";
+    	query=QueryMaker.queryFitter(query, QueryMaker.createArgList( name,description,id));
     	return DB.executeQuery(query);
     }
     

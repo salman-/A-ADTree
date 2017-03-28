@@ -20,10 +20,12 @@ public class QueryMaker {
 	}
 	
 	public static String queryFitter(String query, ArrayList<String> args){
-	
+         //   try{
 		 for(int i=0;i<args.size();i++){
 		      query = query.replaceFirst("\\?",args.get(i));
 		   } 
-	    return query;	
+	    return query;
+        //    }catch(Exception e){ return null; }
+            
 	}
 }

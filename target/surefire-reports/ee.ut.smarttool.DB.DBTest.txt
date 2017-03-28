@@ -1,8 +1,8 @@
 -------------------------------------------------------------------------------
 Test set: ee.ut.smarttool.DB.DBTest
 -------------------------------------------------------------------------------
-Tests run: 5, Failures: 3, Errors: 1, Skipped: 0, Time elapsed: 0.035 sec <<< FAILURE!
-testPrintRows(ee.ut.smarttool.DB.DBTest)  Time elapsed: 0.003 sec  <<< FAILURE!
+Tests run: 5, Failures: 3, Errors: 1, Skipped: 0, Time elapsed: 0.016 sec <<< FAILURE!
+testPrintRows(ee.ut.smarttool.DB.DBTest)  Time elapsed: 0.016 sec  <<< FAILURE!
 java.lang.AssertionError: Not yet implemented
 	at org.junit.Assert.fail(Assert.java:88)
 	at ee.ut.smarttool.DB.DBTest.testPrintRows(DBTest.java:47)
@@ -36,7 +36,7 @@ java.lang.AssertionError: Not yet implemented
 	at org.apache.maven.surefire.booter.SurefireStarter.invokeProvider(SurefireStarter.java:175)
 	at org.apache.maven.surefire.booter.SurefireStarter.runSuitesInProcessWhenForked(SurefireStarter.java:107)
 	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:68)
-testSelectQuery(ee.ut.smarttool.DB.DBTest)  Time elapsed: 0.008 sec  <<< FAILURE!
+testSelectQuery(ee.ut.smarttool.DB.DBTest)  Time elapsed: 0 sec  <<< FAILURE!
 java.lang.AssertionError: Not yet implemented
 	at org.junit.Assert.fail(Assert.java:88)
 	at ee.ut.smarttool.DB.DBTest.testSelectQuery(DBTest.java:42)
@@ -70,7 +70,7 @@ java.lang.AssertionError: Not yet implemented
 	at org.apache.maven.surefire.booter.SurefireStarter.invokeProvider(SurefireStarter.java:175)
 	at org.apache.maven.surefire.booter.SurefireStarter.runSuitesInProcessWhenForked(SurefireStarter.java:107)
 	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:68)
-testCloseConnection(ee.ut.smarttool.DB.DBTest)  Time elapsed: 0.002 sec  <<< FAILURE!
+testCloseConnection(ee.ut.smarttool.DB.DBTest)  Time elapsed: 0 sec  <<< FAILURE!
 java.lang.AssertionError: Not yet implemented
 	at org.junit.Assert.fail(Assert.java:88)
 	at ee.ut.smarttool.DB.DBTest.testCloseConnection(DBTest.java:52)
@@ -104,7 +104,7 @@ java.lang.AssertionError: Not yet implemented
 	at org.apache.maven.surefire.booter.SurefireStarter.invokeProvider(SurefireStarter.java:175)
 	at org.apache.maven.surefire.booter.SurefireStarter.runSuitesInProcessWhenForked(SurefireStarter.java:107)
 	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:68)
-testOpenConnection(ee.ut.smarttool.DB.DBTest)  Time elapsed: 0.008 sec  <<< ERROR!
+testOpenConnection(ee.ut.smarttool.DB.DBTest)  Time elapsed: 0 sec  <<< ERROR!
 java.lang.ArrayIndexOutOfBoundsException: 5
 	at ee.ut.smarttool.DB.DBTest.testOpenConnection(DBTest.java:25)
 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)

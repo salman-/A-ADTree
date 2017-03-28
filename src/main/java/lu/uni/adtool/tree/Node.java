@@ -21,18 +21,31 @@
 package lu.uni.adtool.tree;
 
 
+import ee.ut.smarttool.DB.AttackDBService;
+import ee.ut.smarttool.DB.AttackTreeDBService;
 import java.io.Serializable;
 import java.util.ArrayList;
 import ee.ut.smarttool.DB.IDGenerator;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public abstract class Node implements Serializable{
 
-  public Node() {
+  public Node()  {
 
+    AttackTreeDBService attackTreeDBService = new AttackTreeDBService();
+    AttackDBService attackDBService=new AttackDBService();
     this.id=IDGenerator.nextId();
     this.name = "root";
     this.parent = null;
-  //  this.Nodetype="Attack";
+      try {
+          attackDBService.insertAttack(name+id, "", "0");
+          String res = attackDBService.selectIdFromField("attack", "name", "'"+name+id+"'");
+          this.id=res;
+          attackTreeDBService.insertAttackTree(res, res);
+      } catch (Exception ex) {
+          Logger.getLogger(Node.class.getName()).log(Level.SEVERE, null, ex);
+      } 
     this.operation="And";
     this.description = "";
   }
@@ -158,7 +171,7 @@ public abstract class Node implements Serializable{
   private String            name;
   private String            description;
   private Node              parent;
-  private int               id;
+  private String               id;
   private int               parent_id;
   private String            operation;
   private int               probability;
@@ -199,7 +212,7 @@ public abstract class Node implements Serializable{
 	
   public void setNodeType(String type) {	this.Nodetype = type;} 
 
-  public int getId() {return this.id;}
+  public String getId() {return this.id;}
 	  	  
   public abstract String toString();
 

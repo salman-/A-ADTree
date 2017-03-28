@@ -24,7 +24,7 @@ import ee.ut.smarttool.DB.AttackDBService;
 import ee.ut.smarttool.DB.AttackTreeDBService;
 import ee.ut.smarttool.DB.CountermeasureDBService;
 import ee.ut.smarttool.DB.CountermeaureTreeDBService;
-import ee.ut.smarttool.tree.dialogbox.Add_AtomicAction;
+
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
@@ -182,10 +182,10 @@ public class ADTCanvasHandler extends AbstractCanvasHandler {
 		 String[] res = selectedNode.getType().toString().split("_"); 
 		 selectedNodeOperation = res[0];
 		 selectedNodeType=res[1];
-		 selectedNodeId=Integer.toString(selectedNode.getId());
+		 selectedNodeId=selectedNode.getId();
                  System.out.println("ID of Selected Node is: "+selectedNodeId+" Type is: "+selectedNodeType+" Operation: "+selectedNodeOperation);	
-                 isSelectedNodeAllowedToBeAtomic=hasChildren(selectedNodeId,selectedNodeType);
-               //  new PopupMenu(this, selectedNodeId,isSelectedNodeAllowedToBeAtomic);
+            //     isSelectedNodeAllowedToBeAtomic=hasChildren(selectedNodeId,selectedNodeType);
+          
 	//	 hasChildren=  (selectedNode.getChildren().size()>0) ? true :false;
 	  }catch(Exception e1){
                    isSelectedNodeAllowedToBeAtomic=true;
@@ -193,6 +193,7 @@ public class ADTCanvasHandler extends AbstractCanvasHandler {
 	  }
   }
   
+  @Override
   public final void mouseClicked(final MouseEvent e) {
 	try{  
     canvas.requestFocusInWindow();
@@ -283,8 +284,41 @@ public class ADTCanvasHandler extends AbstractCanvasHandler {
     menuNode = null;
     editNode = new JMenuItem(Options.getMsg("handler.changeName.txt"));
     editNode.addActionListener(new ActionListener() {
+      @Override
       public void actionPerformed(final ActionEvent evt) {
-    //    new Add_AtomicAction(selectedNodeId).setVisible(true);
+         
+        JPanel p = new JPanel(new BorderLayout(5, 5));
+
+        JPanel labels = new JPanel(new BorderLayout());
+        labels.add(new JLabel("Name", SwingConstants.RIGHT),BorderLayout.NORTH);
+        labels.add(new JLabel("Description", SwingConstants.RIGHT), BorderLayout.CENTER);
+        p.add(labels, BorderLayout.WEST);
+
+        JPanel controls = new JPanel(new BorderLayout());
+         name = new JTextField();
+        controls.add(name, BorderLayout.NORTH);
+        JTextArea description = new JTextArea();
+        JScrollPane sp = new JScrollPane(description);
+        sp.setPreferredSize(new Dimension(250, 100));
+        controls.add(sp, BorderLayout.CENTER);
+        p.add(controls, BorderLayout.CENTER); 
+           
+           int res=JOptionPane.showConfirmDialog(null, p, "Create Atomic Action", JOptionPane.OK_CANCEL_OPTION);
+            if(res == JOptionPane.OK_OPTION)
+            {
+                    try {
+                        selectedNode.setName(name.getText());
+                        System.out.println("Submit is press Name"+name.getText()+"  "+description.getText());
+                        if(selectedNodeType.equals("PRO"))
+                            attackDBService.updateAttack(selectedNodeId,name.getText(), description.getText());
+                        else
+                            counterDBService.updateCountermeasure(selectedNodeId,name.getText(), description.getText());
+
+                    } catch (Exception ex) {
+                        Logger.getLogger(ADTCanvasHandler.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+            }else
+                System.out.println("Cancel press");
     
       }
     });
@@ -310,27 +344,7 @@ public class ADTCanvasHandler extends AbstractCanvasHandler {
     });
     pmenu.add(assignAnAtomicAction);
     
-    toggleAboveFold = new JMenuItem(Options.getMsg("handler.foldabove.txt"));
-    toggleAboveFold.setAccelerator(KeyStroke.getKeyStroke(Options.getMsg("handler.foldabove.key")));
-    toggleAboveFold.addActionListener(new ActionListener() {
-      public void actionPerformed(final ActionEvent evt) {
-        if (menuNode != null) {
-          canvas.toggleAboveFold(menuNode);
-        }
-      }
-    });
-    pmenu.add(toggleAboveFold);
     
-    toggleFold = new JMenuItem(Options.getMsg("handler.foldbelow.txt"));
-    toggleFold.setAccelerator(KeyStroke.getKeyStroke(Options.getMsg("handler.foldbelow.key")));
-    toggleFold.addActionListener(new ActionListener() {
-      public void actionPerformed(final ActionEvent evt) {
-        if (menuNode != null) {
-          canvas.toggleFold(menuNode);
-        }
-      }
-    });
-    pmenu.add(toggleFold);
     pmenu.addSeparator();
 
     addChild = new JMenuItem(Options.getMsg("handler.addchild.txt"));
@@ -352,8 +366,7 @@ public class ADTCanvasHandler extends AbstractCanvasHandler {
        
       public void actionPerformed(final ActionEvent evt) {
         if (menuNode != null) {
-
-             
+    
             JPanel panel = createDialogPanel();
             int res=JOptionPane.showConfirmDialog(null, panel, "Create Atomic Action", JOptionPane.OK_CANCEL_OPTION);
             if(res == JOptionPane.OK_OPTION)
@@ -361,7 +374,7 @@ public class ADTCanvasHandler extends AbstractCanvasHandler {
                     try {
                         System.out.println("Submit is press Name"+name.getText()+"  "+description.getText());
                         if(selectedNodeType.equals("PRO"))
-                            attackDBService.insertAttack(name.getText(), description.getText());
+                            attackDBService.insertAttack(name.getText(), description.getText(),"0");
                         else
                             counterDBService.insertCountermeasure(name.getText(), description.getText());
 
@@ -379,52 +392,8 @@ public class ADTCanvasHandler extends AbstractCanvasHandler {
     });
     pmenu.add(addCounter);
 
-    addLeft = new JMenuItem(Options.getMsg("handler.addleftsibling.txt"));
-    addLeft.setAccelerator(KeyStroke.getKeyStroke(Options.getMsg("handler.addleftsibling.key")));
-    addLeft.addActionListener(new ActionListener() {
-      @Override
-      public void actionPerformed(final ActionEvent evt) {
-        if (menuNode != null) {
-          ((ADTreeCanvas<?>) canvas).addSibling(menuNode, true);
-        }
-      }
-    });
-    pmenu.add(addLeft);
 
-    addRight = new JMenuItem(Options.getMsg("handler.addrightsibling.txt"));
-    addRight.setAccelerator(KeyStroke.getKeyStroke(Options.getMsg("handler.addrightsibling.key")));
-    addRight.addActionListener(new ActionListener() {
-      @Override
-      public void actionPerformed(final ActionEvent evt) {
-        if (menuNode != null) {
-          ((ADTreeCanvas<?>) canvas).addSibling(menuNode, false);
-        }
-      }
-    });
-    pmenu.add(addRight);
     pmenu.addSeparator();
-
-    switchLeft = new JMenuItem(Options.getMsg("handler.switchleft.txt"));
-    switchLeft.setAccelerator(KeyStroke.getKeyStroke(Options.getMsg("handler.switchleft.key")));
-    switchLeft.addActionListener(new ActionListener() {
-      public void actionPerformed(final ActionEvent evt) {
-        if (menuNode != null) {
-          ((ADTreeCanvas<?>) canvas).switchSibling(menuNode, true);
-        }
-      }
-    });
-    pmenu.add(switchLeft);
-
-    switchRight = new JMenuItem(Options.getMsg("handler.switchright.txt"));
-    switchRight.setAccelerator(KeyStroke.getKeyStroke(Options.getMsg("handler.switchright.key")));
-    switchRight.addActionListener(new ActionListener() {
-      public void actionPerformed(final ActionEvent evt) {
-        if (menuNode != null) {
-          ((ADTreeCanvas<?>) canvas).switchSibling(menuNode, false);
-        }
-      }
-    });
-    pmenu.add(switchRight);
 
     removeTree = new JMenuItem(Options.getMsg("handler.removetree.txt"));
     removeTree.setAccelerator(KeyStroke.getKeyStroke(Options.getMsg("handler.removetree.key")));
@@ -465,55 +434,28 @@ public class ADTCanvasHandler extends AbstractCanvasHandler {
         });
         pmenu.add(assignAction);
      }
-   //  pmenu.addSeparator();
 
-  /*   menuItem = new JMenuItem("Probability");
-     menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_T,
-     InputEvent.CTRL_MASK));
-     menuItem.addActionListener(new ActionListener() {
-     public void actionPerformed(ActionEvent evt) {
-     //collapseActionPerformed();
-     }
-     });
-     pmenu.add(menuItem);
-     pmenu.addSeparator();
-
-     menuItem = new JMenuItem("Asset");
-    menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N,
-     InputEvent.CTRL_MASK));
-     menuItem.addActionListener(new ActionListener() {
-     public void actionPerformed(ActionEvent evt) {
-     //propertiesActionPerformed(evt);
-     }  
-     });
-     pmenu.add(menuItem); */
   }
 
-  /**
-   * Checks if a string is a valid label
-   *
-   * @param s
-   * @return
-   */
   private JPanel createDialogPanel() {
             
-            JPanel p = new JPanel(new BorderLayout(5, 5));
-            
-            JPanel labels = new JPanel(new BorderLayout());
-            labels.add(new JLabel("Name", SwingConstants.RIGHT),BorderLayout.NORTH);
-            labels.add(new JLabel("Description", SwingConstants.RIGHT), BorderLayout.CENTER);
-            p.add(labels, BorderLayout.WEST);
+        JPanel p = new JPanel(new BorderLayout(5, 5));
 
-            JPanel controls = new JPanel(new BorderLayout());
-             name = new JTextField();
-            controls.add(name, BorderLayout.NORTH);
-            JTextArea description = new JTextArea();
-            JScrollPane sp = new JScrollPane(description);
-            sp.setPreferredSize(new Dimension(250, 100));
-            controls.add(sp, BorderLayout.CENTER);
-            p.add(controls, BorderLayout.CENTER);
-            return p;
-        }
+        JPanel labels = new JPanel(new BorderLayout());
+        labels.add(new JLabel("Name", SwingConstants.RIGHT),BorderLayout.NORTH);
+        labels.add(new JLabel("Description", SwingConstants.RIGHT), BorderLayout.CENTER);
+        p.add(labels, BorderLayout.WEST);
+
+        JPanel controls = new JPanel(new BorderLayout());
+         name = new JTextField();
+        controls.add(name, BorderLayout.NORTH);
+        JTextArea description = new JTextArea();
+        JScrollPane sp = new JScrollPane(description);
+        sp.setPreferredSize(new Dimension(250, 100));
+        controls.add(sp, BorderLayout.CENTER);
+        p.add(controls, BorderLayout.CENTER);
+        return p;
+    }
   private boolean validLabel(String s) {
     return ((ADTreeCanvas<?>) canvas).validLabel(s);
   }
