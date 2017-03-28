@@ -18,7 +18,7 @@ public class AttackDBService extends GeneralCRUDs {
     	Date today = Calendar.getInstance().getTime();      
     	String reportDate = df.format(today);
     	
-	String query="insert into  attack (id, name,description,date, probability,costOfDamage,costOfAttack, asset_id,impact_id,vulnerability_id) values('?','?','?','?','?','?','?','?','?','?')";
+	String query="insert into  attack (id, name,description,date, probability,costOfDamage,costOfAttack, asset_id,impact_id,vulnerability_id,isAtomic) values('?','?','?','?','?','?','?','?','?','?',1)";
         query=QueryMaker.queryFitter(query, QueryMaker.createArgList(id, name,description,reportDate,probaility,costOfDamage,costOfAttack, assetId,impactId,vulnerabilityId));
 		return DB.executeQuery(query);
     }

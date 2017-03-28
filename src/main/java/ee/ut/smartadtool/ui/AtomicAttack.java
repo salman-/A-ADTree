@@ -20,6 +20,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import org.knowm.xchart.BitmapEncoder;
@@ -40,6 +41,13 @@ public class AtomicAttack extends javax.swing.JFrame {
     AssetDBSerivice assetDBSerivce;
     AttackDBService attackDBService; 
     ImpactDBService impactDBService;
+    private String id;
+    private String asset;
+    private String assetId;
+    private String impactName;
+    private String impactId;
+    private String vulnerability;
+    private String vulnerabilityId;
     /**
      * Creates new form AtomicAttack
      */
@@ -423,16 +431,26 @@ public class AtomicAttack extends javax.swing.JFrame {
             String costOfDamage=costOfDamageTF.getText();
             String probaility=probabilityjSpinner.getValue().toString();
                     
+            if(targetedAssetCombo!=null){
+                 asset=targetedAssetCombo.getSelectedItem().toString();
+                 assetId=assetDBSerivce.selectIdFromField("asset","name",asset);
+            }else
+                JOptionPane.showMessageDialog(null, "Make sure you have inserted asset records and try again", "Failure",JOptionPane.ERROR_MESSAGE );
+
             
-            String asset=targetedAssetCombo.getSelectedItem().toString();
-            String assetId=assetDBSerivce.selectIdFromField("asset","name",asset);
+            if(impactCombo.getSelectedItem().toString()!=null){
+                 impactName=impactCombo.getSelectedItem().toString();
+                 impactId=assetDBSerivce.selectIdFromField("impact","name",impactName);
+            }else
+                JOptionPane.showMessageDialog(null, "Make sure you have inserted impact records and try again", "Failure",JOptionPane.ERROR_MESSAGE );
             
-            String impactName=impactCombo.getSelectedItem().toString();
-            String impactId=assetDBSerivce.selectIdFromField("impact","name",impactName);
-            
-            String vulnerability=vulnerabilityCombo.getSelectedItem().toString();
-            String vulnerabilityId=assetDBSerivce.selectIdFromField("vulnerability","name",vulnerability);
-            String id= IDGenerator.nextId();
+            if(vulnerabilityCombo.getSelectedItem().toString()!=null){
+                 vulnerability=vulnerabilityCombo.getSelectedItem().toString();
+                 vulnerabilityId=assetDBSerivce.selectIdFromField("vulnerability","name",vulnerability);
+                 
+            }else
+                JOptionPane.showMessageDialog(null, "Make sure you have inserted vulnerability records and try again", "Failure",JOptionPane.ERROR_MESSAGE );
+            id =IDGenerator.nextId();
             attackDBService.insertAttack(id,name,description,probaility,costOfDamage,costOfAttack, assetId,impactId,vulnerabilityId);
         
         } catch (Exception ex) {

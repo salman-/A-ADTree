@@ -9,6 +9,7 @@ import ee.ut.smarttool.DB.ImpactDBService;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import ee.ut.smartadtool.service.DataPopulator;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -71,6 +72,7 @@ public class Impact extends javax.swing.JFrame {
         impactDescriptionTA.setRows(5);
         jScrollPane3.setViewportView(impactDescriptionTA);
 
+        insertImpact.setBackground(new java.awt.Color(0, 204, 255));
         insertImpact.setText("Add Impact");
         insertImpact.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -89,23 +91,20 @@ public class Impact extends javax.swing.JFrame {
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGap(39, 39, 39)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGap(39, 39, 39)
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel5)
-                            .addComponent(jLabel8)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel7))
-                        .addGap(101, 101, 101)
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(impactTF)
-                            .addComponent(impactTypeCombo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jScrollPane3)
-                            .addComponent(impactLevelCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGap(107, 107, 107)
-                        .addComponent(insertImpact, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jLabel5)
+                    .addComponent(jLabel8)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel7))
+                .addGap(101, 101, 101)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(insertImpact, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(impactTF)
+                        .addComponent(impactTypeCombo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jScrollPane3)
+                        .addComponent(impactLevelCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(67, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
@@ -129,9 +128,9 @@ public class Impact extends javax.swing.JFrame {
                         .addComponent(jLabel8)
                         .addGap(0, 89, Short.MAX_VALUE))
                     .addComponent(jScrollPane3))
-                .addGap(37, 37, 37)
-                .addComponent(insertImpact)
-                .addGap(53, 53, 53))
+                .addGap(30, 30, 30)
+                .addComponent(insertImpact, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(51, 51, 51))
         );
 
         assetTabbedPane.addTab("Add Impact", jPanel4);
@@ -216,30 +215,35 @@ public class Impact extends javax.swing.JFrame {
        //   System.out.println(impactTF.getText()+" "+impactLevelCombo.getSelectedItem().toString()+" "+impactTypeCombo.getSelectedItem().toString()+" "+impactDescriptionTA.getText());
         try {
             impactDBService.insertImpact(impactTF.getText(),  impactDescriptionTA.getText(),
-                impactLevelCombo.getSelectedItem().toString(),impactTypeCombo.getSelectedItem().toString());
+            impactLevelCombo.getSelectedItem().toString(),impactTypeCombo.getSelectedItem().toString());
         } catch (Exception ex) {
-            Logger.getLogger(Asset.class.getName()).log(Level.SEVERE, null, ex);
+           // Logger.getLogger(Asset.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Insertion failed. Try again", "Failure",JOptionPane.ERROR_MESSAGE );
         }
     }//GEN-LAST:event_insertImpactActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        System.out.println("Update");
+        
         try {
             new UpdateImpact(jTable2.getValueAt(jTable2.getSelectedRow(), 0).toString()).setVisible(true);
         } catch (Exception ex) {
-            Logger.getLogger(Impact.class.getName()).log(Level.SEVERE, null, ex);
+         //   Logger.getLogger(Impact.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Operation failed. Select a record an try again", "Failure",JOptionPane.ERROR_MESSAGE );
+
         }
 
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         try {
-            impactDBService.deleteByName("impact", jTable2.getValueAt(jTable2.getSelectedRow(), 0).toString());
+            impactDBService.delete("impact", jTable2.getValueAt(jTable2.getSelectedRow(), 0).toString());
             Object[][] data= DataPopulator.DataPreprocessor(impactDBService.selectAll("impact"));
             String[] columns= DataPopulator.getColumn(impactDBService.selectAll("impact"));
             jTable2.setModel(new javax.swing.table.DefaultTableModel(data,columns) );
+            JOptionPane.showMessageDialog(null, "The record inserted successfully", "Success",JOptionPane.INFORMATION_MESSAGE );
         } catch (Exception ex) {
-            Logger.getLogger(Asset.class.getName()).log(Level.SEVERE, null, ex);
+           // Logger.getLogger(Asset.class.getName()).log(Level.SEVERE, null, ex);
+             JOptionPane.showMessageDialog(null, "Operation failed. Select a record an try again", "Failure",JOptionPane.ERROR_MESSAGE );
         }
     }//GEN-LAST:event_jButton6ActionPerformed
 

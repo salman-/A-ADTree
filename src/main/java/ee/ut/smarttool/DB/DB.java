@@ -3,7 +3,6 @@ package ee.ut.smarttool.DB;
 import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
@@ -20,8 +19,8 @@ public class DB
 	public static void openConnection() throws Exception{
 		try {
 			Class.forName("org.sqlite.JDBC");
-		    File file = new File(DB.class.getClassLoader().getResource("db/smartADTool.sqlite").getFile());
-		    
+		    File file = new File(DB.class.getClassLoader().getResource("db/AlignedADTree.sqlite").getFile());
+		//    File file = new File("C://DB/alignedADTree.sqlite");
 		    String DBPath=file.getAbsolutePath();
 		 //   System.out.println(DBPath);
 		    connection = DriverManager.getConnection("jdbc:sqlite:"+DBPath);

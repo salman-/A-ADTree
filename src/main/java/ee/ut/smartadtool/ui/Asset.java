@@ -16,6 +16,7 @@ import ee.ut.smarttool.DB.AssetDBSerivice;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import ee.ut.smartadtool.service.DataPopulator;
+import javax.swing.JOptionPane;
 
 public class Asset extends javax.swing.JPanel {
 
@@ -81,6 +82,7 @@ public class Asset extends javax.swing.JPanel {
         assetDescriptionTA.setRows(5);
         jScrollPane3.setViewportView(assetDescriptionTA);
 
+        insertAsset.setBackground(new java.awt.Color(0, 204, 204));
         insertAsset.setText("Add Asset");
         insertAsset.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -136,8 +138,8 @@ public class Asset extends javax.swing.JPanel {
                     .addComponent(jLabel8)
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 69, Short.MAX_VALUE)
-                .addComponent(insertAsset)
-                .addGap(79, 79, 79))
+                .addComponent(insertAsset, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(61, 61, 61))
         );
 
         assetTabbedPane.addTab("Add Asset", jPanel4);
@@ -251,11 +253,12 @@ public class Asset extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        System.out.println("Update");
+
         try {
             new UpdateAsset(jTable2.getValueAt(jTable2.getSelectedRow(), 0).toString()).setVisible(true);
         } catch (Exception ex) {
-            Logger.getLogger(Asset.class.getName()).log(Level.SEVERE, null, ex);
+           // Logger.getLogger(Asset.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, " Select a record an try again", "Failure",JOptionPane.ERROR_MESSAGE );
         }
         
     }//GEN-LAST:event_jButton5ActionPerformed
@@ -267,6 +270,7 @@ public class Asset extends javax.swing.JPanel {
                                    assetValueTF.getText(),assetTimesSpinner.getValue().toString());
         } catch (Exception ex) {
             Logger.getLogger(Asset.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Insertion failed. Try again", "Failure",JOptionPane.ABORT );
         }
     }//GEN-LAST:event_insertAssetActionPerformed
 
@@ -289,8 +293,13 @@ public class Asset extends javax.swing.JPanel {
             Object[][] assetData= DataPopulator.DataPreprocessor(assetDBSerivice.selectAll("asset"));
             String[] columns= DataPopulator.getColumn(assetDBSerivice.selectAll("asset"));
             jTable2.setModel(new javax.swing.table.DefaultTableModel(assetData,columns) );
+            JOptionPane.showMessageDialog(null, "The record deleted successfully", "Success",JOptionPane.INFORMATION_MESSAGE );
+        } catch (ArrayIndexOutOfBoundsException ex) {
+         //   Logger.getLogger(Asset.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Deletion failed. Choose an asset and try again.", "Failure",JOptionPane.ERROR_MESSAGE );
         } catch (Exception ex) {
-            Logger.getLogger(Asset.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Deletion failed. Choose an asset and try again.", "Failure",JOptionPane.ERROR_MESSAGE );
+         //   Logger.getLogger(Asset.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton6ActionPerformed
 

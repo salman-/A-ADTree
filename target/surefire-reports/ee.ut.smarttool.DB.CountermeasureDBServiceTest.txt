@@ -1,14 +1,14 @@
 -------------------------------------------------------------------------------
 Test set: ee.ut.smarttool.DB.CountermeasureDBServiceTest
 -------------------------------------------------------------------------------
-Tests run: 2, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.004 sec <<< FAILURE!
-testInsertAsset(ee.ut.smarttool.DB.CountermeasureDBServiceTest)  Time elapsed: 0 sec  <<< ERROR!
+Tests run: 2, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.003 sec <<< FAILURE!
+testInsertAsset(ee.ut.smarttool.DB.CountermeasureDBServiceTest)  Time elapsed: 0.001 sec  <<< ERROR!
 java.sql.SQLException: no such column: operation
 	at org.sqlite.NativeDB.throwex(NativeDB.java:210)
 	at org.sqlite.NativeDB._exec(Native Method)
 	at org.sqlite.Stmt.executeUpdate(Stmt.java:152)
-	at ee.ut.smarttool.DB.DB.executeQuery(DB.java:39)
-	at ee.ut.smarttool.DB.CountermeasureDBService.updateCountermeasure(CountermeasureDBService.java:28)
+	at ee.ut.smarttool.DB.DB.executeQuery(DB.java:38)
+	at ee.ut.smarttool.DB.CountermeasureDBService.updateCountermeasure(CountermeasureDBService.java:37)
 	at ee.ut.smarttool.DB.CountermeasureDBServiceTest.testInsertAsset(CountermeasureDBServiceTest.java:25)
 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)

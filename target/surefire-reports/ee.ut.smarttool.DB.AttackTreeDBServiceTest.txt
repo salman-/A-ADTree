@@ -1,13 +1,13 @@
 -------------------------------------------------------------------------------
 Test set: ee.ut.smarttool.DB.AttackTreeDBServiceTest
 -------------------------------------------------------------------------------
-Tests run: 2, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.001 sec <<< FAILURE!
-testInsertAttackTree(ee.ut.smarttool.DB.AttackTreeDBServiceTest)  Time elapsed: 0 sec  <<< ERROR!
+Tests run: 2, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.006 sec <<< FAILURE!
+testInsertAttackTree(ee.ut.smarttool.DB.AttackTreeDBServiceTest)  Time elapsed: 0.003 sec  <<< ERROR!
 java.sql.SQLException: foreign key constraint failed
 	at org.sqlite.NativeDB.throwex(NativeDB.java:210)
 	at org.sqlite.NativeDB._exec(Native Method)
 	at org.sqlite.Stmt.executeUpdate(Stmt.java:152)
-	at ee.ut.smarttool.DB.DB.executeQuery(DB.java:39)
+	at ee.ut.smarttool.DB.DB.executeQuery(DB.java:38)
 	at ee.ut.smarttool.DB.AttackTreeDBService.insertAttackTree(AttackTreeDBService.java:8)
 	at ee.ut.smarttool.DB.AttackTreeDBServiceTest.testInsertAttackTree(AttackTreeDBServiceTest.java:19)
 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)

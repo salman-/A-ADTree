@@ -6,7 +6,7 @@ public class ThreatAgent extends GeneralCRUDs{
 	String capabilities;
 	String opportunities;
 	String means;
-	
+	/*
 	public int insertThreatAgent(String motivation, String capabilities,String opportunities,String means) throws Exception{
 		String query="insert into  threatAgent (motivation,capabilities,opportunities,means) values('?','?','?','?')";
 		query=QueryMaker.queryFitter(query, QueryMaker.createArgList(motivation, capabilities,opportunities,means));
@@ -17,6 +17,6 @@ public class ThreatAgent extends GeneralCRUDs{
     	String query="update threatAgent set motive='?', capabilities='?' ,opportunities='?',means='?' where id=?";
     	query=QueryMaker.queryFitter(query, QueryMaker.createArgList(motive,capabilities,opportunities,means,Integer.toString(id)));    
         return DB.executeQuery(query); 
-    }
+    }*/
 
 }

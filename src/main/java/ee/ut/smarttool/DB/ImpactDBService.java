@@ -1,17 +1,26 @@
 package ee.ut.smarttool.DB;
 
 import ee.ut.smarttool.DB.GeneralCRUDs;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 
 
 public class ImpactDBService  extends GeneralCRUDs{
 
-
-	
-	public int insertImpact(String impact, String description,String level,String type) throws Exception {
-		String query="insert into  impact (name,description,level,type) values('?','?','?','?')";
-		query=QueryMaker.queryFitter(query, QueryMaker.createArgList(impact, description,level,type));
-		return DB.executeQuery(query);
+	public int insertImpact(String name, String description,String level,String type)  {
+            try {
+                String query="insert into  impact (name,description,type,level) values('?','?','?','?')";
+                query=QueryMaker.queryFitter(query, QueryMaker.createArgList(name, description,type,level));
+                int res = DB.executeQuery(query);
+                JOptionPane.showMessageDialog(null, "The record inserted successfully", "Success",JOptionPane.INFORMATION_MESSAGE );
+                return res;
+            } catch (Exception ex) {
+                Logger.getLogger(ImpactDBService.class.getName()).log(Level.SEVERE, null, ex);
+                JOptionPane.showMessageDialog(null, "Operation failed. Try again", "Failure",JOptionPane.ERROR_MESSAGE );
+                return -1;
+            }
 		
 	}
 

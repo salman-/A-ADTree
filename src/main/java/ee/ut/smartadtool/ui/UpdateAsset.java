@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -75,7 +76,8 @@ public class UpdateAsset extends javax.swing.JFrame {
         editDescriptionTA.setRows(5);
         jScrollPane2.setViewportView(editDescriptionTA);
 
-        jButton2.setText("Add Asset");
+        jButton2.setBackground(new java.awt.Color(0, 204, 255));
+        jButton2.setText("Update Asset");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
@@ -141,8 +143,8 @@ public class UpdateAsset extends javax.swing.JFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel10)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
-                .addComponent(jButton2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
+                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(27, 27, 27))
         );
 
@@ -174,8 +176,10 @@ public class UpdateAsset extends javax.swing.JFrame {
 
         try {
             assetDBSerivice.updateAsset(editAssetTF.getText(),editValueTF.getText(),editTimes.getValue().toString(), editDescriptionTA.getText(), AssetId.getText());
+            JOptionPane.showMessageDialog(null, "The record inserted successfully", "Success",JOptionPane.INFORMATION_MESSAGE );
         } catch (Exception ex) {
             Logger.getLogger(UpdateAsset.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Update failed. Select a record an try again", "Failure",JOptionPane.ERROR_MESSAGE );
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
