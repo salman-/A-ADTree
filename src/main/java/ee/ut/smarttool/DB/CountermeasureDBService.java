@@ -26,15 +26,12 @@ public class CountermeasureDBService extends GeneralCRUDs{
     }
     
     
-    public int updateCountermeasure(int id,String name,String description
-            ,String cost,String operation,String probability
-            ,int attackId,String failure_times) throws Exception{
+    public int updateCountermeasure(String id,String name,String description,String cost,String probability) throws Exception{
     		
-        String query= "update countermeasure set name='?', description='?',cost='?',operation='?',probability='?',attack_id='?',failure_times='?' where id='?'";
-    	query=QueryMaker.queryFitter(query, QueryMaker.createArgList(name,description
-    								, cost,operation,probability
-    								,Integer.toString(attackId),failure_times,Integer.toString(id))); 
-    	return DB.executeQuery(query);
+        String query= "update countermeasure set name='?', description='?',cost=?,probability=?  where id=?";
+    	query=QueryMaker.queryFitter(query, QueryMaker.createArgList(name,description,cost,probability,id)); 
+        int res = DB.executeQuery(query);
+        return res;
     }
 
         public int updateCountermeasure(String id,String name,String description) throws Exception{

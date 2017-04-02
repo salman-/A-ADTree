@@ -12,14 +12,14 @@ public class AttackDBService extends GeneralCRUDs {
     
     public int insertAttack(String id, String name,String description,String probaility,
                             String costOfDamage,String costOfAttack,
-                            String assetId,String impactId,String vulnerabilityId) throws Exception{
+                            String assetId) throws Exception{
 
     	DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
     	Date today = Calendar.getInstance().getTime();      
     	String reportDate = df.format(today);
     	
-	String query="insert into  attack (id, name,description,date, probability,costOfDamage,costOfAttack, asset_id,impact_id,vulnerability_id,isAtomic) values('?','?','?','?','?','?','?','?','?','?',1)";
-        query=QueryMaker.queryFitter(query, QueryMaker.createArgList(id, name,description,reportDate,probaility,costOfDamage,costOfAttack, assetId,impactId,vulnerabilityId));
+	String query="insert into  attack (id, name,description,date, probability,costOfDamage,costOfAttack, asset_id,isAtomic) values('?','?','?','?','?','?','?',?,1)";
+        query=QueryMaker.queryFitter(query, QueryMaker.createArgList(id, name,description,reportDate,probaility,costOfDamage,costOfAttack, assetId));
 		return DB.executeQuery(query);
     }
     
@@ -52,17 +52,22 @@ public class AttackDBService extends GeneralCRUDs {
     
     public Map<String, ArrayList<String>> selectAllAttack() throws Exception{
 
+        
+        
+        /*
     	String query= "SELECT  attack.id,attack.name as Attack,attack.description,costOfAttack,costOfDamage,\n" +
                       "asset.name as Asset,impact.name as Impact,attack.probability,vulnerability .name as vulnerability \n" +
                       "FROM    attack    inner join  asset on attack.asset_id=asset.id\n" +
                       "inner join  impact on attack.impact_id=impact.id\n" +
-                      "inner join  vulnerability on attack.vulnerability_id=vulnerability.id";
+                      "inner join  vulnerability on attack.vulnerability_id=vulnerability.id";  */
     	
+        
+    	String query= "SELECT  attack.id,attack.name as Attack,attack.description,costOfAttack,costOfDamage,\n" +
+                      "asset.name as Asset\n" +
+                      "FROM    attack    inner join  asset on attack.asset_id=asset.id";
+                     
     	return DB.selectQuery(query);
     }
-    
-    
-    
     
 }
 

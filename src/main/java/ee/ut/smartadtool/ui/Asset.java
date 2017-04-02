@@ -16,11 +16,18 @@ import ee.ut.smarttool.DB.AssetDBSerivice;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import ee.ut.smartadtool.service.DataPopulator;
+import ee.ut.smarttool.DB.AttackDBService;
+import ee.ut.smarttool.DB.ImpactDBService;
+import ee.ut.smarttool.DB.VulnerabilityDBService;
+import java.util.ArrayList;
+import java.util.Map;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 
 public class Asset extends javax.swing.JPanel {
 
     AssetDBSerivice assetDBSerivice;
+    private final VulnerabilityDBService vulDBSerivce;
    
     public Asset() {
         assetDBSerivice= new AssetDBSerivice();
@@ -28,6 +35,21 @@ public class Asset extends javax.swing.JPanel {
         assetFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         assetFrame.pack();
         assetFrame.setVisible(true);
+        
+        ///////////////////////////////
+        ///////////////////////////////
+        vulDBSerivce   =new VulnerabilityDBService();
+
+        try {
+            Map<String, ArrayList<String>> res =null;
+             res = vulDBSerivce.selectAll("vulnerability");
+             DefaultComboBoxModel model = new DefaultComboBoxModel( res.get("name").toArray() );
+             vulnerabilityCombo.setModel( model );
+            
+        } catch (Exception ex) {
+            Logger.getLogger(AtomicAttack.class.getName()).log(Level.SEVERE, null, ex);
+        };
+        
     }
     
   /*  public JTabbedPane panelGetter(){
@@ -56,6 +78,8 @@ public class Asset extends javax.swing.JPanel {
         jScrollPane3 = new javax.swing.JScrollPane();
         assetDescriptionTA = new javax.swing.JTextArea();
         insertAsset = new javax.swing.JButton();
+        jLabel9 = new javax.swing.JLabel();
+        vulnerabilityCombo = new javax.swing.JComboBox<>();
         jPanel5 = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
@@ -90,29 +114,49 @@ public class Asset extends javax.swing.JPanel {
             }
         });
 
+        jLabel9.setText("Vulnerability");
+
+        vulnerabilityCombo.addContainerListener(new java.awt.event.ContainerAdapter() {
+            public void componentAdded(java.awt.event.ContainerEvent evt) {
+                vulnerabilityComboComponentAdded(evt);
+            }
+        });
+        vulnerabilityCombo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                vulnerabilityComboMouseClicked(evt);
+            }
+        });
+        vulnerabilityCombo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                vulnerabilityComboActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGap(39, 39, 39)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGap(39, 39, 39)
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel5)
-                            .addComponent(jLabel6)
-                            .addComponent(jLabel7)
-                            .addComponent(jLabel8))
-                        .addGap(101, 101, 101)
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(assetNameTF)
-                            .addComponent(assetValueTF)
-                            .addComponent(assetTimesSpinner)
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 244, Short.MAX_VALUE)))
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGap(87, 87, 87)
-                        .addComponent(insertAsset, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jLabel5)
+                    .addComponent(jLabel6)
+                    .addComponent(jLabel7)
+                    .addComponent(jLabel8)
+                    .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(74, 74, 74)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(vulnerabilityCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(assetNameTF)
+                        .addComponent(assetValueTF)
+                        .addComponent(assetTimesSpinner)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 244, Short.MAX_VALUE)))
+                .addContainerGap(44, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                .addContainerGap(69, Short.MAX_VALUE)
+                .addComponent(insertAsset, javax.swing.GroupLayout.PREFERRED_SIZE, 370, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(62, 62, 62))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -137,9 +181,17 @@ public class Asset extends javax.swing.JPanel {
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel8)
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 69, Short.MAX_VALUE)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
+                        .addComponent(jLabel9)
+                        .addGap(48, 48, 48))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(vulnerabilityCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addComponent(insertAsset, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(61, 61, 61))
+                .addGap(49, 49, 49))
         );
 
         assetTabbedPane.addTab("Add Asset", jPanel4);
@@ -266,8 +318,16 @@ public class Asset extends javax.swing.JPanel {
     private void insertAssetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_insertAssetActionPerformed
     //   System.out.println(assetNameTF.getText()+" "+assetValueTF.getText()+" "+assetTimesSpinner.getValue()+" "+assetDescriptionTA.getText());
         try {
-            assetDBSerivice.insert(assetNameTF.getText(),  assetDescriptionTA.getText(),
-                                   assetValueTF.getText(),assetTimesSpinner.getValue().toString());
+             String vulnerabilityId = null;//vulnerabilityCombo.insertItemAt("Choose an Existing Asset", 0);           
+            if(vulnerabilityCombo.getSelectedItem().toString()!=null){
+                String vulnerability = vulnerabilityCombo.getSelectedItem().toString();
+                vulnerabilityId = vulDBSerivce.selectIdFromField("vulnerability","name","'"+vulnerability+"'");
+                 assetDBSerivice.insert(assetNameTF.getText(),  assetDescriptionTA.getText(),
+                                   assetValueTF.getText(),assetTimesSpinner.getValue().toString(),vulnerabilityId);
+            }else
+                JOptionPane.showMessageDialog(null, "Make sure you have inserted vulnerability records and try again", "Failure",JOptionPane.ERROR_MESSAGE );
+
+           
         } catch (Exception ex) {
             Logger.getLogger(Asset.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null, "Insertion failed. Try again", "Failure",JOptionPane.ABORT );
@@ -278,8 +338,8 @@ public class Asset extends javax.swing.JPanel {
     try {
             if(assetTabbedPane.getSelectedIndex()==1){
                 System.out.println("It's the 2nd tab.");
-                Object[][] assetData= DataPopulator.DataPreprocessor(assetDBSerivice.selectAll("asset"));
-                String[] columns= DataPopulator.getColumn(assetDBSerivice.selectAll("asset"));
+                Object[][] assetData= DataPopulator.DataPreprocessor(assetDBSerivice.selectAllAssets());
+                String[] columns= DataPopulator.getColumn(assetDBSerivice.selectAllAssets());
                 jTable2.setModel(new javax.swing.table.DefaultTableModel(assetData,columns) );
             }
           
@@ -303,6 +363,19 @@ public class Asset extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_jButton6ActionPerformed
 
+    private void vulnerabilityComboComponentAdded(java.awt.event.ContainerEvent evt) {//GEN-FIRST:event_vulnerabilityComboComponentAdded
+
+    }//GEN-LAST:event_vulnerabilityComboComponentAdded
+
+    private void vulnerabilityComboMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_vulnerabilityComboMouseClicked
+
+        System.out.println("Error happened");// TODO add your handling code here:
+    }//GEN-LAST:event_vulnerabilityComboMouseClicked
+
+    private void vulnerabilityComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_vulnerabilityComboActionPerformed
+
+    }//GEN-LAST:event_vulnerabilityComboActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextArea assetDescriptionTA;
@@ -318,11 +391,13 @@ public class Asset extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTable jTable2;
+    private javax.swing.JComboBox<String> vulnerabilityCombo;
     // End of variables declaration//GEN-END:variables
 }

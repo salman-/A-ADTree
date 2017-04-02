@@ -7,9 +7,11 @@ package ee.ut.smartadtool.ui;
 
 import ee.ut.smartadtool.service.DataPopulator;
 import ee.ut.smarttool.DB.CountermeasureDBService;
+import ee.ut.smarttool.DB.IDGenerator;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import org.knowm.xchart.BitmapEncoder;
 import org.knowm.xchart.PieChart;
 import org.knowm.xchart.PieChartBuilder;
@@ -99,7 +101,7 @@ public class AtomicCountermeasure extends javax.swing.JFrame {
             }
         });
         jPanel1.add(addAtomicAttack);
-        addAtomicAttack.setBounds(260, 280, 270, 40);
+        addAtomicAttack.setBounds(260, 280, 310, 40);
 
         probabilityjSpinner.setModel(new javax.swing.SpinnerNumberModel(0, 0, 100, 1));
         probabilityjSpinner.addChangeListener(new javax.swing.event.ChangeListener() {
@@ -178,7 +180,7 @@ public class AtomicCountermeasure extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 123, Short.MAX_VALUE))
+                .addGap(0, 32, Short.MAX_VALUE))
         );
 
         attackTabbedPane.addTab("Edit Atomic Countermeasure", jPanel2);
@@ -209,10 +211,9 @@ public class AtomicCountermeasure extends javax.swing.JFrame {
             String costOfAttack=countermeasureCostTF.getText();
             String costOfDamage=countermeasureCostTF.getText();
             String probaility=probabilityjSpinner.getValue().toString();
-
-
-
-        //    countermeasureDBService.insertCountermeasure(name,description,probaility,costOfDamage,costOfAttack);
+             String id =IDGenerator.nextId();
+            countermeasureDBService.insertCountermeasure(id,name,description,probaility,costOfDamage,costOfAttack);
+            JOptionPane.showMessageDialog(null, "The record is inserted successfully.", "Success",JOptionPane.INFORMATION_MESSAGE );
 
         } catch (Exception ex) {
             Logger.getLogger(AtomicAttack.class.getName()).log(Level.SEVERE, null, ex);
@@ -239,15 +240,15 @@ public class AtomicCountermeasure extends javax.swing.JFrame {
              
             BitmapEncoder.saveBitmap(chart, "C://pie-pic/img.png", BitmapEncoder.BitmapFormat.PNG);
         } catch (IOException ex) {
-            Logger.getLogger(AtomicAttack.class.getName()).log(Level.SEVERE, null, ex);
+         //   Logger.getLogger(AtomicAttack.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println("Path not found");
         } 
     }
     
     private void probabilityjSpinnerStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_probabilityjSpinnerStateChanged
-        chartDrawer(Integer.valueOf(probabilityjSpinner.getValue().toString()));
-        this.getContentPane().validate();
-        this.getContentPane().repaint();
+ //        chartDrawer(Integer.valueOf(probabilityjSpinner.getValue().toString()));
+ //       this.getContentPane().validate();
+  //      this.getContentPane().repaint();
     }//GEN-LAST:event_probabilityjSpinnerStateChanged
 
     private void attackTabbedPaneStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_attackTabbedPaneStateChanged
@@ -263,7 +264,12 @@ public class AtomicCountermeasure extends javax.swing.JFrame {
     }//GEN-LAST:event_attackTabbedPaneStateChanged
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        new UpdateAtomicAttack(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString()).setVisible(true);
+       try{
+        new UpdateAtomicCountermeasure(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString()).setVisible(true);
+       }
+       catch(Exception e){
+            JOptionPane.showMessageDialog(null, "Operation fialed.Select a row and try again.", "Failure",JOptionPane.ERROR_MESSAGE );
+       }
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -274,7 +280,8 @@ public class AtomicCountermeasure extends javax.swing.JFrame {
             String[] columns= DataPopulator.getColumn(countermeasureDBService.selectAll("countermeasure"));
             jTable1.setModel(new javax.swing.table.DefaultTableModel(assetData,columns) );
         } catch (Exception ex) {
-            Logger.getLogger(AtomicAttack.class.getName()).log(Level.SEVERE, null, ex);
+         //   Logger.getLogger(AtomicAttack.class.getName()).log(Level.SEVERE, null, ex);
+         JOptionPane.showMessageDialog(null, "Operation fialed.Select a row and try again.", "Failure",JOptionPane.ERROR_MESSAGE );
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 

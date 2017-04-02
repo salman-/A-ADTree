@@ -8,21 +8,16 @@ package ee.ut.smartadtool.ui;
 import ee.ut.smartadtool.service.DataPopulator;
 import ee.ut.smarttool.DB.AssetDBSerivice;
 import ee.ut.smarttool.DB.AttackDBService;
-import ee.ut.smarttool.DB.DB;
 import ee.ut.smarttool.DB.IDGenerator;
 import ee.ut.smarttool.DB.ImpactDBService;
 import ee.ut.smarttool.DB.VulnerabilityDBService;
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 import org.knowm.xchart.BitmapEncoder;
 import org.knowm.xchart.BitmapEncoder.BitmapFormat;
 import org.knowm.xchart.PieChart;
@@ -59,15 +54,10 @@ public class AtomicAttack extends javax.swing.JFrame {
         initComponents();
         try {
             Map<String, ArrayList<String>> res =null;
-             res = vulDBSerivce.selectAll("vulnerability");
-             DefaultComboBoxModel model = new DefaultComboBoxModel( res.get("name").toArray() );
-             vulnerabilityCombo.setModel( model );
              res = assetDBSerivce.selectAll("asset");
-             model = new DefaultComboBoxModel( res.get("name").toArray() );
+            DefaultComboBoxModel model = new DefaultComboBoxModel( res.get("name").toArray() );
              targetedAssetCombo.setModel( model );
-             res=impactDBService.selectAll("impact");
-             model = new DefaultComboBoxModel( res.get("name").toArray() );
-             impactCombo.setModel( model );
+          
         } catch (Exception ex) {
             Logger.getLogger(AtomicAttack.class.getName()).log(Level.SEVERE, null, ex);
         };
@@ -122,8 +112,6 @@ public class AtomicAttack extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         targetedAssetCombo = new javax.swing.JComboBox<>();
-        jLabel5 = new javax.swing.JLabel();
-        vulnerabilityCombo = new javax.swing.JComboBox<>();
         addAtomicAttack = new javax.swing.JButton();
         probabilityjSpinner = new javax.swing.JSpinner();
         jSeparator1 = new javax.swing.JSeparator();
@@ -145,8 +133,6 @@ public class AtomicAttack extends javax.swing.JFrame {
         costOfAttackTF = new javax.swing.JTextField();
         jLabel11 = new javax.swing.JLabel();
         costOfDamageTF = new javax.swing.JTextField();
-        jLabel12 = new javax.swing.JLabel();
-        impactCombo = new javax.swing.JComboBox<>();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
@@ -183,37 +169,15 @@ public class AtomicAttack extends javax.swing.JFrame {
 
         jLabel3.setText("Probability");
         jPanel1.add(jLabel3);
-        jLabel3.setBounds(30, 310, 90, 14);
+        jLabel3.setBounds(40, 250, 90, 14);
 
         jLabel4.setText("Targeted Asset");
         jPanel1.add(jLabel4);
-        jLabel4.setBounds(30, 280, 110, 14);
+        jLabel4.setBounds(40, 220, 110, 14);
 
         targetedAssetCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jPanel1.add(targetedAssetCombo);
-        targetedAssetCombo.setBounds(170, 280, 168, 20);
-
-        jLabel5.setText("Vulnerability");
-        jPanel1.add(jLabel5);
-        jLabel5.setBounds(30, 250, 100, 14);
-
-        vulnerabilityCombo.addContainerListener(new java.awt.event.ContainerAdapter() {
-            public void componentAdded(java.awt.event.ContainerEvent evt) {
-                vulnerabilityComboComponentAdded(evt);
-            }
-        });
-        vulnerabilityCombo.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                vulnerabilityComboMouseClicked(evt);
-            }
-        });
-        vulnerabilityCombo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                vulnerabilityComboActionPerformed(evt);
-            }
-        });
-        jPanel1.add(vulnerabilityCombo);
-        vulnerabilityCombo.setBounds(170, 250, 166, 20);
+        targetedAssetCombo.setBounds(170, 220, 168, 20);
 
         addAtomicAttack.setBackground(new java.awt.Color(255, 0, 51));
         addAtomicAttack.setText("Add Atomic Attack");
@@ -223,7 +187,7 @@ public class AtomicAttack extends javax.swing.JFrame {
             }
         });
         jPanel1.add(addAtomicAttack);
-        addAtomicAttack.setBounds(60, 400, 270, 40);
+        addAtomicAttack.setBounds(50, 370, 270, 40);
 
         probabilityjSpinner.setModel(new javax.swing.SpinnerNumberModel(0, 0, 100, 1));
         probabilityjSpinner.addChangeListener(new javax.swing.event.ChangeListener() {
@@ -232,7 +196,7 @@ public class AtomicAttack extends javax.swing.JFrame {
             }
         });
         jPanel1.add(probabilityjSpinner);
-        probabilityjSpinner.setBounds(260, 310, 80, 20);
+        probabilityjSpinner.setBounds(260, 250, 80, 20);
         jPanel1.add(jSeparator1);
         jSeparator1.setBounds(40, 200, 300, 10);
 
@@ -300,23 +264,15 @@ public class AtomicAttack extends javax.swing.JFrame {
 
         jLabel10.setText("Cost of Attack");
         jPanel1.add(jLabel10);
-        jLabel10.setBounds(30, 340, 80, 20);
+        jLabel10.setBounds(40, 290, 80, 20);
         jPanel1.add(costOfAttackTF);
-        costOfAttackTF.setBounds(260, 340, 80, 20);
+        costOfAttackTF.setBounds(260, 290, 80, 20);
 
         jLabel11.setText("Cost of Damage (Gain)");
         jPanel1.add(jLabel11);
-        jLabel11.setBounds(30, 370, 140, 14);
+        jLabel11.setBounds(40, 320, 140, 14);
         jPanel1.add(costOfDamageTF);
-        costOfDamageTF.setBounds(260, 370, 80, 20);
-
-        jLabel12.setText("Impact");
-        jPanel1.add(jLabel12);
-        jLabel12.setBounds(30, 220, 40, 14);
-
-        impactCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jPanel1.add(impactCombo);
-        impactCombo.setBounds(170, 220, 170, 20);
+        costOfDamageTF.setBounds(260, 330, 80, 20);
 
         attackTabbedPane.addTab("Add Atomic Attack", jPanel1);
 
@@ -408,20 +364,6 @@ public class AtomicAttack extends javax.swing.JFrame {
          this.getContentPane().repaint();
     }//GEN-LAST:event_probabilityjSpinnerStateChanged
 
-    private void vulnerabilityComboComponentAdded(java.awt.event.ContainerEvent evt) {//GEN-FIRST:event_vulnerabilityComboComponentAdded
-       
-    }//GEN-LAST:event_vulnerabilityComboComponentAdded
-
-    private void vulnerabilityComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_vulnerabilityComboActionPerformed
-
-    }//GEN-LAST:event_vulnerabilityComboActionPerformed
-
-    private void vulnerabilityComboMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_vulnerabilityComboMouseClicked
-         
-
-        System.out.println("Error happened");// TODO add your handling code here:
-    }//GEN-LAST:event_vulnerabilityComboMouseClicked
-
     private void addAtomicAttackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addAtomicAttackActionPerformed
         try {
           
@@ -431,28 +373,17 @@ public class AtomicAttack extends javax.swing.JFrame {
             String costOfDamage=costOfDamageTF.getText();
             String probaility=probabilityjSpinner.getValue().toString();
                     
-            if(targetedAssetCombo!=null){
-                 asset=targetedAssetCombo.getSelectedItem().toString();
-                 assetId=assetDBSerivce.selectIdFromField("asset","name",asset);
+            if(targetedAssetCombo.getSelectedItem().toString()!=null){
+                asset=targetedAssetCombo.getSelectedItem().toString();
+                assetId=assetDBSerivce.selectIdFromField("asset","name","'"+asset+"'");
+           
+                id =IDGenerator.nextId();
+                int res = attackDBService.insertAttack(id,name,description,probaility,costOfDamage,costOfAttack, assetId);
+                JOptionPane.showMessageDialog(null, "The record is inserted successfully.", "Success",JOptionPane.INFORMATION_MESSAGE );
             }else
                 JOptionPane.showMessageDialog(null, "Make sure you have inserted asset records and try again", "Failure",JOptionPane.ERROR_MESSAGE );
-
-            
-            if(impactCombo.getSelectedItem().toString()!=null){
-                 impactName=impactCombo.getSelectedItem().toString();
-                 impactId=assetDBSerivce.selectIdFromField("impact","name",impactName);
-            }else
-                JOptionPane.showMessageDialog(null, "Make sure you have inserted impact records and try again", "Failure",JOptionPane.ERROR_MESSAGE );
-            
-            if(vulnerabilityCombo.getSelectedItem().toString()!=null){
-                 vulnerability=vulnerabilityCombo.getSelectedItem().toString();
-                 vulnerabilityId=assetDBSerivce.selectIdFromField("vulnerability","name",vulnerability);
-                 
-            }else
-                JOptionPane.showMessageDialog(null, "Make sure you have inserted vulnerability records and try again", "Failure",JOptionPane.ERROR_MESSAGE );
-            id =IDGenerator.nextId();
-            attackDBService.insertAttack(id,name,description,probaility,costOfDamage,costOfAttack, assetId,impactId,vulnerabilityId);
-        
+           
+           
         } catch (Exception ex) {
             Logger.getLogger(AtomicAttack.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -463,15 +394,17 @@ public class AtomicAttack extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void attackTabbedPaneStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_attackTabbedPaneStateChanged
-                try {
+        try {
             if(attackTabbedPane.getSelectedIndex()==1){
                 System.out.println("It's the 2nd tab.");
-                Object[][] assetData= DataPopulator.DataPreprocessor(attackDBService.selectAllAttack());
+                Object[][] Data= DataPopulator.DataPreprocessor(attackDBService.selectAllAttack());
                 String[] columns= DataPopulator.getColumn(attackDBService.selectAllAttack());
-                jTable1.setModel(new javax.swing.table.DefaultTableModel(assetData,columns) );
+                jTable1.setModel(new javax.swing.table.DefaultTableModel(Data,columns) );
             }
 
-        } catch (Exception e1) {}
+        } catch (Exception e1) {
+            Logger.getLogger(Asset.class.getName()).log(Level.SEVERE, null, e1);
+        }
 
     }//GEN-LAST:event_attackTabbedPaneStateChanged
 
@@ -499,7 +432,6 @@ public class AtomicAttack extends javax.swing.JFrame {
     private javax.swing.JTabbedPane attackTabbedPane;
     private javax.swing.JTextField costOfAttackTF;
     private javax.swing.JTextField costOfDamageTF;
-    private javax.swing.JComboBox<String> impactCombo;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
@@ -511,11 +443,9 @@ public class AtomicAttack extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
@@ -532,6 +462,5 @@ public class AtomicAttack extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> threatAgentMotivesCombo;
     private javax.swing.JComboBox<String> threatAgentOpportunitiesCombo;
     private javax.swing.JLabel threatAgentScore;
-    private javax.swing.JComboBox<String> vulnerabilityCombo;
     // End of variables declaration//GEN-END:variables
 }
