@@ -1,4 +1,6 @@
 /**
+ * Author: Salman Lashkarara (salmanlashkarara@gmail.com <salmanlashkarara@gmail.com>)
+ * Date:   02/04/2017
  * Author: Piotr Kordy (piotr.kordy@uni.lu <mailto:piotr.kordy@uni.lu>)
  * Date:   10/12/2015
  * Copyright (c) 2015,2013,2012 University of Luxembourg -- Faculty of Science,
@@ -48,6 +50,7 @@ import ee.ut.smarttool.DB.CountermeaureTreeDBService;
 import ee.ut.smarttool.DB.IDGenerator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import lu.uni.adtool.ui.canvas.ADTCanvasHandler;
 
 public class ADTNode extends GuiNode {
 
@@ -111,10 +114,12 @@ public class ADTNode extends GuiNode {
                     {
                         System.out.println("parent Attack child Attack");
 
-                        attack.insertAttack(this.getId(),"attack"+getId(), "", "0");
-                        String childId = attack.selectIdFromField("attack", "name", "'"+("attack"+getId())+"'");
+                        attack.insertAttack(this.getId(),"attack "+getId(), "", "0");
+                        String childId = attack.selectIdFromField("attack", "name", "'"+("attack "+getId())+"'");
                         AttackTreeDBService tree = new AttackTreeDBService();
                         tree.insertAttackTree(this.getParent_id(),childId);
+                        
+                        TreeSchema.addChild(TreeSchema.keyMaker(this.getParent_id(), "Attack"),childId,"Attack");
                         break;
                     }
             //parent attack child counter
@@ -125,6 +130,9 @@ public class ADTNode extends GuiNode {
                         String childId = attack.selectIdFromField("countermeasure", "name", "'"+("counter"+getId())+"'");
                         AttackCounterTreeDBService tree=new AttackCounterTreeDBService();
                         tree.insertAttackCountermeaureTree(this.getParent_id(),childId);
+                        
+                        TreeSchema.addChild(TreeSchema.keyMaker(this.getParent_id(), "Attack"),childId,"Counter");
+                     
                         break;
                     }
             //parent counter child counter
@@ -135,6 +143,8 @@ public class ADTNode extends GuiNode {
                         String childId = counter.selectIdFromField("countermeasure", "name", "'"+("counter"+getId())+"'");
                         CountermeaureTreeDBService tree=new CountermeaureTreeDBService();
                         tree.insertCountermeaureTree(selectedNodeId, childId);
+                        
+                        TreeSchema.addChild(TreeSchema.keyMaker(this.getParent_id(), "Counter"),childId,"Counter");
                         break;
                     }
                 //parent counter child attack
@@ -145,6 +155,8 @@ public class ADTNode extends GuiNode {
                         String childId = counter.selectIdFromField("attack", "name", "'"+("attack"+getId())+"'");
                         CounterAttackTreeDBService tree=new CounterAttackTreeDBService();
                         tree.insertCountermeaureAttackTree(selectedNodeId, childId);
+                       
+                        TreeSchema.addChild(TreeSchema.keyMaker(this.getParent_id(), "Counter"),childId,"Attack");
                         break;
                     }
                     default:
@@ -154,7 +166,9 @@ public class ADTNode extends GuiNode {
                         break;
                     }
             }
-      } catch (Exception ex) { } 
+      } catch (Exception ex) {
+          Logger.getLogger(ADTNode.class.getName()).log(Level.SEVERE, null, ex);
+      } 
     }
   
   public void addCounter(ADTNode counter) {

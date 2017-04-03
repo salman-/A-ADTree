@@ -2,6 +2,8 @@ package ee.ut.smarttool.DB;
 
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class GeneralCRUDs implements CRUD {
 
@@ -29,13 +31,17 @@ public class GeneralCRUDs implements CRUD {
         
 	public String selectIdFromField(String table, String fieldName, String fieldValue ) throws Exception {
             try{
+                String id=null;
                 String query="select * from ? where ?=?";
                 query=QueryMaker.queryFitter(query, QueryMaker.createArgList(table,fieldName,fieldValue));
 		Map<String, ArrayList<String>>res= DB.selectQuery(query);
-                String id=res.get("id").toArray()[0].toString();
+                if(res.get("id").size()>0)
+                  id=res.get("id").toArray()[0].toString();
             //    System.out.println("Table:"+table+" "+"ID is: "+id);
                 return id;
-            }catch(Exception e){return null;}
+            }catch(Exception e){
+                 Logger.getLogger(GeneralCRUDs.class.getName()).log(Level.SEVERE, null, e);
+                return null;}
 	}
         
 

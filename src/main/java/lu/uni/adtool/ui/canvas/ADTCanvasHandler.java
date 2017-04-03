@@ -1,4 +1,6 @@
 /**
+ * Author: Salman Lashkarara (salmanlashkarara@gmail.com <salmanlashkarara@gmail.com>)
+ * Date:   02/04/2017
  * Author: Piotr Kordy (piotr.kordy@uni.lu <mailto:piotr.kordy@uni.lu>)
  * Date:   10/12/2015
  * Copyright (c) 2015,2013,2012 University of Luxembourg -- Faculty of Science,
@@ -27,8 +29,6 @@ import ee.ut.smarttool.DB.CountermeaureTreeDBService;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.GridLayout;
-//import ee.ut.smarttool.tree.dialogbox;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
@@ -39,7 +39,6 @@ import java.awt.event.MouseListener;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JLabel;
-
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -49,14 +48,12 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 import javax.swing.SwingConstants;
-
-
 import lu.uni.adtool.tools.Options;
 import lu.uni.adtool.tree.ADTNode;
 import lu.uni.adtool.tree.GuiNode;
 import lu.uni.adtool.tree.Node;
-import lu.uni.adtool.ui.MultiLineInput;
-import org.apache.commons.lang3.ObjectUtils.Null;
+import lu.uni.adtool.tree.SimpleNode;
+import lu.uni.adtool.tree.TreeSchema;
 
 /**
  * A handler for ADTreeCanvas.
@@ -66,14 +63,12 @@ import org.apache.commons.lang3.ObjectUtils.Null;
 public class ADTCanvasHandler extends AbstractCanvasHandler {
 
     private String selectedNodeParentId;
-
-  
-/**
-   * Constructs a new instance.
-   *
-   * @param canvas
-   *          parent canvas
-   */
+/*
+* Constructs a new instance.
+*
+* @param canvas
+*          parent canvas
+*/
   public ADTCanvasHandler(final ADTreeCanvas<?> canvas) {
     super(canvas);
     initPopupMenu();
@@ -180,7 +175,7 @@ public class ADTCanvasHandler extends AbstractCanvasHandler {
    */
   public void getNodeType(final MouseEvent e) throws Exception{
 	  try{ 
-		  selectedNode=  (ADTNode) this.canvas.getNode(e.getX(), e.getY());
+		 selectedNode=  (ADTNode) this.canvas.getNode(e.getX(), e.getY());
 		 String[] res = selectedNode.getType().toString().split("_"); 
 		 selectedNodeOperation = res[0];
 		 selectedNodeType=res[1];
@@ -202,11 +197,21 @@ public class ADTCanvasHandler extends AbstractCanvasHandler {
   public void RegisterNode(ADTNode selectedNode) throws Exception{
        AttackDBService attack=new AttackDBService();
        attack.insertAttack(selectedNode.getId(), selectedNode.getName(), selectedNode.getDescription(), "0");
+       if(selectedNodeType.contains("PRO"))
+            TreeSchema.addRoot(new SimpleNode( selectedNode.getId(), "Attack"));
+       else
+            TreeSchema.addRoot(new SimpleNode( selectedNode.getId(), "countermeasure"));
        
   }
-   private boolean checkIfNodeRegistered(String selectedNodeId, String selectedNodeType1) throws Exception {
-        AttackDBService attack=new AttackDBService();
-        String res = attack.selectIdFromField("attack", "id", selectedNodeId);
+   private boolean checkIfNodeRegistered(String selectedNodeId, String selectedNodeType) throws Exception {
+       String res=null; 
+       if(selectedNodeType.equals("PRO")){
+            AttackDBService attack=new AttackDBService();
+            res = attack.selectIdFromField("attack", "id", selectedNodeId);
+        }else{
+            CountermeasureDBService attack=new CountermeasureDBService();
+            res = attack.selectIdFromField("countermeasure", "id", selectedNodeId);
+        }
         return (res!=null);
     }
 
