@@ -198,9 +198,9 @@ public class ADTCanvasHandler extends AbstractCanvasHandler {
        AttackDBService attack=new AttackDBService();
        attack.insertAttack(selectedNode.getId(), selectedNode.getName(), selectedNode.getDescription(), "0");
        if(selectedNodeType.contains("PRO"))
-            TreeSchema.addRoot(new SimpleNode( selectedNode.getId(), "Attack"));
+            TreeSchema.addRoot(new SimpleNode( selectedNode.getId(), "PRO"));
        else
-            TreeSchema.addRoot(new SimpleNode( selectedNode.getId(), "countermeasure"));
+            TreeSchema.addRoot(new SimpleNode( selectedNode.getId(), "OPP"));
        
   }
    private boolean checkIfNodeRegistered(String selectedNodeId, String selectedNodeType) throws Exception {
@@ -422,23 +422,26 @@ public class ADTCanvasHandler extends AbstractCanvasHandler {
       @Override
       public void actionPerformed(final ActionEvent evt) {
         if (menuNode != null) {
+            System.out.println("Node to delete is:"+selectedNodeId+" Its type is: "+selectedNodeType);
+            TreeSchema.deleteNode(new SimpleNode(selectedNodeId, selectedNodeType));
           ((ADTreeCanvas<?>) canvas).removeTree(menuNode);
         }
       }
     });
     pmenu.add(removeTree);
-    removeChildren = new JMenuItem(Options.getMsg("handler.removechildren.txt"));
+/*    removeChildren = new JMenuItem(Options.getMsg("handler.removechildren.txt"));
     removeChildren
         .setAccelerator(KeyStroke.getKeyStroke(Options.getMsg("handler.removechildren.key")));
     removeChildren.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(final ActionEvent evt) {
         if (menuNode != null) {
+
           ((ADTreeCanvas<?>) canvas).removeChildren(menuNode);
         }
       }
     });
-    pmenu.add(removeChildren);
+    pmenu.add(removeChildren); */
     ///*
     if(isSelectedNodeAllowedToBeAtomic){
         pmenu.addSeparator(); 

@@ -267,6 +267,7 @@ public class NodeTree {
   
   
   public void removeAllChildren(Node node) {
+      
     unfoldNode(node);
     node.getChildren().clear();
     layout.refreshValues();

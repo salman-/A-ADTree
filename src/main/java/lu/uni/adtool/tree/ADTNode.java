@@ -119,7 +119,7 @@ public class ADTNode extends GuiNode {
                         AttackTreeDBService tree = new AttackTreeDBService();
                         tree.insertAttackTree(this.getParent_id(),childId);
                         
-                        TreeSchema.addChild(TreeSchema.keyMaker(this.getParent_id(), "Attack"),childId,"Attack");
+                        TreeSchema.addChild(TreeSchema.keyMaker(this.getParent_id(), "PRO"),childId,"PRO");
                         break;
                     }
             //parent attack child counter
@@ -131,7 +131,7 @@ public class ADTNode extends GuiNode {
                         AttackCounterTreeDBService tree=new AttackCounterTreeDBService();
                         tree.insertAttackCountermeaureTree(this.getParent_id(),childId);
                         
-                        TreeSchema.addChild(TreeSchema.keyMaker(this.getParent_id(), "Attack"),childId,"Counter");
+                        TreeSchema.addChild(TreeSchema.keyMaker(this.getParent_id(), "PRO"),childId,"OPP");
                      
                         break;
                     }
@@ -144,7 +144,7 @@ public class ADTNode extends GuiNode {
                         CountermeaureTreeDBService tree=new CountermeaureTreeDBService();
                         tree.insertCountermeaureTree(selectedNodeId, childId);
                         
-                        TreeSchema.addChild(TreeSchema.keyMaker(this.getParent_id(), "Counter"),childId,"Counter");
+                        TreeSchema.addChild(TreeSchema.keyMaker(this.getParent_id(), "OPP"),childId,"OPP");
                         break;
                     }
                 //parent counter child attack
@@ -156,7 +156,7 @@ public class ADTNode extends GuiNode {
                         CounterAttackTreeDBService tree=new CounterAttackTreeDBService();
                         tree.insertCountermeaureAttackTree(selectedNodeId, childId);
                        
-                        TreeSchema.addChild(TreeSchema.keyMaker(this.getParent_id(), "Counter"),childId,"Attack");
+                        TreeSchema.addChild(TreeSchema.keyMaker(this.getParent_id(), "OPP"),childId,"PRO");
                         break;
                     }
                     default:
