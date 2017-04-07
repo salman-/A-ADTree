@@ -40,7 +40,7 @@ public abstract class Node implements Serializable{
 
   public Node(String parentId,Type type) {
       
- //   System.out.println("parentId is: "+parentId+" Type is: "+type);
+    System.out.println("parentId is: "+parentId+" Type is: "+type);
     this.id=IDGenerator.nextId();
     this.parent_id=parentId;
     this.parent = null;

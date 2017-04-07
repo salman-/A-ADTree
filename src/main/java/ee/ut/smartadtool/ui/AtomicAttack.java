@@ -359,9 +359,9 @@ public class AtomicAttack extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void probabilityjSpinnerStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_probabilityjSpinnerStateChanged
-         chartDrawer(Integer.valueOf(probabilityjSpinner.getValue().toString())); 
+       /*  chartDrawer(Integer.valueOf(probabilityjSpinner.getValue().toString())); 
          this.getContentPane().validate();
-         this.getContentPane().repaint();
+         this.getContentPane().repaint(); */
     }//GEN-LAST:event_probabilityjSpinnerStateChanged
 
     private void addAtomicAttackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addAtomicAttackActionPerformed
@@ -377,13 +377,14 @@ public class AtomicAttack extends javax.swing.JFrame {
                 asset=targetedAssetCombo.getSelectedItem().toString();
                 assetId=assetDBSerivce.selectIdFromField("asset","name","'"+asset+"'");
            
-                id =IDGenerator.nextId();
-                int res = attackDBService.insertAttack(id,name,description,probaility,costOfDamage,costOfAttack, assetId);
-                JOptionPane.showMessageDialog(null, "The record is inserted successfully.", "Success",JOptionPane.INFORMATION_MESSAGE );
+           //     id =IDGenerator.nextId();
+           //     int res = attackDBService.insertAttack(id,name,description,probaility,costOfDamage,costOfAttack, assetId);
+                 int res = attackDBService.insertAttack(name,description,probaility,costOfDamage,costOfAttack, assetId);
+            
+               JOptionPane.showMessageDialog(null, "The record is inserted successfully.", "Success",JOptionPane.INFORMATION_MESSAGE );
             }else
                 JOptionPane.showMessageDialog(null, "Make sure you have inserted asset records and try again", "Failure",JOptionPane.ERROR_MESSAGE );
-           
-           
+                      
         } catch (Exception ex) {
             Logger.getLogger(AtomicAttack.class.getName()).log(Level.SEVERE, null, ex);
         }

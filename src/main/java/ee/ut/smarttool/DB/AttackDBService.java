@@ -8,7 +8,20 @@ import java.util.Date;
 import java.util.Map;
 
 public class AttackDBService extends GeneralCRUDs {
-	    
+
+    
+    public int insertAttack( String name,String description,String probaility,
+                            String costOfDamage,String costOfAttack,
+                            String assetId) throws Exception{
+
+    	DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+    	Date today = Calendar.getInstance().getTime();      
+    	String reportDate = df.format(today);
+    	
+	String query="insert into  attack ( name,description,date, probability,costOfDamage,costOfAttack, asset_id,isAtomic) values('?','?','?','?','?','?',?,1)";
+        query=QueryMaker.queryFitter(query, QueryMaker.createArgList( name,description,reportDate,probaility,costOfDamage,costOfAttack, assetId));
+		return DB.executeQuery(query);
+    }
     
     public int insertAttack(String id, String name,String description,String probaility,
                             String costOfDamage,String costOfAttack,

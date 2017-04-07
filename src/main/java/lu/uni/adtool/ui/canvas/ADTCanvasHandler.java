@@ -26,7 +26,9 @@ import ee.ut.smarttool.DB.AttackDBService;
 import ee.ut.smarttool.DB.AttackTreeDBService;
 import ee.ut.smarttool.DB.CountermeasureDBService;
 import ee.ut.smarttool.DB.CountermeaureTreeDBService;
-
+import ee.ut.smarttool.DB.IDGenerator;
+import ee.ut.smarttool.tree.dialogbox.AssignAnAtomicCountermeasure;
+import ee.ut.smarttool.tree.dialogbox.AssignnAnAtomicAttack;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -175,6 +177,7 @@ public class ADTCanvasHandler extends AbstractCanvasHandler {
    */
   public void getNodeType(final MouseEvent e) throws Exception{
 	  try{ 
+
 		 selectedNode=  (ADTNode) this.canvas.getNode(e.getX(), e.getY());
 		 String[] res = selectedNode.getType().toString().split("_"); 
 		 selectedNodeOperation = res[0];
@@ -195,22 +198,24 @@ public class ADTCanvasHandler extends AbstractCanvasHandler {
   }
   
   public void RegisterNode(ADTNode selectedNode) throws Exception{
-       AttackDBService attack=new AttackDBService();
-       attack.insertAttack(selectedNode.getId(), selectedNode.getName(), selectedNode.getDescription(), "0");
+       // selectedNodeId=IDGenerator.nextId();    
+        //   AttackDBService attack=new AttackDBService();
+        //   attack.insertAttack(selectedNode.getId(), selectedNode.getName(), selectedNode.getDescription(), "0");
        if(selectedNodeType.contains("PRO"))
-            TreeSchema.addRoot(new SimpleNode( selectedNode.getId(), "PRO"));
+            TreeSchema.addRoot(new SimpleNode( selectedNodeId, "PRO"));
        else
-            TreeSchema.addRoot(new SimpleNode( selectedNode.getId(), "OPP"));
+            TreeSchema.addRoot(new SimpleNode( selectedNodeId, "OPP"));
        
   }
    private boolean checkIfNodeRegistered(String selectedNodeId, String selectedNodeType) throws Exception {
        String res=null; 
-       if(selectedNodeType.equals("PRO")){
-            AttackDBService attack=new AttackDBService();
-            res = attack.selectIdFromField("attack", "id", selectedNodeId);
+       if(selectedNodeId.equals(null)){
+           TreeSchema.hasChildren(new SimpleNode(selectedNodeId, selectedNodeType));
+       //     AttackDBService attack=new AttackDBService();
+       //     res = attack.selectIdFromField("attack", "id", selectedNodeId);
         }else{
-            CountermeasureDBService attack=new CountermeasureDBService();
-            res = attack.selectIdFromField("countermeasure", "id", selectedNodeId);
+       //     CountermeasureDBService attack=new CountermeasureDBService();
+       //     res = attack.selectIdFromField("countermeasure", "id", selectedNodeId);
         }
         return (res!=null);
     }
@@ -359,9 +364,20 @@ public class ADTCanvasHandler extends AbstractCanvasHandler {
     assignAnAtomicAction = new JMenuItem(Options.getMsg("handler.assignAnAtomicAction.txt"));
     assignAnAtomicAction.addActionListener(new ActionListener() {
       public void actionPerformed(final ActionEvent evt) {
-        if (menuNode != null) {
-          ((ADTreeCanvas<?>) canvas).toggleOp(menuNode);
-        }
+          if(!TreeSchema.hasChildren(new SimpleNode(selectedNodeId,selectedNodeType)))
+               JOptionPane.showMessageDialog(null, "Only leaves can be atomic acctions.", "Failure",JOptionPane.ERROR_MESSAGE );
+          else{
+                if(selectedNodeType.contains("PRO")){
+
+                    new AssignnAnAtomicAttack().setVisible(true);
+                }else{
+                    new AssignAnAtomicCountermeasure().setVisible(true);
+                }
+                if (menuNode != null) {
+
+                        ((ADTreeCanvas<?>) canvas).toggleOp(menuNode);
+                }
+          }
       }
     });
     pmenu.add(assignAnAtomicAction);
@@ -374,7 +390,7 @@ public class ADTCanvasHandler extends AbstractCanvasHandler {
     addChild.addActionListener(new ActionListener() {
       public void actionPerformed(final ActionEvent evt) {
         if (menuNode != null) {
-          ((ADTreeCanvas<?>) canvas).addChild(menuNode,selectedNodeId);
+          ((ADTreeCanvas<?>) canvas).addChild(menuNode,selectedNodeId,selectedNodeType);
         }
       }
     });
@@ -386,7 +402,7 @@ public class ADTCanvasHandler extends AbstractCanvasHandler {
       @Override
       public void actionPerformed(final ActionEvent evt) {
         if (menuNode != null) {
-            ((ADTreeCanvas<?>) canvas).addCounter(menuNode,selectedNodeId);
+            ((ADTreeCanvas<?>) canvas).addCounter(menuNode,selectedNodeId,selectedNodeType);
   /*  
             JPanel panel = createDialogPanel();
             int res=JOptionPane.showConfirmDialog(null, panel, "Create Atomic Action", JOptionPane.OK_CANCEL_OPTION);
@@ -413,7 +429,6 @@ public class ADTCanvasHandler extends AbstractCanvasHandler {
     });
     pmenu.add(addCounter);
 
-
     pmenu.addSeparator();
 
     removeTree = new JMenuItem(Options.getMsg("handler.removetree.txt"));
@@ -423,41 +438,30 @@ public class ADTCanvasHandler extends AbstractCanvasHandler {
       public void actionPerformed(final ActionEvent evt) {
         if (menuNode != null) {
             System.out.println("Node to delete is:"+selectedNodeId+" Its type is: "+selectedNodeType);
-            TreeSchema.deleteNode(new SimpleNode(selectedNodeId, selectedNodeType));
+                      TreeSchema.deleteNode(new SimpleNode(selectedNodeId, selectedNodeType));
           ((ADTreeCanvas<?>) canvas).removeTree(menuNode);
         }
       }
     });
-    pmenu.add(removeTree);
-/*    removeChildren = new JMenuItem(Options.getMsg("handler.removechildren.txt"));
+    pmenu.add(removeTree); 
+    
+/*
+    removeChildren = new JMenuItem(Options.getMsg("handler.removechildren.txt"));
     removeChildren
         .setAccelerator(KeyStroke.getKeyStroke(Options.getMsg("handler.removechildren.key")));
     removeChildren.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(final ActionEvent evt) {
         if (menuNode != null) {
-
+            TreeSchema.deleteNode(new SimpleNode(selectedNodeId, selectedNodeType));
           ((ADTreeCanvas<?>) canvas).removeChildren(menuNode);
         }
       }
     });
-    pmenu.add(removeChildren); */
+    pmenu.add(removeChildren);  */
     ///*
-    if(isSelectedNodeAllowedToBeAtomic){
-        pmenu.addSeparator(); 
-        assignAction = new JMenuItem("Assign An Atomic Action");
-        assignAction.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_K, InputEvent.CTRL_MASK));
-        assignAction.addActionListener(new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent evt) {
-          //  if(selectedNodeType.equals("PRO"))
-            //    new AssignnAnAtomicAttack().setVisible(true);
-         //   else
-          //      new AssignAnAtomicCountermeasure().setVisible(true);
-        }
-        });
-        pmenu.add(assignAction);
-     }
+
+     
 
   }
 
@@ -496,7 +500,7 @@ public class ADTCanvasHandler extends AbstractCanvasHandler {
   private JMenuItem properties;
   private JMenuItem editNode;
   
-  private JMenuItem assignAction;  
+
   private JMenuItem toggleAboveFold;
   private JMenuItem toggleFold;
   private JMenuItem addCounter;

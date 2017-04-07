@@ -5,17 +5,33 @@
  */
 package ee.ut.smarttool.tree.dialogbox;
 
+import ee.ut.smartadtool.service.DataPopulator;
+import ee.ut.smarttool.DB.CountermeasureDBService;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Salman
  */
 public class AssignAnAtomicCountermeasure extends javax.swing.JFrame {
 
+    private final CountermeasureDBService countermeasureDBService;
+
     /**
      * Creates new form AssignAnAtomicCountermeasure
      */
     public AssignAnAtomicCountermeasure() {
         initComponents();
+        countermeasureDBService=new CountermeasureDBService(); 
+        try {
+
+            Object[][] assetData= DataPopulator.DataPreprocessor(countermeasureDBService.selectAll("countermeasure"));
+            String[] columns= DataPopulator.getColumn(countermeasureDBService.selectAll("countermeasure"));
+            jTable3.setModel(new javax.swing.table.DefaultTableModel(assetData,columns) );
+        } catch (Exception ex) {
+         //   Logger.getLogger(AtomicAttack.class.getName()).log(Level.SEVERE, null, ex);
+
+        }
     }
 
     /**
@@ -73,7 +89,7 @@ public class AssignAnAtomicCountermeasure extends javax.swing.JFrame {
                 .addContainerGap())
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGap(235, 235, 235)
-                .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
@@ -113,53 +129,11 @@ public class AssignAnAtomicCountermeasure extends javax.swing.JFrame {
         
     }//GEN-LAST:event_jButton5ActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(AssignAnAtomicCountermeasure.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(AssignAnAtomicCountermeasure.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(AssignAnAtomicCountermeasure.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(AssignAnAtomicCountermeasure.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new AssignAnAtomicCountermeasure().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton5;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
     private javax.swing.JTable jTable3;
     // End of variables declaration//GEN-END:variables
 }

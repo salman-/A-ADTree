@@ -240,8 +240,8 @@ public class NodeTree {
 	System.out.println("Parent Node"); 
 	printNodeInfo(parentNode);
 	System.out.println("Added Node"); 
-	printNodeInfo(node);
-	
+//	printNodeInfo(node);
+	node.setName("Countermeasure");
 	boolean refresh = parentNode.hasDefault();
     // checkArg(hasNode(parentNode), "parentNode is not in the tree");
     // checkArg(!hasNode(node), "node is already in the tree");

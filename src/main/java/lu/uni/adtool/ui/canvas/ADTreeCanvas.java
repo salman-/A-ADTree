@@ -38,11 +38,9 @@ import lu.uni.adtool.tree.NodeTree;
 import lu.uni.adtool.ui.MainController;
 import lu.uni.adtool.ui.TermView;
 import lu.uni.adtool.ui.TreeDockable;
-
 import java.awt.Color;
-
 import javax.swing.JScrollPane;
-
+import lu.uni.adtool.tree.TreeSchema;
 import org.abego.treelayout.util.DefaultConfiguration;
 
 // if Type is null then it is the canvas with the original tree
@@ -101,10 +99,10 @@ public class ADTreeCanvas<Type> extends AbstractTreeCanvas {
    * @param node
  * @param selectedNodeId 
    */
-  public void addChild(Node node, String selectedNodeId) {
+  public void addChild(Node node, String selectedNodeId,String selectedNodeType) {
     Node child =null;
     addEditAction(new AddChild(node));
- //   Node child = new ADTNode(((ADTNode) node).getType());
+  //  Node child = new ADTNode(((ADTNode) node).getType());
     if(((ADTNode) node).getType().toString().contains("PRO"))                   //Parent attack child attack
         child = new ADTNode(selectedNodeId,((ADTNode) node).getType(),1);
     else                                                                        //Parent Counter child Counter
@@ -112,13 +110,14 @@ public class ADTreeCanvas<Type> extends AbstractTreeCanvas {
     child.setName(this.getNewLabel());
     child.setParent(selectedNodeId);
     tree.addChild(node, child);
+
+    TreeSchema.addChild(TreeSchema.keyMaker(node.getId(), selectedNodeType),child.getId(),selectedNodeType);
     this.notifyAllTreeChanged();
     terms.updateTerms();
   }
   
   public void addChild(Node node) {
 	    addEditAction(new AddChild(node));
-	    System.out.println("It creates an ATTACK node.");
 	    Node child = new ADTNode(((ADTNode) node).getType());
 	    child.setName(this.getNewLabel());
 	    tree.addChild(node, child);
@@ -126,7 +125,7 @@ public class ADTreeCanvas<Type> extends AbstractTreeCanvas {
 	    terms.updateTerms();
 	  }
 
-  public void addCounter(Node parent,String parentId) {
+  public void addCounter(Node parent,String parentId,String selectedNodeType) {
       
     if (((ADTNode) parent).isCountered()) {
       return;
@@ -138,9 +137,13 @@ public class ADTreeCanvas<Type> extends AbstractTreeCanvas {
     }else{                                                           // Parent is countermeasure
         child = new ADTNode(parentId,((ADTNode) parent).getType(),4);
     }    
-    ((ADTNode) child).toggleRole();
-    child.setName(this.getNewLabel());
     tree.addCounter((ADTNode) parent, (ADTNode) child);
+    
+    ((ADTNode) child).toggleRole();
+    child.setName(this.getNewLabel());   
+    String type= (selectedNodeType.contains("PRO")) ? "OPP" : "PRO"; 
+    TreeSchema.addChild(TreeSchema.keyMaker(parent.getId(), selectedNodeType),child.getId(),type);
+   
     this.notifyAllTreeChanged();
     terms.updateTerms();
   }

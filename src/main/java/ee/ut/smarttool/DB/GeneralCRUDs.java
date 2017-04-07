@@ -66,6 +66,13 @@ public class GeneralCRUDs implements CRUD {
 		query=QueryMaker.queryFitter(query, QueryMaker.createArgList(table));
 		return DB.executeQuery(query);
 	}
+        
+     
+	public int deleteParentId(String table,String parent_id) throws Exception {
+		String query="delete  from ? where parent_id=?";
+		query=QueryMaker.queryFitter(query, QueryMaker.createArgList(table,parent_id));
+		return DB.executeQuery(query);
+	}
 
         public void deleteAllRecords() throws Exception{
         String[] query={

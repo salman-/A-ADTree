@@ -54,10 +54,12 @@ import lu.uni.adtool.ui.canvas.ADTCanvasHandler;
 
 public class ADTNode extends GuiNode {
 
+/*    String id;
     
-
-
-
+    public void setId(String id){
+        this.id=id;
+    }
+  */  
   public enum Type {
     AND_OPP, OR_OPP, AND_PRO, OR_PRO
   }
@@ -103,8 +105,8 @@ public class ADTNode extends GuiNode {
     public ADTNode(String selectedNodeId, Type type,int sign) {
         super(selectedNodeId);
         this.type = type;
-        AttackDBService attack=new AttackDBService();
-        CountermeasureDBService counter=new CountermeasureDBService();
+   //     AttackDBService attack=new AttackDBService();
+   //     CountermeasureDBService counter=new CountermeasureDBService();
         
 
       try {
@@ -114,24 +116,25 @@ public class ADTNode extends GuiNode {
                     {
                         System.out.println("parent Attack child Attack");
 
-                        attack.insertAttack(this.getId(),"attack "+getId(), "", "0");
-                        String childId = attack.selectIdFromField("attack", "name", "'"+("attack "+getId())+"'");
-                        AttackTreeDBService tree = new AttackTreeDBService();
-                        tree.insertAttackTree(this.getParent_id(),childId);
-                        
-                        TreeSchema.addChild(TreeSchema.keyMaker(this.getParent_id(), "PRO"),childId,"PRO");
+                //    attack.insertAttack(this.getId(),"attack "+getId(), "", "0");
+                //    String childId = attack.selectIdFromField("attack", "name", "'"+("attack "+getId())+"'");
+                //    AttackTreeDBService tree = new AttackTreeDBService();
+                //    tree.insertAttackTree(this.getParent_id(),childId);
+                    //    String childId = IDGenerator.nextId();
+                    //    TreeSchema.addChild(TreeSchema.keyMaker(this.getParent_id(), "PRO"),childId,"PRO");
                         break;
                     }
             //parent attack child counter
                 case 2:
                     {
                         System.out.println("parent Attack child Counter");
-                        counter.insertCountermeasure(this.getId(),"counter"+getId(), "", "0");
-                        String childId = attack.selectIdFromField("countermeasure", "name", "'"+("counter"+getId())+"'");
-                        AttackCounterTreeDBService tree=new AttackCounterTreeDBService();
-                        tree.insertAttackCountermeaureTree(this.getParent_id(),childId);
-                        
-                        TreeSchema.addChild(TreeSchema.keyMaker(this.getParent_id(), "PRO"),childId,"OPP");
+         //               counter.insertCountermeasure(this.getId(),"counter"+getId(), "", "0");
+         //                 String childId = attack.selectIdFromField("countermeasure", "name", "'"+("counter"+getId())+"'");
+        //                AttackCounterTreeDBService tree=new AttackCounterTreeDBService();
+        //                tree.insertAttackCountermeaureTree(this.getParent_id(),childId);
+                //        String childId = IDGenerator.nextId();
+                      
+                //TreeSchema.addChild(TreeSchema.keyMaker(this.getParent_id(), "PRO"),childId,"OPP");
                      
                         break;
                     }
@@ -139,30 +142,30 @@ public class ADTNode extends GuiNode {
                 case 3:
                     {
                         System.out.println("parent Counter child Counter");
-                        counter.insertCountermeasure(this.getId(),"counter"+getId(), "", "0");
-                        String childId = counter.selectIdFromField("countermeasure", "name", "'"+("counter"+getId())+"'");
-                        CountermeaureTreeDBService tree=new CountermeaureTreeDBService();
-                        tree.insertCountermeaureTree(selectedNodeId, childId);
-                        
-                        TreeSchema.addChild(TreeSchema.keyMaker(this.getParent_id(), "OPP"),childId,"OPP");
+                    //    counter.insertCountermeasure(this.getId(),"counter"+getId(), "", "0");
+                    //    String childId = counter.selectIdFromField("countermeasure", "name", "'"+("counter"+getId())+"'");
+                     //   CountermeaureTreeDBService tree=new CountermeaureTreeDBService();
+                     //   tree.insertCountermeaureTree(selectedNodeId, childId);
+                  //      String childId = IDGenerator.nextId();
+                    //    TreeSchema.addChild(TreeSchema.keyMaker(this.getParent_id(), "OPP"),childId,"OPP");
                         break;
                     }
                 //parent counter child attack
                     case 4:
                     {
                         System.out.println("parent Counter child Attack");
-                        attack.insertAttack(this.getId(),"attack"+getId(), "", "0");
-                        String childId = counter.selectIdFromField("attack", "name", "'"+("attack"+getId())+"'");
-                        CounterAttackTreeDBService tree=new CounterAttackTreeDBService();
-                        tree.insertCountermeaureAttackTree(selectedNodeId, childId);
-                       
-                        TreeSchema.addChild(TreeSchema.keyMaker(this.getParent_id(), "OPP"),childId,"PRO");
+                     //   attack.insertAttack(this.getId(),"attack"+getId(), "", "0");
+                     //   String childId = counter.selectIdFromField("attack", "name", "'"+("attack"+getId())+"'");
+                      //  CounterAttackTreeDBService tree=new CounterAttackTreeDBService();
+                     //   tree.insertCountermeaureAttackTree(selectedNodeId, childId);
+                    //    String childId = IDGenerator.nextId();
+                    //    TreeSchema.addChild(TreeSchema.keyMaker(this.getParent_id(), "OPP"),childId,"PRO");
                         break;
                     }
                     default:
                     {    
                         System.out.println("parent Null child Attack-----------------Root");
-                        attack.insertAttack(this.getId(),"attack"+getId(), "", "0");
+                     //  attack.insertAttack(this.getId(),"attack"+getId(), "", "0");
                         break;
                     }
             }

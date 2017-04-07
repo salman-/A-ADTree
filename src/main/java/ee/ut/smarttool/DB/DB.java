@@ -69,15 +69,15 @@ public class DB
 	}
 
 	private static Map<String, ArrayList<String>> getColumns(ResultSet res) throws Exception {
-    	Map<String, ArrayList<String>> map = new LinkedHashMap<String, ArrayList<String>>();
-    	ResultSetMetaData metaData = res.getMetaData();
-    	int count = metaData.getColumnCount(); //number of column
+            Map<String, ArrayList<String>> map = new LinkedHashMap<String, ArrayList<String>>();
+            ResultSetMetaData metaData = res.getMetaData();
+            int count = metaData.getColumnCount(); //number of column
 
-    	for (int i = 1; i <= count; i++){
-    	//	System.out.println(" |*>"+metaData.getColumnLabel(i));
-    	   map.put(metaData.getColumnLabel(i), new ArrayList<String>());
-    	}
-    	return map;
+            for (int i = 1; i <= count; i++){
+            //	System.out.println(" |*>"+metaData.getColumnLabel(i));
+               map.put(metaData.getColumnLabel(i), new ArrayList<String>());
+            }
+            return map;
 		
 	}
 

@@ -5,13 +5,13 @@
  */
 package lu.uni.adtool.tree;
 
-import static java.lang.System.in;
+import ee.ut.smarttool.DB.AttackDBService;
+import ee.ut.smarttool.DB.CountermeasureDBService;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Queue;
 import java.util.Stack;
 import java.util.TreeMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 /**
@@ -22,7 +22,7 @@ public class TreeSchema {
 
    // public static HashMap<String,ArrayList<SimpleNode>> tree=new HashMap<String,ArrayList<SimpleNode>>();
     
-  static TreeMap<String,ArrayList<SimpleNode>> tree = new TreeMap<String,ArrayList<SimpleNode>>();
+  public static TreeMap<String,ArrayList<SimpleNode>> tree = new TreeMap<String,ArrayList<SimpleNode>>();
 
     public static Stack findChildrenToDelete(SimpleNode parentNode){
         Stack nodesToDelete = new Stack();
@@ -38,18 +38,48 @@ public class TreeSchema {
     }
     
     public static void deleteNode(SimpleNode parentNode){
+      
+      AttackDBService attack=new AttackDBService();
+      CountermeasureDBService counter=new CountermeasureDBService();
       Stack nodes = findChildrenToDelete(parentNode);
-      while(!nodes.isEmpty()){
+      while(nodes.size()>0){
           SimpleNode node =(SimpleNode) nodes.peek();
           
           nodes.pop();
-         // if(nodes.size()==1)
-          //    break;
-          System.out.println("ID is: "+node.getId());
+        
+          System.out.println("ID is: "+node.getId()+" Type: "+node.getType());
+         
+          try {
+             //  int res1=0;
+             //   int res2=0;
+                if(node.getType().contains("PRO")){
+                    
+                    tree.remove(keyMaker(node.getId(), node.getType()));
+               /*   res1= gdb.deleteParentId("'"+"attack-counterTree"+"'",node.getId());
+                  res2= gdb.deleteParentId("'"+"attackTree"+"'",node.getId());
+                }else{  
+                   res1=gdb.deleteParentId("'"+"counter-attackTree"+"'",node.getId());
+                   res2=gdb.deleteParentId("'"+"countermeaureTree"+"'",node.getId());
+               */ }
+           } catch (Exception ex) {
+                  Logger.getLogger(TreeSchema.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+          
       }
       
     }
     
+    public static boolean hasChildren(SimpleNode node){
+        try{
+            String id= keyMaker(node.getId(),node.getType());
+            ArrayList<SimpleNode> children = TreeSchema.tree.get(id);
+            boolean res = (children==null) ? false :true;
+            return res;
+        }catch(Exception e){
+            return false;
+        }
+    }
     
     public static String keyMaker(String id,String type){
         return id+"|"+type;
