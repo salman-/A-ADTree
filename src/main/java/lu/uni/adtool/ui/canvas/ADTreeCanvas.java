@@ -20,6 +20,8 @@
  */
 package lu.uni.adtool.ui.canvas;
 
+import ee.ut.smarttool.DB.AttackDBService;
+import ee.ut.smarttool.DB.CountermeasureDBService;
 import lu.uni.adtool.tools.Options;
 import lu.uni.adtool.tools.undo.AddChild;
 import lu.uni.adtool.tools.undo.AddCounter;
@@ -39,14 +41,23 @@ import lu.uni.adtool.ui.MainController;
 import lu.uni.adtool.ui.TermView;
 import lu.uni.adtool.ui.TreeDockable;
 import java.awt.Color;
+import java.util.ArrayList;
+import java.util.Stack;
+import java.util.TreeMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JScrollPane;
+import lu.uni.adtool.tree.SimpleNode;
 import lu.uni.adtool.tree.TreeSchema;
 import org.abego.treelayout.util.DefaultConfiguration;
 
 // if Type is null then it is the canvas with the original tree
 public class ADTreeCanvas<Type> extends AbstractTreeCanvas {
   public ADTreeCanvas(NodeTree tree, MainController mc) {
+      
     super(tree, mc);
+    if (null == treeSchema)
+        treeSchema = new TreeMap<String,ArrayList<SimpleNode>>();
     this.labelCounter = tree.getLayout().getLabelCounter(LABEL_PREFIX);
     this.listener = new ADTCanvasHandler(this);
     this.addMouseListener(listener);
@@ -67,6 +78,7 @@ public class ADTreeCanvas<Type> extends AbstractTreeCanvas {
    */
   public ADTreeCanvas(NodeTree tree) {
     super(tree);
+    treeSchema = new TreeMap<String,ArrayList<SimpleNode>>();
     this.labelCounter = tree.getLayout().getLabelCounter(LABEL_PREFIX);
     this.configuration =
         new DefaultConfiguration<Node>(Options.canv_gapBetweenLevels, Options.canv_gapBetweenNodes);
@@ -111,7 +123,10 @@ public class ADTreeCanvas<Type> extends AbstractTreeCanvas {
     child.setParent(selectedNodeId);
     tree.addChild(node, child);
 
-    TreeSchema.addChild(TreeSchema.keyMaker(node.getId(), selectedNodeType),child.getId(),selectedNodeType);
+ //   addChild(TreeSchema.keyMaker(node.getId(), selectedNodeType),child.getId(),selectedNodeType);
+     ArrayList<SimpleNode> childrenList= new ArrayList<SimpleNode>();
+     treeSchema.put(keyMaker(child.getId(),selectedNodeType),childrenList);
+     treeSchema.get(keyMaker(node.getId(), selectedNodeType)).add(new SimpleNode(child.getId(),selectedNodeType));
     this.notifyAllTreeChanged();
     terms.updateTerms();
   }
@@ -142,8 +157,12 @@ public class ADTreeCanvas<Type> extends AbstractTreeCanvas {
     ((ADTNode) child).toggleRole();
     child.setName(this.getNewLabel());   
     String type= (selectedNodeType.contains("PRO")) ? "OPP" : "PRO"; 
-    TreeSchema.addChild(TreeSchema.keyMaker(parent.getId(), selectedNodeType),child.getId(),type);
-   
+ //   addChild(TreeSchema.keyMaker(parent.getId(), selectedNodeType),child.getId(),type);
+    
+     ArrayList<SimpleNode> childrenList= new ArrayList<SimpleNode>();
+    treeSchema.put(keyMaker(child.getId(),type),childrenList);
+    treeSchema.get(keyMaker(parent.getId(), selectedNodeType)).add(new SimpleNode(child.getId(),selectedNodeType));
+    
     this.notifyAllTreeChanged();
     terms.updateTerms();
   }
@@ -325,8 +344,91 @@ public class ADTreeCanvas<Type> extends AbstractTreeCanvas {
   protected Color getFillColor(Node node) {
     return Options.canv_FillColorAtt;
   }
+  
+   public static Stack findChildrenToDelete(SimpleNode parentNode){
+        Stack nodesToDelete = new Stack();
+        nodesToDelete.add(parentNode);
+        String key=keyMaker(parentNode.getId(), parentNode.getType());
+        ArrayList<SimpleNode> children=treeSchema.get(key);
+        if(children!=null)
+            for(int i=0;i<children.size();i++){
+                // add recursive children to the result
+                nodesToDelete.addAll(findChildrenToDelete( children.get(i)));
+            }
+        return nodesToDelete;  
+    }
+    
+    public static TreeMap<String, ArrayList<SimpleNode>> deleteNode(TreeMap<String,ArrayList<SimpleNode>> tree,SimpleNode parentNode){
+      
+      AttackDBService attack=new AttackDBService();
+      CountermeasureDBService counter=new CountermeasureDBService();
+      Stack nodes = findChildrenToDelete(parentNode);
+      while(nodes.size()>0){
+          SimpleNode node =(SimpleNode) nodes.peek();
+          
+          nodes.pop();
+        
+          System.out.println("ID is: "+node.getId()+" Type: "+node.getType());
+         
+          try {
+             //  int res1=0;
+             //   int res2=0;
+                if(node.getType().contains("PRO")){
+                    
+                    tree.remove(keyMaker(node.getId(), node.getType()));
+               /*   res1= gdb.deleteParentId("'"+"attack-counterTree"+"'",node.getId());
+                  res2= gdb.deleteParentId("'"+"attackTree"+"'",node.getId());
+                }else{  
+                   res1=gdb.deleteParentId("'"+"counter-attackTree"+"'",node.getId());
+                   res2=gdb.deleteParentId("'"+"countermeaureTree"+"'",node.getId());
+               */ }
+           } catch (Exception ex) {
+                  Logger.getLogger(TreeSchema.class.getName()).log(Level.SEVERE, null, ex);
+            }
 
+          
+      }
+      return tree;
+    }
+    
+    public static boolean hasChildren(SimpleNode node){
+        try{
+            String id= keyMaker(node.getId(),node.getType());
+            ArrayList<SimpleNode> children = treeSchema.get(id);
+            boolean res = (children==null) ? false :true;
+            return res;
+        }catch(Exception e){
+            return false;
+        }
+    }
+    
+    public static String keyMaker(String id,String type){
+        return id+"|"+type;
+    }
+    
+    public static void addChild(String parent,String childId,String nodeType){
+        ArrayList<SimpleNode> childrenList= new ArrayList<SimpleNode>();
+        treeSchema.put(keyMaker(childId,nodeType),childrenList);
+        
+        treeSchema.get(parent).add(new SimpleNode(childId, nodeType));
+       // children.add(new SimpleNode(childId, nodeType)); 
+     //   treeSchema.put(parent,children);
+      
+    }
+    public static void addRoot(SimpleNode parent){
+       // clearTree();
+        String key=keyMaker(parent.getId(),parent.getType());
+        ArrayList<SimpleNode> childrenList= new ArrayList<SimpleNode>();
+        if (null == treeSchema.get(key))
+            treeSchema.put(key, childrenList);  
+        
+    }
 
+    public static void clearTree(){
+        treeSchema.clear();
+    }
+
+  public static TreeMap<String,ArrayList<SimpleNode>> treeSchema;//=new TreeMap<String,ArrayList<SimpleNode>>();
   protected ADTCanvasHandler  listener;
   protected TermView          terms;
   private static final long   serialVersionUID = 6626362203605041529L;

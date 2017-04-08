@@ -102,7 +102,7 @@ public class ADTCanvasHandler extends AbstractCanvasHandler {
           ((ADTreeCanvas<?>) canvas).addCounter(node);
           break;
         case KeyEvent.VK_A:
-          ((ADTreeCanvas<?>) canvas).addChild(node);
+      //    ((ADTreeCanvas<?>) canvas).addChild(node);
           break;
         case KeyEvent.VK_L:
           menuNode = node;
@@ -201,23 +201,24 @@ public class ADTCanvasHandler extends AbstractCanvasHandler {
        // selectedNodeId=IDGenerator.nextId();    
         //   AttackDBService attack=new AttackDBService();
         //   attack.insertAttack(selectedNode.getId(), selectedNode.getName(), selectedNode.getDescription(), "0");
+       
        if(selectedNodeType.contains("PRO"))
-            TreeSchema.addRoot(new SimpleNode( selectedNodeId, "PRO"));
+            ADTreeCanvas.addRoot(new SimpleNode( selectedNodeId, "PRO"));
        else
-            TreeSchema.addRoot(new SimpleNode( selectedNodeId, "OPP"));
+            ADTreeCanvas.addRoot(new SimpleNode( selectedNodeId, "OPP"));
        
   }
    private boolean checkIfNodeRegistered(String selectedNodeId, String selectedNodeType) throws Exception {
-       String res=null; 
+       boolean res=false; 
        if(selectedNodeId.equals(null)){
-           TreeSchema.hasChildren(new SimpleNode(selectedNodeId, selectedNodeType));
+            res= ADTreeCanvas.hasChildren(new SimpleNode(selectedNodeId, selectedNodeType));
        //     AttackDBService attack=new AttackDBService();
        //     res = attack.selectIdFromField("attack", "id", selectedNodeId);
         }else{
        //     CountermeasureDBService attack=new CountermeasureDBService();
        //     res = attack.selectIdFromField("countermeasure", "id", selectedNodeId);
         }
-        return (res!=null);
+        return (res!=false);
     }
 
   @Override
@@ -364,7 +365,7 @@ public class ADTCanvasHandler extends AbstractCanvasHandler {
     assignAnAtomicAction = new JMenuItem(Options.getMsg("handler.assignAnAtomicAction.txt"));
     assignAnAtomicAction.addActionListener(new ActionListener() {
       public void actionPerformed(final ActionEvent evt) {
-          if(!TreeSchema.hasChildren(new SimpleNode(selectedNodeId,selectedNodeType)))
+          if(!TreeSchema.hasChildren(ADTreeCanvas.treeSchema,new SimpleNode(selectedNodeId,selectedNodeType)))
                JOptionPane.showMessageDialog(null, "Only leaves can be atomic acctions.", "Failure",JOptionPane.ERROR_MESSAGE );
           else{
                 if(selectedNodeType.contains("PRO")){
@@ -391,6 +392,7 @@ public class ADTCanvasHandler extends AbstractCanvasHandler {
       public void actionPerformed(final ActionEvent evt) {
         if (menuNode != null) {
           ((ADTreeCanvas<?>) canvas).addChild(menuNode,selectedNodeId,selectedNodeType);
+          
         }
       }
     });
@@ -438,7 +440,7 @@ public class ADTCanvasHandler extends AbstractCanvasHandler {
       public void actionPerformed(final ActionEvent evt) {
         if (menuNode != null) {
             System.out.println("Node to delete is:"+selectedNodeId+" Its type is: "+selectedNodeType);
-                      TreeSchema.deleteNode(new SimpleNode(selectedNodeId, selectedNodeType));
+                      ADTreeCanvas.treeSchema= TreeSchema.deleteNode(ADTreeCanvas.treeSchema,new SimpleNode(selectedNodeId, selectedNodeType));
           ((ADTreeCanvas<?>) canvas).removeTree(menuNode);
         }
       }

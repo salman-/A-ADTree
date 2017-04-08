@@ -22,9 +22,9 @@ public class TreeSchema {
 
    // public static HashMap<String,ArrayList<SimpleNode>> tree=new HashMap<String,ArrayList<SimpleNode>>();
     
-  public static TreeMap<String,ArrayList<SimpleNode>> tree = new TreeMap<String,ArrayList<SimpleNode>>();
+ // public static TreeMap<String,ArrayList<SimpleNode>> tree = new TreeMap<String,ArrayList<SimpleNode>>();
 
-    public static Stack findChildrenToDelete(SimpleNode parentNode){
+    public static Stack findChildrenToDelete(TreeMap<String,ArrayList<SimpleNode>> tree,SimpleNode parentNode){
         Stack nodesToDelete = new Stack();
         nodesToDelete.add(parentNode);
         String key=keyMaker(parentNode.getId(), parentNode.getType());
@@ -32,16 +32,16 @@ public class TreeSchema {
         if(children!=null)
             for(int i=0;i<children.size();i++){
                 // add recursive children to the result
-                nodesToDelete.addAll(findChildrenToDelete(children.get(i)));
+                nodesToDelete.addAll(findChildrenToDelete( tree,children.get(i)));
             }
         return nodesToDelete;  
     }
     
-    public static void deleteNode(SimpleNode parentNode){
+    public static TreeMap<String, ArrayList<SimpleNode>> deleteNode(TreeMap<String,ArrayList<SimpleNode>> tree,SimpleNode parentNode){
       
       AttackDBService attack=new AttackDBService();
       CountermeasureDBService counter=new CountermeasureDBService();
-      Stack nodes = findChildrenToDelete(parentNode);
+      Stack nodes = findChildrenToDelete(tree,parentNode);
       while(nodes.size()>0){
           SimpleNode node =(SimpleNode) nodes.peek();
           
@@ -67,13 +67,13 @@ public class TreeSchema {
 
           
       }
-      
+      return tree;
     }
     
-    public static boolean hasChildren(SimpleNode node){
+    public static boolean hasChildren(TreeMap<String,ArrayList<SimpleNode>> tree,SimpleNode node){
         try{
             String id= keyMaker(node.getId(),node.getType());
-            ArrayList<SimpleNode> children = TreeSchema.tree.get(id);
+            ArrayList<SimpleNode> children = tree.get(id);
             boolean res = (children==null) ? false :true;
             return res;
         }catch(Exception e){
@@ -85,21 +85,26 @@ public class TreeSchema {
         return id+"|"+type;
     }
     
-    public static void addChild(String parent,String childId,String nodeType){
-        tree.put(keyMaker(childId,nodeType), null);
+    /*public static TreeMap<String, ArrayList<SimpleNode>> addChild(TreeMap<String,ArrayList<SimpleNode>> tree,String parent,String childId,String nodeType){
+        ArrayList<SimpleNode> childrenList= new ArrayList<SimpleNode>();
+        tree.put(keyMaker(childId,nodeType),childrenList);
+        
+      //  if(children==null)
+      //      children=new ArrayList<SimpleNode>();
         ArrayList<SimpleNode> children = tree.get(parent);
-        if(children==null)
-            children=new ArrayList<SimpleNode>();
         children.add(new SimpleNode(childId, nodeType)); 
         tree.put(parent,children);
-      //  printTree();
-    }
-    public static void addRoot(SimpleNode parent){
+       return tree;
+    }*/
+    public static TreeMap<String, ArrayList<SimpleNode>> addRoot(TreeMap<String,ArrayList<SimpleNode>> tree,SimpleNode parent){
+        
         String key=keyMaker(parent.getId(),parent.getType());
-        tree.put(key, null);  
+        ArrayList<SimpleNode> childrenList= new ArrayList<SimpleNode>();
+        tree.put(key, childrenList);  
+        return tree;
     }
     
-     public static void printTree(){
+     public static void printTree(TreeMap<String,ArrayList<SimpleNode>> tree){
         for (String key : tree.keySet()) {
                 System.out.println("Parent is: "+key);
                 
