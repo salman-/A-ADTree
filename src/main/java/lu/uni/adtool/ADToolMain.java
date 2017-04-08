@@ -181,8 +181,8 @@ public final class ADToolMain extends JFrame {
   }
 
   public static void main(String[] args) throws Exception {
-    GeneralCRUDs gDB=new GeneralCRUDs();
-    gDB.deleteAllRecords();
+   // GeneralCRUDs gDB=new GeneralCRUDs();
+   // gDB.deleteAllRecords();
     Clo clo = new Clo();
     if (clo.parse(args)) {
       

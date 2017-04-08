@@ -55,7 +55,7 @@ import lu.uni.adtool.tree.ADTNode;
 import lu.uni.adtool.tree.GuiNode;
 import lu.uni.adtool.tree.Node;
 import lu.uni.adtool.tree.SimpleNode;
-import lu.uni.adtool.tree.TreeSchema;
+
 
 /**
  * A handler for ADTreeCanvas.
@@ -64,7 +64,7 @@ import lu.uni.adtool.tree.TreeSchema;
  */
 public class ADTCanvasHandler extends AbstractCanvasHandler {
 
-    private String selectedNodeParentId;
+    
 /*
 * Constructs a new instance.
 *
@@ -365,17 +365,19 @@ public class ADTCanvasHandler extends AbstractCanvasHandler {
     assignAnAtomicAction = new JMenuItem(Options.getMsg("handler.assignAnAtomicAction.txt"));
     assignAnAtomicAction.addActionListener(new ActionListener() {
       public void actionPerformed(final ActionEvent evt) {
-          if(!TreeSchema.hasChildren(ADTreeCanvas.treeSchema,new SimpleNode(selectedNodeId,selectedNodeType)))
+          if(ADTreeCanvas.hasChildren(new SimpleNode(selectedNodeId,selectedNodeType)))
                JOptionPane.showMessageDialog(null, "Only leaves can be atomic acctions.", "Failure",JOptionPane.ERROR_MESSAGE );
           else{
                 if(selectedNodeType.contains("PRO")){
-
-                    new AssignnAnAtomicAttack().setVisible(true);
+                    AssignnAnAtomicAttack atomicAttack= new AssignnAnAtomicAttack();
+                    atomicAttack.setVisible(true);
+                  //  String id = atomicAttack.getSelectedAction();
+                    System.out.println("Selected Atomic Attack Id is:"+atomicActionId);
+                    atomicActionId=null;
                 }else{
                     new AssignAnAtomicCountermeasure().setVisible(true);
                 }
                 if (menuNode != null) {
-
                         ((ADTreeCanvas<?>) canvas).toggleOp(menuNode);
                 }
           }
@@ -440,7 +442,7 @@ public class ADTCanvasHandler extends AbstractCanvasHandler {
       public void actionPerformed(final ActionEvent evt) {
         if (menuNode != null) {
             System.out.println("Node to delete is:"+selectedNodeId+" Its type is: "+selectedNodeType);
-                      ADTreeCanvas.treeSchema= TreeSchema.deleteNode(ADTreeCanvas.treeSchema,new SimpleNode(selectedNodeId, selectedNodeType));
+             ADTreeCanvas.deleteNode(new SimpleNode(selectedNodeId, selectedNodeType));
           ((ADTreeCanvas<?>) canvas).removeTree(menuNode);
         }
       }
@@ -501,8 +503,6 @@ public class ADTCanvasHandler extends AbstractCanvasHandler {
   private JMenuItem assignAnAtomicAction;
   private JMenuItem properties;
   private JMenuItem editNode;
-  
-
   private JMenuItem toggleAboveFold;
   private JMenuItem toggleFold;
   private JMenuItem addCounter;
@@ -519,18 +519,18 @@ public class ADTCanvasHandler extends AbstractCanvasHandler {
    
   private final AttackDBService attackDBService;
   private final  CountermeasureDBService counterDBService;
-  
+  private String selectedNodeParentId; 
   private boolean hasChildren;  
   private String selectedNodeType;
   private String selectedNodeId;
   private String selectedNodeOperation;
   private boolean isSelectedNodeAllowedToBeAtomic;
-  
+  public static String atomicActionId=null;
   public static ADTNode selectedNode;
   
   // private Point2D dragStart;
   // private boolean dragScroll;
-
+/*
     private boolean hasChildren(String selectedNodeId, String selectedNodeType) throws Exception {
         String childId=null;
         boolean res=false;
@@ -546,6 +546,6 @@ public class ADTCanvasHandler extends AbstractCanvasHandler {
         res=(childId==null);
         return res;
     }
-
+*/
 
 }

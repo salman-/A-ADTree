@@ -18,17 +18,18 @@ import java.util.logging.Logger;
  *
  * @author Salman
  */
+/*
 public class TreeSchema {
 
    // public static HashMap<String,ArrayList<SimpleNode>> tree=new HashMap<String,ArrayList<SimpleNode>>();
     
  // public static TreeMap<String,ArrayList<SimpleNode>> tree = new TreeMap<String,ArrayList<SimpleNode>>();
 
-    public static Stack findChildrenToDelete(TreeMap<String,ArrayList<SimpleNode>> tree,SimpleNode parentNode){
+    public static Stack findChildrenToDelete(SimpleNode parentNode){
         Stack nodesToDelete = new Stack();
         nodesToDelete.add(parentNode);
         String key=keyMaker(parentNode.getId(), parentNode.getType());
-        ArrayList<SimpleNode> children=tree.get(key);
+        ArrayList<SimpleNode> children=treeS.get(key);
         if(children!=null)
             for(int i=0;i<children.size();i++){
                 // add recursive children to the result
@@ -37,11 +38,11 @@ public class TreeSchema {
         return nodesToDelete;  
     }
     
-    public static TreeMap<String, ArrayList<SimpleNode>> deleteNode(TreeMap<String,ArrayList<SimpleNode>> tree,SimpleNode parentNode){
+    public static TreeMap<String, ArrayList<SimpleNode>> deleteNode(SimpleNode parentNode){
       
       AttackDBService attack=new AttackDBService();
       CountermeasureDBService counter=new CountermeasureDBService();
-      Stack nodes = findChildrenToDelete(tree,parentNode);
+      Stack nodes = findChildrenToDelete(parentNode);
       while(nodes.size()>0){
           SimpleNode node =(SimpleNode) nodes.peek();
           
@@ -55,12 +56,7 @@ public class TreeSchema {
                 if(node.getType().contains("PRO")){
                     
                     tree.remove(keyMaker(node.getId(), node.getType()));
-               /*   res1= gdb.deleteParentId("'"+"attack-counterTree"+"'",node.getId());
-                  res2= gdb.deleteParentId("'"+"attackTree"+"'",node.getId());
-                }else{  
-                   res1=gdb.deleteParentId("'"+"counter-attackTree"+"'",node.getId());
-                   res2=gdb.deleteParentId("'"+"countermeaureTree"+"'",node.getId());
-               */ }
+                }
            } catch (Exception ex) {
                   Logger.getLogger(TreeSchema.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -85,7 +81,7 @@ public class TreeSchema {
         return id+"|"+type;
     }
     
-    /*public static TreeMap<String, ArrayList<SimpleNode>> addChild(TreeMap<String,ArrayList<SimpleNode>> tree,String parent,String childId,String nodeType){
+    public static TreeMap<String, ArrayList<SimpleNode>> addChild(TreeMap<String,ArrayList<SimpleNode>> tree,String parent,String childId,String nodeType){
         ArrayList<SimpleNode> childrenList= new ArrayList<SimpleNode>();
         tree.put(keyMaker(childId,nodeType),childrenList);
         
@@ -95,7 +91,7 @@ public class TreeSchema {
         children.add(new SimpleNode(childId, nodeType)); 
         tree.put(parent,children);
        return tree;
-    }*/
+    }
     public static TreeMap<String, ArrayList<SimpleNode>> addRoot(TreeMap<String,ArrayList<SimpleNode>> tree,SimpleNode parent){
         
         String key=keyMaker(parent.getId(),parent.getType());
@@ -111,4 +107,4 @@ public class TreeSchema {
         }
     }
     
-}
+}*/

@@ -99,7 +99,7 @@ import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfWriter;
-import lu.uni.adtool.tree.TreeSchema;
+
 
 public abstract class AbstractTreeCanvas extends JPanel
     implements Scrollable, TreeChangeListener, Printable, Pageable {

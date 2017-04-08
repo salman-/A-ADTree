@@ -48,7 +48,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JScrollPane;
 import lu.uni.adtool.tree.SimpleNode;
-import lu.uni.adtool.tree.TreeSchema;
 import org.abego.treelayout.util.DefaultConfiguration;
 
 // if Type is null then it is the canvas with the original tree
@@ -302,6 +301,7 @@ public class ADTreeCanvas<Type> extends AbstractTreeCanvas {
   public void setRoot(ADTNode root) { // TODO - update all listeners etc
     this.addEditAction(new FromTermsTree(this.tree.getRoot(true)));
     this.tree.setRoot(root);
+    
     this.notifyAllTreeChanged();
     this.terms.updateTerms();
     // this.
@@ -358,7 +358,7 @@ public class ADTreeCanvas<Type> extends AbstractTreeCanvas {
         return nodesToDelete;  
     }
     
-    public static TreeMap<String, ArrayList<SimpleNode>> deleteNode(TreeMap<String,ArrayList<SimpleNode>> tree,SimpleNode parentNode){
+    public static TreeMap<String, ArrayList<SimpleNode>> deleteNode(SimpleNode parentNode){
       
       AttackDBService attack=new AttackDBService();
       CountermeasureDBService counter=new CountermeasureDBService();
@@ -368,34 +368,25 @@ public class ADTreeCanvas<Type> extends AbstractTreeCanvas {
           
           nodes.pop();
         
-          System.out.println("ID is: "+node.getId()+" Type: "+node.getType());
+          System.out.println("To DELETE ID is: "+node.getId()+" Type: "+node.getType());
          
           try {
-             //  int res1=0;
-             //   int res2=0;
                 if(node.getType().contains("PRO")){
                     
-                    tree.remove(keyMaker(node.getId(), node.getType()));
-               /*   res1= gdb.deleteParentId("'"+"attack-counterTree"+"'",node.getId());
-                  res2= gdb.deleteParentId("'"+"attackTree"+"'",node.getId());
-                }else{  
-                   res1=gdb.deleteParentId("'"+"counter-attackTree"+"'",node.getId());
-                   res2=gdb.deleteParentId("'"+"countermeaureTree"+"'",node.getId());
-               */ }
+                    treeSchema.remove(keyMaker(node.getId(), node.getType()));
+                }
            } catch (Exception ex) {
-                  Logger.getLogger(TreeSchema.class.getName()).log(Level.SEVERE, null, ex);
+                  Logger.getLogger(ADTreeCanvas.class.getName()).log(Level.SEVERE, null, ex);
             }
-
-          
       }
-      return tree;
+      return treeSchema;
     }
     
     public static boolean hasChildren(SimpleNode node){
         try{
             String id= keyMaker(node.getId(),node.getType());
             ArrayList<SimpleNode> children = treeSchema.get(id);
-            boolean res = (children==null) ? false :true;
+            boolean res = (children.size()==0) ? false :true;
             return res;
         }catch(Exception e){
             return false;
@@ -411,8 +402,7 @@ public class ADTreeCanvas<Type> extends AbstractTreeCanvas {
         treeSchema.put(keyMaker(childId,nodeType),childrenList);
         
         treeSchema.get(parent).add(new SimpleNode(childId, nodeType));
-       // children.add(new SimpleNode(childId, nodeType)); 
-     //   treeSchema.put(parent,children);
+
       
     }
     public static void addRoot(SimpleNode parent){

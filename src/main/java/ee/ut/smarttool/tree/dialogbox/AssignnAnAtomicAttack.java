@@ -10,13 +10,14 @@ import ee.ut.smartadtool.ui.AtomicAttack;
 import ee.ut.smarttool.DB.AttackDBService;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import lu.uni.adtool.ui.canvas.ADTCanvasHandler;
 
 /**
  *
  * @author Salman
  */
 public class AssignnAnAtomicAttack extends javax.swing.JFrame {
-
+    String  selectedId;
     private final AttackDBService attackDBService;
 
     /**
@@ -129,9 +130,14 @@ public class AssignnAnAtomicAttack extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        
+            selectedId=jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString();
+            ADTCanvasHandler.atomicActionId=selectedId;
+            this.dispose();
     }//GEN-LAST:event_jButton3ActionPerformed
 
+    public String getSelectedAction(){
+        return selectedId;
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton3;
     private javax.swing.JPanel jPanel2;
