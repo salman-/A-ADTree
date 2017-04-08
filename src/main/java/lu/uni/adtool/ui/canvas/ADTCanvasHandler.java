@@ -46,10 +46,13 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
+import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
+import javax.swing.table.TableModel;
 import lu.uni.adtool.tools.Options;
 import lu.uni.adtool.tree.ADTNode;
 import lu.uni.adtool.tree.GuiNode;
@@ -307,6 +310,16 @@ public class ADTCanvasHandler extends AbstractCanvasHandler {
    * Initialise context menu.
    *
    */
+  
+  private  void printSelection(ListSelectionModel selectionModel, TableModel tableModel) {
+    for (int i = selectionModel.getMinSelectionIndex(); i <= selectionModel.getMaxSelectionIndex(); i++) {
+        if (selectionModel.isSelectedIndex(i)) {
+            Object selectedValue = tableModel.getValueAt(i, 0);
+            System.out.println(selectedValue);
+        }
+    }
+  } 
+    
   private void initPopupMenu() {
     this.pmenu = new JPopupMenu();
     menuNode = null;
@@ -369,13 +382,31 @@ public class ADTCanvasHandler extends AbstractCanvasHandler {
                JOptionPane.showMessageDialog(null, "Only leaves can be atomic acctions.", "Failure",JOptionPane.ERROR_MESSAGE );
           else{
                 if(selectedNodeType.contains("PRO")){
-                    AssignnAnAtomicAttack atomicAttack= new AssignnAnAtomicAttack();
-                    atomicAttack.setVisible(true);
-                  //  String id = atomicAttack.getSelectedAction();
-                    System.out.println("Selected Atomic Attack Id is:"+atomicActionId);
-                    atomicActionId=null;
+                        AssignnAnAtomicAttack atomicAttack= new AssignnAnAtomicAttack();
+                        JPanel p = atomicAttack.getPanel();  
+                        JTable table = atomicAttack.getTable();
+                        TableModel tableModel = table.getModel();
+                        ListSelectionModel selectionModel = table.getSelectionModel();
+
+                        int option = JOptionPane.showConfirmDialog(null, p, "Atomic Attacks", JOptionPane.OK_CANCEL_OPTION,JOptionPane.INFORMATION_MESSAGE);
+                        if (JOptionPane.OK_OPTION == option) {
+                            printSelection(selectionModel, tableModel);
+                        } else {
+                            selectionModel.clearSelection();
+                        }    
                 }else{
-                    new AssignAnAtomicCountermeasure().setVisible(true);
+                       AssignAnAtomicCountermeasure counter= new AssignAnAtomicCountermeasure();
+                        JPanel p = counter.getPanel();  
+                        JTable table = counter.getTable();
+                        TableModel tableModel = table.getModel();
+                        ListSelectionModel selectionModel = table.getSelectionModel();
+
+                        int option = JOptionPane.showConfirmDialog(null, p, "Atomic Countermeasures", JOptionPane.OK_CANCEL_OPTION,JOptionPane.INFORMATION_MESSAGE);
+                        if (JOptionPane.OK_OPTION == option) {
+                            printSelection(selectionModel, tableModel);
+                        } else {
+                            selectionModel.clearSelection();
+                        }
                 }
                 if (menuNode != null) {
                         ((ADTreeCanvas<?>) canvas).toggleOp(menuNode);
@@ -383,6 +414,10 @@ public class ADTCanvasHandler extends AbstractCanvasHandler {
           }
       }
     });
+    
+    
+    
+    
     pmenu.add(assignAnAtomicAction);
     
     
@@ -525,7 +560,6 @@ public class ADTCanvasHandler extends AbstractCanvasHandler {
   private String selectedNodeId;
   private String selectedNodeOperation;
   private boolean isSelectedNodeAllowedToBeAtomic;
-  public static String atomicActionId=null;
   public static ADTNode selectedNode;
   
   // private Point2D dragStart;
