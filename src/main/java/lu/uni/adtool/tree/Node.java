@@ -31,7 +31,7 @@ public abstract class Node implements Serializable{
   public Node()  {
 
     this.id=IDGenerator.nextId();
-    this.name = "root";
+    this.name = "     Main Attacker Goal     ";
     this.parent = null;
  
     this.operation="And";

@@ -343,11 +343,11 @@ public class ADTCanvasHandler extends AbstractCanvasHandler {
                     try {
                         selectedNode.setName(name.getText());
                         System.out.println("Submit is press Name"+name.getText()+"  "+description.getText());
-                        if(selectedNodeType.equals("PRO"))
+  /*                      if(selectedNodeType.equals("PRO"))
                             attackDBService.updateAttack(selectedNodeId,name.getText(), description.getText());
                         else
                             counterDBService.updateCountermeasure(selectedNodeId,name.getText(), description.getText());
-
+*/
                     } catch (Exception ex) {
                         Logger.getLogger(ADTCanvasHandler.class.getName()).log(Level.SEVERE, null, ex);
                     }

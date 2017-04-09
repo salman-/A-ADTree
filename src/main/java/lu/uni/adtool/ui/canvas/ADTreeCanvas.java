@@ -532,9 +532,13 @@ public class ADTreeCanvas<Type> extends AbstractTreeCanvas {
             sum=sum+Integer.parseInt( cost );
             node.setCost(Integer.toString(sum));
             
+            
             String probability= computeProperties(children.get(i)).getProbability();
             probability = (probability.contains("?")) ? "0": probability;
-            finalPro= finalPro*((Double.parseDouble(probability))/100);
+            if(children.get(i).getType().contains("PRO"))
+              finalPro= finalPro*((Double.parseDouble(probability))/100);
+            else
+              finalPro= finalPro*((100-Double.parseDouble(probability))/100);
             node.setProbability(Double.toString(finalPro));
         }
       else

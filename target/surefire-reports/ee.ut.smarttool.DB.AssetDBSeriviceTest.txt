@@ -1,13 +1,11 @@
 -------------------------------------------------------------------------------
 Test set: ee.ut.smarttool.DB.AssetDBSeriviceTest
 -------------------------------------------------------------------------------
-Tests run: 2, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.02 sec <<< FAILURE!
-testUpdateAsset(ee.ut.smarttool.DB.AssetDBSeriviceTest)  Time elapsed: 0.002 sec  <<< FAILURE!
-java.lang.AssertionError: expected:<1> but was:<0>
-	at org.junit.Assert.fail(Assert.java:88)
-	at org.junit.Assert.failNotEquals(Assert.java:834)
-	at org.junit.Assert.assertEquals(Assert.java:645)
-	at org.junit.Assert.assertEquals(Assert.java:631)
+Tests run: 2, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.001 sec <<< FAILURE!
+testUpdateAsset(ee.ut.smarttool.DB.AssetDBSeriviceTest)  Time elapsed: 0 sec  <<< ERROR!
+java.lang.NullPointerException
+	at ee.ut.smarttool.DB.DB.executeQuery(DB.java:38)
+	at ee.ut.smarttool.DB.AssetDBSerivice.updateAsset(AssetDBSerivice.java:12)
 	at ee.ut.smarttool.DB.AssetDBSeriviceTest.testUpdateAsset(AssetDBSeriviceTest.java:32)
 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
