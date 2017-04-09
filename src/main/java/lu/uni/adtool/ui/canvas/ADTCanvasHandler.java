@@ -29,6 +29,7 @@ import ee.ut.smarttool.DB.CountermeaureTreeDBService;
 import ee.ut.smarttool.DB.IDGenerator;
 import ee.ut.smarttool.tree.dialogbox.AssignAnAtomicCountermeasure;
 import ee.ut.smarttool.tree.dialogbox.AssignnAnAtomicAttack;
+import ee.ut.smarttool.tree.dialogbox.Properties;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -109,7 +110,7 @@ public class ADTCanvasHandler extends AbstractCanvasHandler {
           break;
         case KeyEvent.VK_L:
           menuNode = node;
-          changeLabelActionPerformed();
+     //     changeLabelActionPerformed();
           break;
         case KeyEvent.VK_R:
           ((ADTreeCanvas<?>) canvas).removeTree(node);
@@ -154,7 +155,7 @@ public class ADTCanvasHandler extends AbstractCanvasHandler {
       case KeyEvent.VK_ENTER:
         if (node != null) {
           menuNode = node;
-          changeLabelActionPerformed();
+   //       changeLabelActionPerformed();
           canvas.setFocus(menuNode);
         }
         break;
@@ -180,7 +181,6 @@ public class ADTCanvasHandler extends AbstractCanvasHandler {
    */
   public void getNodeType(final MouseEvent e) throws Exception{
 	  try{ 
-
 		 selectedNode=  (ADTNode) this.canvas.getNode(e.getX(), e.getY());
 		 String[] res = selectedNode.getType().toString().split("_"); 
 		 selectedNodeOperation = res[0];
@@ -195,7 +195,7 @@ public class ADTCanvasHandler extends AbstractCanvasHandler {
           
 	//	 hasChildren=  (selectedNode.getChildren().size()>0) ? true :false;
 	  }catch(Exception e1){
-                   isSelectedNodeAllowedToBeAtomic=true;
+
 		  System.out.println("Failed to get the ADTree Node"+e1.getMessage());
 	  }
   }
@@ -240,7 +240,7 @@ public class ADTCanvasHandler extends AbstractCanvasHandler {
       else {
         if (node.equals(canvas.getFocused())) {
           menuNode = node;
-          changeLabelActionPerformed();
+         // changeLabelActionPerformed();
           // canvas.toggleExpandNode(node);
           // this.canvas.repaint();
         }
@@ -311,14 +311,7 @@ public class ADTCanvasHandler extends AbstractCanvasHandler {
    *
    */
   
-  private  void printSelection(ListSelectionModel selectionModel, TableModel tableModel) {
-    for (int i = selectionModel.getMinSelectionIndex(); i <= selectionModel.getMaxSelectionIndex(); i++) {
-        if (selectionModel.isSelectedIndex(i)) {
-            Object selectedValue = tableModel.getValueAt(i, 0);
-            System.out.println(selectedValue);
-        }
-    }
-  } 
+
     
   private void initPopupMenu() {
     this.pmenu = new JPopupMenu();
@@ -370,7 +363,8 @@ public class ADTCanvasHandler extends AbstractCanvasHandler {
     
     properties.addActionListener(new ActionListener() {
       public void actionPerformed(final ActionEvent evt) {
-     //   new Properties().setVisible(true);
+         SimpleNode node= ((ADTreeCanvas<?>) canvas).computeProperties(new SimpleNode(selectedNodeId,selectedNodeType));
+        new Properties(selectedNodeType,node.getCost(),node.getProbability()).setVisible(true);
       }
     });
     pmenu.add(properties);
@@ -381,43 +375,14 @@ public class ADTCanvasHandler extends AbstractCanvasHandler {
           if(ADTreeCanvas.hasChildren(new SimpleNode(selectedNodeId,selectedNodeType)))
                JOptionPane.showMessageDialog(null, "Only leaves can be atomic acctions.", "Failure",JOptionPane.ERROR_MESSAGE );
           else{
-                if(selectedNodeType.contains("PRO")){
-                        AssignnAnAtomicAttack atomicAttack= new AssignnAnAtomicAttack();
-                        JPanel p = atomicAttack.getPanel();  
-                        JTable table = atomicAttack.getTable();
-                        TableModel tableModel = table.getModel();
-                        ListSelectionModel selectionModel = table.getSelectionModel();
+                    ((ADTreeCanvas<?>) canvas).assignToAnAtomicAction(selectedNodeId,selectedNodeType);
 
-                        int option = JOptionPane.showConfirmDialog(null, p, "Atomic Attacks", JOptionPane.OK_CANCEL_OPTION,JOptionPane.INFORMATION_MESSAGE);
-                        if (JOptionPane.OK_OPTION == option) {
-                            printSelection(selectionModel, tableModel);
-                        } else {
-                            selectionModel.clearSelection();
-                        }    
-                }else{
-                       AssignAnAtomicCountermeasure counter= new AssignAnAtomicCountermeasure();
-                        JPanel p = counter.getPanel();  
-                        JTable table = counter.getTable();
-                        TableModel tableModel = table.getModel();
-                        ListSelectionModel selectionModel = table.getSelectionModel();
-
-                        int option = JOptionPane.showConfirmDialog(null, p, "Atomic Countermeasures", JOptionPane.OK_CANCEL_OPTION,JOptionPane.INFORMATION_MESSAGE);
-                        if (JOptionPane.OK_OPTION == option) {
-                            printSelection(selectionModel, tableModel);
-                        } else {
-                            selectionModel.clearSelection();
-                        }
-                }
-                if (menuNode != null) {
-                        ((ADTreeCanvas<?>) canvas).toggleOp(menuNode);
-                }
-          }
-      }
-    });
-    
-    
-    
-    
+                    if (menuNode != null) {
+                            ((ADTreeCanvas<?>) canvas).toggleOp(menuNode);
+                    }
+              }
+           }
+      });
     pmenu.add(assignAnAtomicAction);
     
     
@@ -531,10 +496,10 @@ public class ADTCanvasHandler extends AbstractCanvasHandler {
    * Displays a dialog to change the label of the node
    *
    */
-  private void changeLabelActionPerformed() {
-	 // new Properties().setVisible(true);
+ /* private void changeLabelActionPerformed() {
+	//  new Properties().setVisible(true);
   }
-
+*/
   private JMenuItem assignAnAtomicAction;
   private JMenuItem properties;
   private JMenuItem editNode;
@@ -555,11 +520,9 @@ public class ADTCanvasHandler extends AbstractCanvasHandler {
   private final AttackDBService attackDBService;
   private final  CountermeasureDBService counterDBService;
   private String selectedNodeParentId; 
-  private boolean hasChildren;  
   private String selectedNodeType;
   private String selectedNodeId;
   private String selectedNodeOperation;
-  private boolean isSelectedNodeAllowedToBeAtomic;
   public static ADTNode selectedNode;
   
   // private Point2D dragStart;

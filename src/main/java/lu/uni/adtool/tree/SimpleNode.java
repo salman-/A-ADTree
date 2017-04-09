@@ -14,9 +14,10 @@ public class SimpleNode {
     String type;
     boolean isAtomic;
     String atomicId;
-    double probability;
-    double cost;
+    String probability;
+    String cost;
 
+    
     public boolean isIsAtomic() {
         return isAtomic;
     }
@@ -25,11 +26,11 @@ public class SimpleNode {
         return atomicId;
     }
 
-    public double getProbability() {
+    public String getProbability() {
         return probability;
     }
 
-    public double getCost() {
+    public String getCost() {
         return cost;
     }
 
@@ -41,11 +42,11 @@ public class SimpleNode {
         this.atomicId = atomicId;
     }
 
-    public void setProbability(double probability) {
+    public void setProbability(String probability) {
         this.probability = probability;
     }
 
-    public void setCost(double cost) {
+    public void setCost(String cost) {
         this.cost = cost;
     }
     
@@ -57,6 +58,9 @@ public class SimpleNode {
     public SimpleNode(String id,String type){
         this.id=id;
         this.type=type;
+        atomicId="?";
+        probability="?";
+        cost="?";
     }
 
     public String getId() {

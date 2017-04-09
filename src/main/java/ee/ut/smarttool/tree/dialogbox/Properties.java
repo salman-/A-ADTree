@@ -14,8 +14,12 @@ public class Properties extends javax.swing.JFrame {
     /**
      * Creates new form Properties
      */
-    public Properties() {
+    public Properties(String type,String cost,String pro) {
         initComponents();
+        type= (type.contains("PRO")) ? "Attack Node" : "Countermeasure Node";
+        typeLabel.setText(type);
+        proLabel.setText(pro+"%");
+        costLabel.setText(cost+" €");
     }
 
     /**
@@ -32,21 +36,21 @@ public class Properties extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         costLabel = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
+        typeLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jLabel1.setText("Probability of success");
 
-        proLabel.setText("jLabel2");
+        proLabel.setText("?");
 
         jLabel2.setText("Cost of Action");
 
-        costLabel.setText("jLabel3");
+        costLabel.setText("?");
 
         jLabel3.setText("Type");
 
-        jLabel4.setText("jLabel4");
+        typeLabel.setText("?");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -61,11 +65,11 @@ public class Properties extends javax.swing.JFrame {
                             .addComponent(jLabel1)
                             .addComponent(jLabel2))
                         .addGap(73, 73, 73)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(costLabel)
-                            .addComponent(proLabel)
-                            .addComponent(jLabel4))))
-                .addContainerGap(133, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(typeLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 78, Short.MAX_VALUE)
+                            .addComponent(proLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(costLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addContainerGap(89, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -73,7 +77,7 @@ public class Properties extends javax.swing.JFrame {
                 .addContainerGap(56, Short.MAX_VALUE)
                 .addComponent(jLabel3)
                 .addGap(3, 3, 3)
-                .addComponent(jLabel4)
+                .addComponent(typeLabel)
                 .addGap(37, 37, 37)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
@@ -93,7 +97,7 @@ public class Properties extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel proLabel;
+    private javax.swing.JLabel typeLabel;
     // End of variables declaration//GEN-END:variables
 }
