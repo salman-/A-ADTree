@@ -170,8 +170,8 @@ public class ADTreeCanvas<Type> extends AbstractTreeCanvas {
     
      ArrayList<SimpleNode> childrenList= new ArrayList<SimpleNode>();
     treeSchema.put(keyMaker(child.getId(),type),childrenList);
-    treeSchema.get(keyMaker(child.getId(), type)).add(new SimpleNode(child.getId(),selectedNodeType));  //Every node has its own information
-    treeSchema.get(keyMaker(parent.getId(), selectedNodeType)).add(new SimpleNode(child.getId(),selectedNodeType));
+    treeSchema.get(keyMaker(child.getId(), type)).add(new SimpleNode(child.getId(),type));  //Every node has its own information
+    treeSchema.get(keyMaker(parent.getId(), selectedNodeType)).add(new SimpleNode(child.getId(),type));
     
     this.notifyAllTreeChanged();
     terms.updateTerms();
@@ -396,7 +396,7 @@ public class ADTreeCanvas<Type> extends AbstractTreeCanvas {
         try{
             String id= keyMaker(node.getId(),node.getType());
             ArrayList<SimpleNode> children = treeSchema.get(id);
-            boolean res = (children.size()==1) ? false :true;
+            boolean res = (children.size()>1);
             return res;
         }catch(Exception e){
             return false;
@@ -427,29 +427,38 @@ public class ADTreeCanvas<Type> extends AbstractTreeCanvas {
         treeSchema.clear();
     }
 
-    public static void findChildNodeInTree(String nodeId,String attomicActionId){
-        for (String key : treeSchema.keySet()) {                                //Brute force search to find the selected node in treeSchema
-            ArrayList<SimpleNode> children = treeSchema.get(key);
-            for(int i=0;i<children.size();i++) 
-                if(children.get(i).getId().equals(nodeId)){
-                    System.out.println("The Parent of ASSIGNED leaf node is: "+key); 
-                    String probabilityAndCost= getActionFromDB(key/*,children.get(i).getId()*/,attomicActionId); 
-                    String [] res= probabilityAndCost.split("\\|");
-                    children.get(i).setAtomicId(attomicActionId);
-                    children.get(i).setCost(res[0]);
-                    children.get(i).setProbability(res[1]);
-                }
-            }
+    public static void updateChildNodeInTree(String parentId,String nodeId,String attomicActionId){
+        for (String key : treeSchema.keySet()) {   //Brute force search to find the selected node in treeSchema
+     
+        //    if(key.contains(parentId)){
+                    ArrayList<SimpleNode> children = treeSchema.get(key);
+                    for(int i=0;i<children.size();i++) 
+                        if(children.get(i).getId().equals(nodeId)){
+                                Map<String, ArrayList<String>> res = getActionFromDB(children.get(i).getType(),attomicActionId); 
+                                children.get(i).setAtomicId(attomicActionId);
+                                if(children.get(i).getType().contains("PRO")){
+                                    
+                                    children.get(i).setCost(res.get("costOfAttack").get(0));
+                                    children.get(i).setProbability(res.get("probability").get(0));
+                                    children.get(i).setCostOfDamage(res.get("costOfDamage").get(0));
+                                }else{
+
+                                    children.get(i).setCost(res.get("cost").get(0));
+                                    children.get(i).setProbability(res.get("probability").get(0));  
+                                }
+                        }
+          //  }
+            
+        }
     }
     
-    private static String getActionFromDB(String parentkey,String attomicActionId) {
-       if(parentkey.contains("PRO")){
+    private static Map<String, ArrayList<String>> getActionFromDB(String type,String attomicActionId) {
+       if(type.contains("PRO")){
            AttackDBService attack=new AttackDBService();
            try {
                Map<String, ArrayList<String>> atomicAttack = attack.select("attack", attomicActionId);
-               ArrayList<String> cost = atomicAttack.get("costOfAttack");
-               ArrayList<String> probability = atomicAttack.get("probability");
-               return cost.get(0)+"|"+probability.get(0);
+              
+               return atomicAttack;
             } catch (Exception ex) {
                Logger.getLogger(ADTreeCanvas.class.getName()).log(Level.SEVERE, null, ex);
                return null;
@@ -458,9 +467,7 @@ public class ADTreeCanvas<Type> extends AbstractTreeCanvas {
             CountermeasureDBService counter=new CountermeasureDBService();
             try {
                Map<String, ArrayList<String>> atomicAttack = counter.select("countermeasure", attomicActionId);
-               ArrayList<String> cost = atomicAttack.get("cost");
-               ArrayList<String> probability = atomicAttack.get("probability");
-                return cost.get(0)+"|"+probability.get(0);
+               return atomicAttack;
             } catch (Exception ex) {
                Logger.getLogger(ADTreeCanvas.class.getName()).log(Level.SEVERE, null, ex);
                return null;
@@ -468,33 +475,29 @@ public class ADTreeCanvas<Type> extends AbstractTreeCanvas {
        }
     }
         
-    private  void printSelection(String selectedNodeId,ListSelectionModel selectionModel, TableModel tableModel,String Type) {
-    for (int i = selectionModel.getMinSelectionIndex(); i <= selectionModel.getMaxSelectionIndex(); i++) {
-        if (selectionModel.isSelectedIndex(i)) {
-            Object atomicActionId = tableModel.getValueAt(i, 0);
-           
-            if(Type.contains("PRO")){
-              //   System.out.println(atomicActionId+" Attack");
-                 findChildNodeInTree(selectedNodeId,atomicActionId.toString());
-            }else{
-            //    System.out.println(atomicActionId+" Defense");
-                findChildNodeInTree(selectedNodeId,atomicActionId.toString());
-            }
-        }
-    }
+    private  String getSelectedActionId(String selectedNodeId,ListSelectionModel selectionModel, TableModel tableModel,String type) {
+        String atomicActionId=null;
+        for (int i = selectionModel.getMinSelectionIndex(); i <= selectionModel.getMaxSelectionIndex(); i++) 
+            if (selectionModel.isSelectedIndex(i)) 
+                 atomicActionId = tableModel.getValueAt(i, 0).toString();
+            
+        return atomicActionId;
   }   
     
-  public void assignToAnAtomicAction(String selectedNodeId,String selectedNodeType){
+  public void assignToAnAtomicAction(String parentNodeId,String selectedNodeId,String selectedNodeType){
+      String actionId=null;
       if(selectedNodeType.contains("PRO")){
             AssignnAnAtomicAttack atomicAttack= new AssignnAnAtomicAttack();
             JPanel p = atomicAttack.getPanel();  
             JTable table = atomicAttack.getTable();
             TableModel tableModel = table.getModel();
             ListSelectionModel selectionModel = table.getSelectionModel();
-
+            
             int option = JOptionPane.showConfirmDialog(null, p, "Atomic Attacks", JOptionPane.OK_CANCEL_OPTION,JOptionPane.INFORMATION_MESSAGE);
             if (JOptionPane.OK_OPTION == option) {
-                printSelection(selectedNodeId,selectionModel, tableModel,"PRO");
+                 actionId= getSelectedActionId(selectedNodeId,selectionModel, tableModel,"PRO");
+                 updateChildNodeInTree(parentNodeId,selectedNodeId,actionId);   
+                
             } else {
                 selectionModel.clearSelection();
             }    
@@ -507,7 +510,8 @@ public class ADTreeCanvas<Type> extends AbstractTreeCanvas {
 
             int option = JOptionPane.showConfirmDialog(null, p, "Atomic Countermeasures", JOptionPane.OK_CANCEL_OPTION,JOptionPane.INFORMATION_MESSAGE);
             if (JOptionPane.OK_OPTION == option) {
-                printSelection(selectedNodeId,selectionModel, tableModel,"OPP");
+                actionId= getSelectedActionId(selectedNodeId,selectionModel, tableModel,"OPP");
+                updateChildNodeInTree(parentNodeId,selectedNodeId,actionId); 
             } else {
                 selectionModel.clearSelection();
             }
@@ -532,6 +536,11 @@ public class ADTreeCanvas<Type> extends AbstractTreeCanvas {
             sum=sum+Integer.parseInt( cost );
             node.setCost(Integer.toString(sum));
             
+            int overallCostOfDamage=1;
+            String costOfDamage= computeProperties(children.get(i)).getCostOfDamage();
+            costOfDamage= (costOfDamage.contains("?")) ? "1": costOfDamage;
+            overallCostOfDamage=overallCostOfDamage*Integer.parseInt( costOfDamage );
+            node.setCostOfDamage(Integer.toString(overallCostOfDamage));
             
             String probability= computeProperties(children.get(i)).getProbability();
             probability = (probability.contains("?")) ? "0": probability;
@@ -544,19 +553,6 @@ public class ADTreeCanvas<Type> extends AbstractTreeCanvas {
       else
          node=children.get(0); 
       
-/*
-       Stack childrenStack = findChildrenOfNode(new SimpleNode(selectedNodeId, selectedNodeType));
-       if(childrenStack.size()>1)
-            while(!childrenStack.isEmpty()){
-                
-                SimpleNode child =(SimpleNode) childrenStack.peek();
-                sum=sum+Integer.parseInt( child.getCost());
-                pro=pro*Double.parseDouble(child.getProbability());
-                childrenStack.pop();
-            }
- */
-      //  node.setCost(Integer.toString(sum));
-      //  node.setProbability(Double.toString( pro));
         return node;
     }
 }

@@ -188,12 +188,10 @@ public class ADTCanvasHandler extends AbstractCanvasHandler {
 		 selectedNodeId=selectedNode.getId();
                  selectedNodeParentId=selectedNode.getParent_id();
                
-                 if(!checkIfNodeRegistered(selectedNodeId,selectedNodeType))
+                 if(!ADTreeCanvas.hasChildren(new SimpleNode(selectedNodeId, selectedNodeType)))
                     RegisterNode(selectedNode);
                  System.out.println("ID of Selected Node is: "+selectedNodeId+" parentID: "+selectedNodeParentId+" Type is: "+selectedNodeType+" Operation: "+selectedNodeOperation);	
-            //     isSelectedNodeAllowedToBeAtomic=hasChildren(selectedNodeId,selectedNodeType);
-          
-	//	 hasChildren=  (selectedNode.getChildren().size()>0) ? true :false;
+           
 	  }catch(Exception e1){
 
 		  System.out.println("Failed to get the ADTree Node"+e1.getMessage());
@@ -201,29 +199,13 @@ public class ADTCanvasHandler extends AbstractCanvasHandler {
   }
   
   public void RegisterNode(ADTNode selectedNode) throws Exception{
-       // selectedNodeId=IDGenerator.nextId();    
-        //   AttackDBService attack=new AttackDBService();
-        //   attack.insertAttack(selectedNode.getId(), selectedNode.getName(), selectedNode.getDescription(), "0");
        
        if(selectedNodeType.contains("PRO"))
             ADTreeCanvas.addRoot(new SimpleNode( selectedNodeId, "PRO"));
        else
-            ADTreeCanvas.addRoot(new SimpleNode( selectedNodeId, "OPP"));
-       
+            ADTreeCanvas.addRoot(new SimpleNode( selectedNodeId, "OPP"));     
   }
-   private boolean checkIfNodeRegistered(String selectedNodeId, String selectedNodeType) throws Exception {
-       boolean res=false; 
-       if(selectedNodeId.equals(null)){
-            res= ADTreeCanvas.hasChildren(new SimpleNode(selectedNodeId, selectedNodeType));
-       //     AttackDBService attack=new AttackDBService();
-       //     res = attack.selectIdFromField("attack", "id", selectedNodeId);
-        }else{
-       //     CountermeasureDBService attack=new CountermeasureDBService();
-       //     res = attack.selectIdFromField("countermeasure", "id", selectedNodeId);
-        }
-        return (res!=false);
-    }
-
+  
   @Override
   public final void mouseClicked(final MouseEvent e) {
 	try{  
@@ -364,7 +346,7 @@ public class ADTCanvasHandler extends AbstractCanvasHandler {
     properties.addActionListener(new ActionListener() {
       public void actionPerformed(final ActionEvent evt) {
          SimpleNode node= ((ADTreeCanvas<?>) canvas).computeProperties(new SimpleNode(selectedNodeId,selectedNodeType));
-        new Properties(selectedNodeType,node.getCost(),node.getProbability()).setVisible(true);
+        new Properties(selectedNodeType,node.getCost(),node.getProbability(),node.getCostOfDamage()).setVisible(true);
       }
     });
     pmenu.add(properties);
@@ -375,7 +357,8 @@ public class ADTCanvasHandler extends AbstractCanvasHandler {
           if(ADTreeCanvas.hasChildren(new SimpleNode(selectedNodeId,selectedNodeType)))
                JOptionPane.showMessageDialog(null, "Only leaves can be atomic acctions.", "Failure",JOptionPane.ERROR_MESSAGE );
           else{
-                    ((ADTreeCanvas<?>) canvas).assignToAnAtomicAction(selectedNodeId,selectedNodeType);
+
+                    ((ADTreeCanvas<?>) canvas).assignToAnAtomicAction(selectedNodeParentId,selectedNodeId,selectedNodeType);
 
                     if (menuNode != null) {
                             ((ADTreeCanvas<?>) canvas).toggleOp(menuNode);
@@ -407,25 +390,6 @@ public class ADTCanvasHandler extends AbstractCanvasHandler {
       public void actionPerformed(final ActionEvent evt) {
         if (menuNode != null) {
             ((ADTreeCanvas<?>) canvas).addCounter(menuNode,selectedNodeId,selectedNodeType);
-  /*  
-            JPanel panel = createDialogPanel();
-            int res=JOptionPane.showConfirmDialog(null, panel, "Create Atomic Action", JOptionPane.OK_CANCEL_OPTION);
-            if(res == JOptionPane.OK_OPTION)
-            {
-                    try {
-                        System.out.println("Submit is press Name"+name.getText()+"  "+description.getText());
-                        if(selectedNodeType.equals("PRO"))
-                            attackDBService.insertAttack(name.getText(), description.getText(),"0");
-                        else
-                            counterDBService.insertCountermeasure(name.getText(), description.getText(),"0");
-
-                    } catch (Exception ex) {
-                        Logger.getLogger(ADTCanvasHandler.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-            }else
-                System.out.println("Cancel press");
-*/
-          
         }
       }
 
@@ -496,10 +460,7 @@ public class ADTCanvasHandler extends AbstractCanvasHandler {
    * Displays a dialog to change the label of the node
    *
    */
- /* private void changeLabelActionPerformed() {
-	//  new Properties().setVisible(true);
-  }
-*/
+
   private JMenuItem assignAnAtomicAction;
   private JMenuItem properties;
   private JMenuItem editNode;

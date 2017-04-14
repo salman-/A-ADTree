@@ -44,6 +44,7 @@ public class DB
 	  
       openConnection();
 	  
+      System.out.println(query);
       ResultSet rs = statement.executeQuery(query);
       Map<String, ArrayList<String>> table = printRows(rs);
       

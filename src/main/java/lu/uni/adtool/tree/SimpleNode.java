@@ -15,8 +15,16 @@ public class SimpleNode {
     boolean isAtomic;
     String atomicId;
     String probability;
+    String costOfDamage;
     String cost;
+    
+    public void setCostOfDamage(String costOfDamage) {
+        this.costOfDamage = costOfDamage;
+    }
 
+    public String getCostOfDamage() {
+        return costOfDamage;
+    }
     
     public boolean isIsAtomic() {
         return isAtomic;
@@ -61,6 +69,7 @@ public class SimpleNode {
         atomicId="?";
         probability="?";
         cost="?";
+        costOfDamage="?";
     }
 
     public String getId() {
