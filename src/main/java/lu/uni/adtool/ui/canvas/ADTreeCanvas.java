@@ -552,9 +552,10 @@ public class ADTreeCanvas<Type> extends AbstractTreeCanvas {
         }
       else
          node=children.get(0);
-    //  double pro=Double.parseDouble( node.getProbability())* (int)Math.pow(100, -1*(children.size()-1));
-    //  node.setProbability(  Double.toString(pro) );
-      
+      if(children.size()>=2){
+        double pro=Double.parseDouble( node.getProbability())/ (int)Math.pow(100, (children.size()-2));
+        node.setProbability(  Double.toString(pro) );
+      }
         return node;
     }
 }
