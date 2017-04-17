@@ -92,7 +92,7 @@ public final class ADToolMain extends JFrame {
         int result = OptionPane.showYNDialog(frame, Options.getMsg("closedialog.txt"),
             Options.getMsg("closedialog.title"));
         if (result == JOptionPane.YES_OPTION) {
-          Options.saveLayout(controller.getControl());
+//          Options.saveLayout(controller.getControl());
           frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         }
       }

@@ -89,9 +89,9 @@ public class AtomicCountermeasure extends javax.swing.JFrame {
         jPanel1.add(jScrollPane1);
         jScrollPane1.setBounds(121, 60, 230, 130);
 
-        jLabel3.setText("Probability");
+        jLabel3.setText("Probability of Failure");
         jPanel1.add(jLabel3);
-        jLabel3.setBounds(410, 70, 90, 14);
+        jLabel3.setBounds(410, 70, 130, 14);
 
         addAtomicAttack.setBackground(new java.awt.Color(0, 153, 204));
         addAtomicAttack.setText("Add Atomic Attack");
@@ -210,7 +210,7 @@ public class AtomicCountermeasure extends javax.swing.JFrame {
             String description=countermeasureDescriptionTA.getText();
             String cost=countermeasureCostTF.getText();
           //  String costOfDamage=countermeasureCostTF.getText();
-            String probaility=probabilityjSpinner.getValue().toString();
+            String probaility= Integer.toString(100-Integer.parseInt(probabilityjSpinner.getValue().toString())) ;
           //   String id =IDGenerator.nextId();
             countermeasureDBService.insertAtomicCountermeasure(name,description,probaility,cost);
             JOptionPane.showMessageDialog(null, "The record is inserted successfully.", "Success",JOptionPane.INFORMATION_MESSAGE );

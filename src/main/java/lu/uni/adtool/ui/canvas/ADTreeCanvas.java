@@ -527,14 +527,14 @@ public class ADTreeCanvas<Type> extends AbstractTreeCanvas {
       String key=keyMaker(node.getId(), node.getType());
       ArrayList<SimpleNode> children = treeSchema.get(key);
     //  SimpleNode node=new SimpleNode(selectedNodeId, selectedNodeType);
-      int sum=0;
+      double sum=0;
       double finalPro=1;
       if(children.size()>1)
         for(int i=1;i<children.size();i++){
             String cost= computeProperties(children.get(i)).getCost();
             cost= (cost.contains("?")) ? "0": cost;
-            sum=sum+Integer.parseInt( cost );
-            node.setCost(Integer.toString(sum));
+            sum=sum+Double.parseDouble( cost );
+            node.setCost(Double.toString(sum));
             
             int overallCostOfDamage=1;
             String costOfDamage= computeProperties(children.get(i)).getCostOfDamage();
@@ -545,13 +545,15 @@ public class ADTreeCanvas<Type> extends AbstractTreeCanvas {
             String probability= computeProperties(children.get(i)).getProbability();
             probability = (probability.contains("?")) ? "0": probability;
             if(children.get(i).getType().contains("PRO"))
-              finalPro= finalPro*((Double.parseDouble(probability))/100);
+              finalPro= finalPro*((Double.parseDouble(probability)));
             else
-              finalPro= finalPro*((100-Double.parseDouble(probability))/100);
+              finalPro= finalPro*(100-Double.parseDouble(probability));
             node.setProbability(Double.toString(finalPro));
         }
       else
-         node=children.get(0); 
+         node=children.get(0);
+    //  double pro=Double.parseDouble( node.getProbability())* (int)Math.pow(100, -1*(children.size()-1));
+    //  node.setProbability(  Double.toString(pro) );
       
         return node;
     }
