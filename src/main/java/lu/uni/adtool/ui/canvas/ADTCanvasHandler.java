@@ -377,7 +377,6 @@ public class ADTCanvasHandler extends AbstractCanvasHandler {
       public void actionPerformed(final ActionEvent evt) {
         if (menuNode != null) {
           ((ADTreeCanvas<?>) canvas).addChild(menuNode,selectedNodeId,selectedNodeType);
-          
         }
       }
     });
@@ -406,7 +405,7 @@ public class ADTCanvasHandler extends AbstractCanvasHandler {
       public void actionPerformed(final ActionEvent evt) {
         if (menuNode != null) {
             System.out.println("Node to delete is:"+selectedNodeId+" Its type is: "+selectedNodeType);
-             ADTreeCanvas.deleteNode(new SimpleNode(selectedNodeId, selectedNodeType));
+             ADTreeCanvas.deleteNode(new SimpleNode(selectedNodeId, selectedNodeType),selectedNodeParentId);
           ((ADTreeCanvas<?>) canvas).removeTree(menuNode);
         }
       }

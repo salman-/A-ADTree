@@ -108,7 +108,6 @@ public class ADTNode extends GuiNode {
    //     AttackDBService attack=new AttackDBService();
    //     CountermeasureDBService counter=new CountermeasureDBService();
         
-
       try {
             switch (sign) {
             //parent attack child attack

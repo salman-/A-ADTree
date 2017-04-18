@@ -133,11 +133,14 @@ public class ADTreeCanvas<Type> extends AbstractTreeCanvas {
     tree.addChild(node, child);
 
      ArrayList<SimpleNode> childrenList= new ArrayList<SimpleNode>();
-     treeSchema.put(keyMaker(child.getId(),selectedNodeType),childrenList);
+/*   treeSchema.put(keyMaker(child.getId(),selectedNodeType),childrenList);
      treeSchema.get(keyMaker(child.getId(), selectedNodeType)).add(new SimpleNode(child.getId(),selectedNodeType));  //Every node has its own information
-     treeSchema.get(keyMaker(node.getId(), selectedNodeType)).add(new SimpleNode(child.getId(),selectedNodeType));
-    this.notifyAllTreeChanged();
-    terms.updateTerms();
+     treeSchema.get(keyMaker(node.getId(), selectedNodeType)).add(new SimpleNode(child.getId(),selectedNodeType)); */
+     treeSchema.put(child.getId(),childrenList);
+     treeSchema.get(child.getId()).add(new SimpleNode(child.getId(),selectedNodeType));  //Every node has its own information
+     treeSchema.get(node.getId()).add(new SimpleNode(child.getId(),selectedNodeType));
+     this.notifyAllTreeChanged();
+     terms.updateTerms();
   }
   
   public void addChild(Node node) {
@@ -169,9 +172,12 @@ public class ADTreeCanvas<Type> extends AbstractTreeCanvas {
  //   addChild(TreeSchema.keyMaker(parent.getId(), selectedNodeType),child.getId(),type);
     
      ArrayList<SimpleNode> childrenList= new ArrayList<SimpleNode>();
-    treeSchema.put(keyMaker(child.getId(),type),childrenList);
+/*    treeSchema.put(keyMaker(child.getId(),type),childrenList);
     treeSchema.get(keyMaker(child.getId(), type)).add(new SimpleNode(child.getId(),type));  //Every node has its own information
-    treeSchema.get(keyMaker(parent.getId(), selectedNodeType)).add(new SimpleNode(child.getId(),type));
+    treeSchema.get(keyMaker(parent.getId(), selectedNodeType)).add(new SimpleNode(child.getId(),type));*/
+    treeSchema.put(child.getId(),childrenList);
+    treeSchema.get(child.getId()).add(new SimpleNode(child.getId(),type));  //Every node has its own information
+    treeSchema.get(parent.getId()).add(new SimpleNode(child.getId(),type));
     
     this.notifyAllTreeChanged();
     terms.updateTerms();
@@ -368,26 +374,25 @@ public class ADTreeCanvas<Type> extends AbstractTreeCanvas {
         return Allchildren;  
     }
     
-    public static TreeMap<String, ArrayList<SimpleNode>> deleteNode(SimpleNode parentNode){
+    public static TreeMap<String, ArrayList<SimpleNode>> deleteNode(SimpleNode node,String parentId ){
       
-      AttackDBService attack=new AttackDBService();
-      CountermeasureDBService counter=new CountermeasureDBService();
-      Stack nodes = findChildrenOfNode(parentNode);
+      Stack nodes = findChildrenOfNode(node);
       while(nodes.size()>0){
-          SimpleNode node =(SimpleNode) nodes.peek();
           
-          nodes.pop();
-        
-          System.out.println("To DELETE ID is: "+node.getId()+" Type: "+node.getType());
-         
-          try {
-                if(node.getType().contains("PRO")){
-                    
-                    treeSchema.remove(keyMaker(node.getId(), node.getType()));
-                }
-           } catch (Exception ex) {
-                  Logger.getLogger(ADTreeCanvas.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            SimpleNode child =(SimpleNode) nodes.peek();
+
+            treeSchema.remove(child.getId());
+            if(nodes.size()==1){
+                String key=parentId;
+                if(treeSchema.get(key)!=null){
+                    for(int i=0;i<treeSchema.get(key).size();i++)
+                        if(treeSchema.get(key).get(i).getId().contains(node.getId()))
+                            treeSchema.get(key).remove(i);
+                }     
+            }   
+            nodes.pop();
+            System.out.println("To DELETE ID is: "+child.getId()+" Type: "+child.getType());
+           
       }
       return treeSchema;
     }
@@ -414,7 +419,7 @@ public class ADTreeCanvas<Type> extends AbstractTreeCanvas {
     } */
     public static void addRoot(SimpleNode parent){
        
-        String key=keyMaker(parent.getId(),parent.getType());
+        String key=parent.getId();
         
         ArrayList<SimpleNode> childrenList= new ArrayList<SimpleNode>();
         childrenList.add(new SimpleNode(parent.getId(),parent.getType()));  //Every node has its own information
@@ -524,7 +529,7 @@ public class ADTreeCanvas<Type> extends AbstractTreeCanvas {
   private static final long   serialVersionUID = 6626362203605041529L;
 
     SimpleNode computeProperties(SimpleNode node) {
-      String key=keyMaker(node.getId(), node.getType());
+      String key=node.getId();
       ArrayList<SimpleNode> children = treeSchema.get(key);
     //  SimpleNode node=new SimpleNode(selectedNodeId, selectedNodeType);
       double sum=0;
@@ -544,7 +549,7 @@ public class ADTreeCanvas<Type> extends AbstractTreeCanvas {
             
             String probability= computeProperties(children.get(i)).getProbability();
             probability = (probability.contains("?")) ? "0": probability;
-            if(children.get(i).getType().contains("PRO"))
+            if(children.get(i).getType().contains(node.getType()))
               finalPro= finalPro*((Double.parseDouble(probability)));
             else
               finalPro= finalPro*(100-Double.parseDouble(probability));
