@@ -397,6 +397,22 @@ public class ADTCanvasHandler extends AbstractCanvasHandler {
     pmenu.add(addCounter);
 
     pmenu.addSeparator();
+    
+    ///////////////////////////7
+     changeOperation = new JMenuItem(Options.getMsg("handler.changeoperator.txt"));
+    changeOperation.setAccelerator(KeyStroke.getKeyStroke(Options.getMsg("handler.changeoperator.key")));
+    changeOperation.addActionListener(new ActionListener() {
+      public void actionPerformed(final ActionEvent evt) {
+        if (menuNode != null) {
+          ((ADTreeCanvas<?>) canvas).toggleOp(menuNode);
+        }
+      }
+    });
+    pmenu.add(changeOperation);
+    
+    
+    
+    ////////////////
 
     removeTree = new JMenuItem(Options.getMsg("handler.removetree.txt"));
     removeTree.setAccelerator(KeyStroke.getKeyStroke(Options.getMsg("handler.removetree.key")));
@@ -459,7 +475,7 @@ public class ADTCanvasHandler extends AbstractCanvasHandler {
    * Displays a dialog to change the label of the node
    *
    */
-
+  private JMenuItem changeOperation;
   private JMenuItem assignAnAtomicAction;
   private JMenuItem properties;
   private JMenuItem editNode;
