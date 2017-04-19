@@ -343,7 +343,7 @@
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel4">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Cost of Damge"/>
+            <Property name="text" type="java.lang.String" value="Cost of Treatment"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="costOfDamageLabel">

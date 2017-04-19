@@ -120,7 +120,7 @@ public class ADTreeCanvas<Type> extends AbstractTreeCanvas {
    * @param node
  * @param selectedNodeId 
    */
-  public void addChild(Node node, String selectedNodeId,String selectedNodeType) {
+  public void addChild(Node node, String selectedNodeId,String selectedNodeType,String parentId) {
     Node child =null;
     addEditAction(new AddChild(node));
   //  Node child = new ADTNode(((ADTNode) node).getType());
@@ -137,8 +137,8 @@ public class ADTreeCanvas<Type> extends AbstractTreeCanvas {
      treeSchema.get(keyMaker(child.getId(), selectedNodeType)).add(new SimpleNode(child.getId(),selectedNodeType));  //Every node has its own information
      treeSchema.get(keyMaker(node.getId(), selectedNodeType)).add(new SimpleNode(child.getId(),selectedNodeType)); */
      treeSchema.put(child.getId(),childrenList);
-     treeSchema.get(child.getId()).add(new SimpleNode(child.getId(),selectedNodeType));  //Every node has its own information
-     treeSchema.get(node.getId()).add(new SimpleNode(child.getId(),selectedNodeType));
+     treeSchema.get(child.getId()).add(new SimpleNode(child.getId(),selectedNodeType,parentId));  //Every node has its own information
+     treeSchema.get(node.getId()).add(new SimpleNode(child.getId(),selectedNodeType,parentId));
      this.notifyAllTreeChanged();
      terms.updateTerms();
   }
@@ -152,7 +152,7 @@ public class ADTreeCanvas<Type> extends AbstractTreeCanvas {
 	    terms.updateTerms();
 	  }
 
-  public void addCounter(Node parent,String parentId,String selectedNodeType) {
+  public void addCounter(Node parent,String selectedNodeId,String selectedNodeType,String parentId ) {
       
     if (((ADTNode) parent).isCountered()) {
       return;
@@ -160,9 +160,9 @@ public class ADTreeCanvas<Type> extends AbstractTreeCanvas {
     addEditAction(new AddCounter(parent));
     Node child=null;
     if(((ADTNode) parent).getType().toString().contains("PRO")){      // Parent is attack
-         child = new ADTNode(parentId,((ADTNode) parent).getType(),2);
+         child = new ADTNode(selectedNodeId,((ADTNode) parent).getType(),2);
     }else{                                                           // Parent is countermeasure
-        child = new ADTNode(parentId,((ADTNode) parent).getType(),4);
+        child = new ADTNode(selectedNodeId,((ADTNode) parent).getType(),4);
     }    
     tree.addCounter((ADTNode) parent, (ADTNode) child);
     
@@ -176,8 +176,8 @@ public class ADTreeCanvas<Type> extends AbstractTreeCanvas {
     treeSchema.get(keyMaker(child.getId(), type)).add(new SimpleNode(child.getId(),type));  //Every node has its own information
     treeSchema.get(keyMaker(parent.getId(), selectedNodeType)).add(new SimpleNode(child.getId(),type));*/
     treeSchema.put(child.getId(),childrenList);
-    treeSchema.get(child.getId()).add(new SimpleNode(child.getId(),type));  //Every node has its own information
-    treeSchema.get(parent.getId()).add(new SimpleNode(child.getId(),type));
+    treeSchema.get(child.getId()).add(new SimpleNode(child.getId(),type,parentId));  //Every node has its own information
+    treeSchema.get(parent.getId()).add(new SimpleNode(child.getId(),type,parentId));
     
     this.notifyAllTreeChanged();
     terms.updateTerms();
@@ -374,7 +374,17 @@ public class ADTreeCanvas<Type> extends AbstractTreeCanvas {
         return Allchildren;  
     }
     
-    public static TreeMap<String, ArrayList<SimpleNode>> deleteNode(SimpleNode node,String parentId ){
+    public static void changeNodeOperation(SimpleNode node ){
+        String op=node.getOperation().contains("AND") ? "OR" :"AND";
+        treeSchema.get(node.getId()).get(0).setOperation(op);
+        if(node.getParentId()!=null)
+            if(treeSchema.get(node.getParentId())!=null)
+                for(int i=0;i<treeSchema.get(node.getParentId()).size();i++)
+                    if(treeSchema.get(node.getParentId()).get(i).getId().contains(node.getId()))
+                        treeSchema.get(node.getParentId()).get(i).setOperation(op);                            
+    }
+   
+    public static /*TreeMap<String, ArrayList<SimpleNode>>*/ void deleteNode(SimpleNode node,String parentId ){
       
       Stack nodes = findChildrenOfNode(node);
       while(nodes.size()>0){
@@ -394,13 +404,13 @@ public class ADTreeCanvas<Type> extends AbstractTreeCanvas {
             System.out.println("To DELETE ID is: "+child.getId()+" Type: "+child.getType());
            
       }
-      return treeSchema;
+     // return treeSchema;
     }
     
-    public static boolean hasChildren(SimpleNode node){
+    public static boolean hasChildren(String nodeId){
         try{
-            String id= keyMaker(node.getId(),node.getType());
-            ArrayList<SimpleNode> children = treeSchema.get(id);
+
+            ArrayList<SimpleNode> children = treeSchema.get(nodeId);
             boolean res = (children.size()>1);
             return res;
         }catch(Exception e){
@@ -422,7 +432,7 @@ public class ADTreeCanvas<Type> extends AbstractTreeCanvas {
         String key=parent.getId();
         
         ArrayList<SimpleNode> childrenList= new ArrayList<SimpleNode>();
-        childrenList.add(new SimpleNode(parent.getId(),parent.getType()));  //Every node has its own information
+        childrenList.add(new SimpleNode(parent.getId(),parent.getType(),null));  //Every node has its own information
         if (null == treeSchema.get(key))
             treeSchema.put(key, childrenList);  
         
@@ -541,12 +551,13 @@ public class ADTreeCanvas<Type> extends AbstractTreeCanvas {
             sum=sum+Double.parseDouble( cost );
             node.setCost(Double.toString(sum));
             
-            int overallCostOfDamage=1;
-            String costOfDamage= computeProperties(children.get(i)).getCostOfDamage();
-            costOfDamage= (costOfDamage.contains("?")) ? "1": costOfDamage;
-            overallCostOfDamage=overallCostOfDamage*Integer.parseInt( costOfDamage );
-            node.setCostOfDamage(Integer.toString(overallCostOfDamage));
-            
+           // if(node.getType().contains("PRO")){
+                int overallCostOfTreatmeant=1;
+                String costOfTreatmeant= computeProperties(children.get(i)).getCostOfDamage();
+                costOfTreatmeant= (costOfTreatmeant.contains("?")) ? "1": costOfTreatmeant;
+                overallCostOfTreatmeant=overallCostOfTreatmeant*Integer.parseInt(costOfTreatmeant );
+                node.setCostOfDamage(Integer.toString(overallCostOfTreatmeant));
+          //  }
             String probability= computeProperties(children.get(i)).getProbability();
             probability = (probability.contains("?")) ? "0": probability;
             if(children.get(i).getType().contains(node.getType()))

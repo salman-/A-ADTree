@@ -17,9 +17,15 @@ public class SimpleNode {
     String probability;
     String costOfDamage;
     String cost;
+    String parentId;
+    String operation;
     
     public void setCostOfDamage(String costOfDamage) {
         this.costOfDamage = costOfDamage;
+    }
+
+    public void setOperation(String operation) {
+        this.operation = operation;
     }
 
     public String getCostOfDamage() {
@@ -63,13 +69,23 @@ public class SimpleNode {
     }
     
     
-    public SimpleNode(String id,String type){
+    public SimpleNode(String id,String type,String parentId){
         this.id=id;
         this.type=type;
+        this.parentId=parentId;
         atomicId="?";
         probability="?";
         cost="?";
         costOfDamage="?";
+        operation="AND";
+    }
+
+    public String getOperation() {
+        return operation;
+    }
+
+    public String getParentId() {
+        return parentId;
     }
 
     public String getId() {

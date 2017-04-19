@@ -188,12 +188,11 @@ public class ADTCanvasHandler extends AbstractCanvasHandler {
 		 selectedNodeId=selectedNode.getId();
                  selectedNodeParentId=selectedNode.getParent_id();
                
-                 if(!ADTreeCanvas.hasChildren(new SimpleNode(selectedNodeId, selectedNodeType)))
+                 if(!ADTreeCanvas.hasChildren(selectedNodeId))
                     RegisterNode(selectedNode);
                  System.out.println("ID of Selected Node is: "+selectedNodeId+" parentID: "+selectedNodeParentId+" Type is: "+selectedNodeType+" Operation: "+selectedNodeOperation);	
            
 	  }catch(Exception e1){
-
 		  System.out.println("Failed to get the ADTree Node"+e1.getMessage());
 	  }
   }
@@ -201,9 +200,9 @@ public class ADTCanvasHandler extends AbstractCanvasHandler {
   public void RegisterNode(ADTNode selectedNode) throws Exception{
        
        if(selectedNodeType.contains("PRO"))
-            ADTreeCanvas.addRoot(new SimpleNode( selectedNodeId, "PRO"));
+            ADTreeCanvas.addRoot(new SimpleNode( selectedNodeId, "PRO",null));
        else
-            ADTreeCanvas.addRoot(new SimpleNode( selectedNodeId, "OPP"));     
+            ADTreeCanvas.addRoot(new SimpleNode( selectedNodeId, "OPP",null));     
   }
   
   @Override
@@ -345,7 +344,7 @@ public class ADTCanvasHandler extends AbstractCanvasHandler {
     
     properties.addActionListener(new ActionListener() {
       public void actionPerformed(final ActionEvent evt) {
-         SimpleNode node= ((ADTreeCanvas<?>) canvas).computeProperties(new SimpleNode(selectedNodeId,selectedNodeType));
+         SimpleNode node= ((ADTreeCanvas<?>) canvas).computeProperties(new SimpleNode(selectedNodeId,selectedNodeType,selectedNodeParentId));
         new Properties(selectedNodeType,node.getCost(),node.getProbability(),node.getCostOfDamage()).setVisible(true);
       }
     });
@@ -354,7 +353,7 @@ public class ADTCanvasHandler extends AbstractCanvasHandler {
     assignAnAtomicAction = new JMenuItem(Options.getMsg("handler.assignAnAtomicAction.txt"));
     assignAnAtomicAction.addActionListener(new ActionListener() {
       public void actionPerformed(final ActionEvent evt) {
-          if(ADTreeCanvas.hasChildren(new SimpleNode(selectedNodeId,selectedNodeType)))
+          if(ADTreeCanvas.hasChildren(selectedNodeId))
                JOptionPane.showMessageDialog(null, "Only leaves can be atomic acctions.", "Failure",JOptionPane.ERROR_MESSAGE );
           else{
 
@@ -376,7 +375,7 @@ public class ADTCanvasHandler extends AbstractCanvasHandler {
     addChild.addActionListener(new ActionListener() {
       public void actionPerformed(final ActionEvent evt) {
         if (menuNode != null) {
-          ((ADTreeCanvas<?>) canvas).addChild(menuNode,selectedNodeId,selectedNodeType);
+          ((ADTreeCanvas<?>) canvas).addChild(menuNode,selectedNodeId,selectedNodeType,selectedNodeParentId);
         }
       }
     });
@@ -388,7 +387,7 @@ public class ADTCanvasHandler extends AbstractCanvasHandler {
       @Override
       public void actionPerformed(final ActionEvent evt) {
         if (menuNode != null) {
-            ((ADTreeCanvas<?>) canvas).addCounter(menuNode,selectedNodeId,selectedNodeType);
+            ((ADTreeCanvas<?>) canvas).addCounter(menuNode,selectedNodeId,selectedNodeType,selectedNodeParentId);
         }
       }
 
@@ -404,13 +403,13 @@ public class ADTCanvasHandler extends AbstractCanvasHandler {
     changeOperation.addActionListener(new ActionListener() {
       public void actionPerformed(final ActionEvent evt) {
         if (menuNode != null) {
+          
+            ADTreeCanvas.changeNodeOperation(new SimpleNode(selectedNodeId, selectedNodeType, selectedNodeParentId));
           ((ADTreeCanvas<?>) canvas).toggleOp(menuNode);
         }
       }
     });
     pmenu.add(changeOperation);
-    
-    
     
     ////////////////
 
@@ -421,7 +420,7 @@ public class ADTCanvasHandler extends AbstractCanvasHandler {
       public void actionPerformed(final ActionEvent evt) {
         if (menuNode != null) {
             System.out.println("Node to delete is:"+selectedNodeId+" Its type is: "+selectedNodeType);
-             ADTreeCanvas.deleteNode(new SimpleNode(selectedNodeId, selectedNodeType),selectedNodeParentId);
+             ADTreeCanvas.deleteNode(new SimpleNode(selectedNodeId, selectedNodeType,selectedNodeParentId),selectedNodeParentId);
           ((ADTreeCanvas<?>) canvas).removeTree(menuNode);
         }
       }

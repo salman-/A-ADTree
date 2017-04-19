@@ -193,7 +193,7 @@ public class Properties extends javax.swing.JFrame {
 
         costLabel.setText("?");
 
-        jLabel4.setText("Cost of Damge");
+        jLabel4.setText("Cost of Treatment");
 
         costOfDamageLabel.setText("?");
 
