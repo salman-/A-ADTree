@@ -17,7 +17,7 @@ public class ImpactDBService  extends GeneralCRUDs{
                 JOptionPane.showMessageDialog(null, "The record inserted successfully", "Success",JOptionPane.INFORMATION_MESSAGE );
                 return res;
             } catch (Exception ex) {
-                Logger.getLogger(ImpactDBService.class.getName()).log(Level.SEVERE, null, ex);
+            //    Logger.getLogger(ImpactDBService.class.getName()).log(Level.SEVERE, null, ex);
                 JOptionPane.showMessageDialog(null, "Operation failed. Try again", "Failure",JOptionPane.ERROR_MESSAGE );
                 return -1;
             }

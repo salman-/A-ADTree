@@ -34,7 +34,7 @@ public class AssignnAnAtomicAttack extends javax.swing.JFrame {
             String[] columns= DataPopulator.getColumn(attackDBService.selectAllAttack());
             jTable1.setModel(new javax.swing.table.DefaultTableModel(assetData,columns) );
         } catch (Exception ex) {
-            Logger.getLogger(AssignnAnAtomicAttack.class.getName()).log(Level.SEVERE, null, ex);
+         //   Logger.getLogger(AssignnAnAtomicAttack.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

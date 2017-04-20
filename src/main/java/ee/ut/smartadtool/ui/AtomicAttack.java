@@ -103,11 +103,6 @@ public class AtomicAttack extends javax.swing.JFrame {
     private void initComponents() {
 
         attackTabbedPane = new javax.swing.JTabbedPane();
-        jPanel2 = new javax.swing.JPanel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         attackNameTF = new javax.swing.JTextField();
@@ -123,6 +118,11 @@ public class AtomicAttack extends javax.swing.JFrame {
         costOfAttackTF = new javax.swing.JTextField();
         jLabel11 = new javax.swing.JLabel();
         costOfDamageTF = new javax.swing.JTextField();
+        jPanel2 = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Atomic Attack");
@@ -132,6 +132,70 @@ public class AtomicAttack extends javax.swing.JFrame {
                 attackTabbedPaneStateChanged(evt);
             }
         });
+
+        jPanel1.setLayout(null);
+
+        jLabel1.setText("Attack");
+        jPanel1.add(jLabel1);
+        jLabel1.setBounds(35, 25, 60, 14);
+        jPanel1.add(attackNameTF);
+        attackNameTF.setBounds(140, 30, 190, 20);
+
+        jLabel2.setText("Description");
+        jPanel1.add(jLabel2);
+        jLabel2.setBounds(35, 98, 70, 14);
+
+        attackDescriptionTA.setColumns(20);
+        attackDescriptionTA.setRows(5);
+        jScrollPane1.setViewportView(attackDescriptionTA);
+
+        jPanel1.add(jScrollPane1);
+        jScrollPane1.setBounds(121, 60, 230, 130);
+
+        jLabel3.setText("Probability");
+        jPanel1.add(jLabel3);
+        jLabel3.setBounds(390, 90, 90, 14);
+
+        jLabel4.setText("Targeted Asset");
+        jPanel1.add(jLabel4);
+        jLabel4.setBounds(390, 40, 110, 14);
+
+        targetedAssetCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jPanel1.add(targetedAssetCombo);
+        targetedAssetCombo.setBounds(500, 40, 168, 20);
+
+        addAtomicAttack.setBackground(new java.awt.Color(255, 0, 51));
+        addAtomicAttack.setText("Add Atomic Attack");
+        addAtomicAttack.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addAtomicAttackActionPerformed(evt);
+            }
+        });
+        jPanel1.add(addAtomicAttack);
+        addAtomicAttack.setBounds(220, 270, 270, 40);
+
+        probabilityjSpinner.setModel(new javax.swing.SpinnerNumberModel(0, 0, 100, 1));
+        probabilityjSpinner.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                probabilityjSpinnerStateChanged(evt);
+            }
+        });
+        jPanel1.add(probabilityjSpinner);
+        probabilityjSpinner.setBounds(520, 80, 80, 20);
+
+        jLabel10.setText("Cost of Attack");
+        jPanel1.add(jLabel10);
+        jLabel10.setBounds(390, 130, 80, 20);
+        jPanel1.add(costOfAttackTF);
+        costOfAttackTF.setBounds(520, 130, 110, 20);
+
+        jLabel11.setText("Cost of Damage (Gain)");
+        jPanel1.add(jLabel11);
+        jLabel11.setBounds(390, 180, 140, 14);
+        jPanel1.add(costOfDamageTF);
+        costOfDamageTF.setBounds(520, 170, 80, 20);
+
+        attackTabbedPane.addTab("Add Atomic Attack", jPanel1);
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -200,70 +264,6 @@ public class AtomicAttack extends javax.swing.JFrame {
         );
 
         attackTabbedPane.addTab("Edit Atomic Attack", jPanel2);
-
-        jPanel1.setLayout(null);
-
-        jLabel1.setText("Attack");
-        jPanel1.add(jLabel1);
-        jLabel1.setBounds(35, 25, 60, 14);
-        jPanel1.add(attackNameTF);
-        attackNameTF.setBounds(140, 30, 190, 20);
-
-        jLabel2.setText("Description");
-        jPanel1.add(jLabel2);
-        jLabel2.setBounds(35, 98, 70, 14);
-
-        attackDescriptionTA.setColumns(20);
-        attackDescriptionTA.setRows(5);
-        jScrollPane1.setViewportView(attackDescriptionTA);
-
-        jPanel1.add(jScrollPane1);
-        jScrollPane1.setBounds(121, 60, 230, 130);
-
-        jLabel3.setText("Probability");
-        jPanel1.add(jLabel3);
-        jLabel3.setBounds(390, 90, 90, 14);
-
-        jLabel4.setText("Targeted Asset");
-        jPanel1.add(jLabel4);
-        jLabel4.setBounds(390, 40, 110, 14);
-
-        targetedAssetCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jPanel1.add(targetedAssetCombo);
-        targetedAssetCombo.setBounds(500, 40, 168, 20);
-
-        addAtomicAttack.setBackground(new java.awt.Color(255, 0, 51));
-        addAtomicAttack.setText("Add Atomic Attack");
-        addAtomicAttack.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addAtomicAttackActionPerformed(evt);
-            }
-        });
-        jPanel1.add(addAtomicAttack);
-        addAtomicAttack.setBounds(220, 270, 270, 40);
-
-        probabilityjSpinner.setModel(new javax.swing.SpinnerNumberModel(0, 0, 100, 1));
-        probabilityjSpinner.addChangeListener(new javax.swing.event.ChangeListener() {
-            public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                probabilityjSpinnerStateChanged(evt);
-            }
-        });
-        jPanel1.add(probabilityjSpinner);
-        probabilityjSpinner.setBounds(520, 80, 80, 20);
-
-        jLabel10.setText("Cost of Attack");
-        jPanel1.add(jLabel10);
-        jLabel10.setBounds(390, 130, 80, 20);
-        jPanel1.add(costOfAttackTF);
-        costOfAttackTF.setBounds(520, 130, 110, 20);
-
-        jLabel11.setText("Cost of Damage (Gain)");
-        jPanel1.add(jLabel11);
-        jLabel11.setBounds(390, 180, 140, 14);
-        jPanel1.add(costOfDamageTF);
-        costOfDamageTF.setBounds(520, 170, 80, 20);
-
-        attackTabbedPane.addTab("Add Atomic Attack", jPanel1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);

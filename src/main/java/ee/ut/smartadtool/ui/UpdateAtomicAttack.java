@@ -340,9 +340,9 @@ public class UpdateAtomicAttack extends javax.swing.JFrame {
     }//GEN-LAST:event_addAtomicAttackActionPerformed
 
     private void probabilityjSpinnerStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_probabilityjSpinnerStateChanged
-        chartDrawer(Integer.valueOf(probabilityjSpinner.getValue().toString()));
-        this.getContentPane().validate();
-        this.getContentPane().repaint();
+//        chartDrawer(Integer.valueOf(probabilityjSpinner.getValue().toString()));
+//        this.getContentPane().validate();
+//        this.getContentPane().repaint();
     }//GEN-LAST:event_probabilityjSpinnerStateChanged
 
       public void chartDrawer(int success){

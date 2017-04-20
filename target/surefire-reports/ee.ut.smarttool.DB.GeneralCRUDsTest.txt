@@ -1,10 +1,10 @@
 -------------------------------------------------------------------------------
 Test set: ee.ut.smarttool.DB.GeneralCRUDsTest
 -------------------------------------------------------------------------------
-Tests run: 4, Failures: 0, Errors: 4, Skipped: 0, Time elapsed: 0.007 sec <<< FAILURE!
+Tests run: 4, Failures: 0, Errors: 4, Skipped: 0, Time elapsed: 0.008 sec <<< FAILURE!
 testSelectAll(ee.ut.smarttool.DB.GeneralCRUDsTest)  Time elapsed: 0.001 sec  <<< ERROR!
 java.lang.NullPointerException
-	at ee.ut.smarttool.DB.DB.selectQuery(DB.java:47)
+	at ee.ut.smarttool.DB.DB.selectQuery(DB.java:48)
 	at ee.ut.smarttool.DB.GeneralCRUDs.selectAll(GeneralCRUDs.java:14)
 	at ee.ut.smarttool.DB.GeneralCRUDsTest.testSelectAll(GeneralCRUDsTest.java:22)
 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
@@ -37,7 +37,7 @@ java.lang.NullPointerException
 	at org.apache.maven.surefire.booter.SurefireStarter.invokeProvider(SurefireStarter.java:175)
 	at org.apache.maven.surefire.booter.SurefireStarter.runSuitesInProcessWhenForked(SurefireStarter.java:107)
 	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:68)
-testDeleteAll(ee.ut.smarttool.DB.GeneralCRUDsTest)  Time elapsed: 0.001 sec  <<< ERROR!
+testDeleteAll(ee.ut.smarttool.DB.GeneralCRUDsTest)  Time elapsed: 0 sec  <<< ERROR!
 java.lang.NullPointerException
 	at ee.ut.smarttool.DB.DB.executeQuery(DB.java:38)
 	at ee.ut.smarttool.DB.GeneralCRUDs.deleteAll(GeneralCRUDs.java:67)
@@ -72,7 +72,7 @@ java.lang.NullPointerException
 	at org.apache.maven.surefire.booter.SurefireStarter.invokeProvider(SurefireStarter.java:175)
 	at org.apache.maven.surefire.booter.SurefireStarter.runSuitesInProcessWhenForked(SurefireStarter.java:107)
 	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:68)
-testDelete(ee.ut.smarttool.DB.GeneralCRUDsTest)  Time elapsed: 0.001 sec  <<< ERROR!
+testDelete(ee.ut.smarttool.DB.GeneralCRUDsTest)  Time elapsed: 0.003 sec  <<< ERROR!
 java.lang.NullPointerException
 	at ee.ut.smarttool.DB.DB.executeQuery(DB.java:38)
 	at ee.ut.smarttool.DB.GeneralCRUDs.delete(GeneralCRUDs.java:52)
@@ -107,9 +107,9 @@ java.lang.NullPointerException
 	at org.apache.maven.surefire.booter.SurefireStarter.invokeProvider(SurefireStarter.java:175)
 	at org.apache.maven.surefire.booter.SurefireStarter.runSuitesInProcessWhenForked(SurefireStarter.java:107)
 	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:68)
-testSelect(ee.ut.smarttool.DB.GeneralCRUDsTest)  Time elapsed: 0 sec  <<< ERROR!
+testSelect(ee.ut.smarttool.DB.GeneralCRUDsTest)  Time elapsed: 0.001 sec  <<< ERROR!
 java.lang.NullPointerException
-	at ee.ut.smarttool.DB.DB.selectQuery(DB.java:47)
+	at ee.ut.smarttool.DB.DB.selectQuery(DB.java:48)
 	at ee.ut.smarttool.DB.GeneralCRUDs.select(GeneralCRUDs.java:21)
 	at ee.ut.smarttool.DB.GeneralCRUDsTest.testSelect(GeneralCRUDsTest.java:29)
 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)

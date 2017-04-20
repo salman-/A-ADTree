@@ -68,6 +68,7 @@ public class SimpleNode {
         System.out.println("Id: "+id+" Type: "+type);
     }
     
+
     
     public SimpleNode(String id,String type,String parentId){
         this.id=id;
@@ -78,6 +79,17 @@ public class SimpleNode {
         cost="?";
         costOfDamage="?";
         operation="AND";
+    }
+    
+    public SimpleNode(String id,String type,String parentId,String operation){
+        this.id=id;
+        this.type=type;
+        this.parentId=parentId;
+        atomicId="?";
+        probability="?";
+        cost="?";
+        costOfDamage="?";
+        this.operation=operation;
     }
 
     public String getOperation() {

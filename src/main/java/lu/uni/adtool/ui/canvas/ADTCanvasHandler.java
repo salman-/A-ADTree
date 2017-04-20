@@ -190,7 +190,8 @@ public class ADTCanvasHandler extends AbstractCanvasHandler {
                
                  if(!ADTreeCanvas.hasChildren(selectedNodeId))
                     RegisterNode(selectedNode);
-                 System.out.println("ID of Selected Node is: "+selectedNodeId+" parentID: "+selectedNodeParentId+" Type is: "+selectedNodeType+" Operation: "+selectedNodeOperation);	
+                 System.out.println("ID of Selected Node is: "+selectedNodeId+" parentID: "+selectedNodeParentId+
+                                    " Type is: "+selectedNodeType+" Operation: "+selectedNodeOperation);	
            
 	  }catch(Exception e1){
 		  System.out.println("Failed to get the ADTree Node"+e1.getMessage());
@@ -344,7 +345,8 @@ public class ADTCanvasHandler extends AbstractCanvasHandler {
     
     properties.addActionListener(new ActionListener() {
       public void actionPerformed(final ActionEvent evt) {
-         SimpleNode node= ((ADTreeCanvas<?>) canvas).computeProperties(new SimpleNode(selectedNodeId,selectedNodeType,selectedNodeParentId));
+        SimpleNode selectedNode=  new SimpleNode(selectedNodeId,selectedNodeType,selectedNodeParentId,selectedNodeOperation);
+         SimpleNode node= ((ADTreeCanvas<?>) canvas).computeProperties(selectedNode);
         new Properties(selectedNodeType,node.getCost(),node.getProbability(),node.getCostOfDamage()).setVisible(true);
       }
     });

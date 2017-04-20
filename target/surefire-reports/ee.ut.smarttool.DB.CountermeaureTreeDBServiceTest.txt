@@ -2,7 +2,7 @@
 Test set: ee.ut.smarttool.DB.CountermeaureTreeDBServiceTest
 -------------------------------------------------------------------------------
 Tests run: 2, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.004 sec <<< FAILURE!
-testUpdateAttackTree(ee.ut.smarttool.DB.CountermeaureTreeDBServiceTest)  Time elapsed: 0.001 sec  <<< ERROR!
+testUpdateAttackTree(ee.ut.smarttool.DB.CountermeaureTreeDBServiceTest)  Time elapsed: 0.004 sec  <<< ERROR!
 java.lang.NullPointerException
 	at ee.ut.smarttool.DB.DB.executeQuery(DB.java:38)
 	at ee.ut.smarttool.DB.CountermeaureTreeDBService.updateCountermeaureTree(CountermeaureTreeDBService.java:24)

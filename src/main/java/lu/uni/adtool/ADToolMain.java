@@ -62,6 +62,8 @@ import ee.ut.smarttool.DB.AssetDBSerivice;
 import ee.ut.smarttool.DB.DB;
 import ee.ut.smarttool.DB.GeneralCRUDs;
 import ee.ut.smarttool.DB.VulnerabilityDBService;
+import ee.ut.smarttool.tree.dialogbox.OptionsForDisjunctionNodes;
+import javax.swing.JPanel;
 import lu.uni.adtool.tools.Clo;
 import lu.uni.adtool.tools.Debug;
 import lu.uni.adtool.tools.IconFactory;
@@ -78,6 +80,7 @@ import lu.uni.adtool.ui.RankingDockable;
 import lu.uni.adtool.ui.StatusLine;
 import lu.uni.adtool.ui.TreeDockable;
 import lu.uni.adtool.ui.ValuationsDockable;
+import static lu.uni.adtool.ui.canvas.ADTreeCanvas.updateChildNodeInTree;
 
 public final class ADToolMain extends JFrame {
 
@@ -93,6 +96,13 @@ public final class ADToolMain extends JFrame {
             Options.getMsg("closedialog.title"));
         if (result == JOptionPane.YES_OPTION) {
 //          Options.saveLayout(controller.getControl());
+            
+        
+
+
+
+
+
           frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         }
       }
@@ -181,8 +191,20 @@ public final class ADToolMain extends JFrame {
   }
 
   public static void main(String[] args) throws Exception {
-   // GeneralCRUDs gDB=new GeneralCRUDs();
-   // gDB.deleteAllRecords();
+ 
+  OptionsForDisjunctionNodes optionsForDisjunctionNodes=new OptionsForDisjunctionNodes();
+   JPanel p=optionsForDisjunctionNodes.getPanel();
+  
+    Object[] options = {"OK"};
+    int n = JOptionPane.showOptionDialog(null,
+                   p,"Disjunctive Decisions",
+                   JOptionPane.PLAIN_MESSAGE,
+                   JOptionPane.QUESTION_MESSAGE,
+                   null,
+                   options,
+                   options[0]);
+   
+   
     Clo clo = new Clo();
     if (clo.parse(args)) {
       

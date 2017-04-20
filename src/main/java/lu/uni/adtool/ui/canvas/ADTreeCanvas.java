@@ -44,6 +44,7 @@ import lu.uni.adtool.ui.TermView;
 import lu.uni.adtool.ui.TreeDockable;
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Map;
 import java.util.Stack;
 import java.util.TreeMap;
@@ -537,13 +538,45 @@ public class ADTreeCanvas<Type> extends AbstractTreeCanvas {
   protected ADTCanvasHandler  listener;
   protected TermView          terms;
   private static final long   serialVersionUID = 6626362203605041529L;
-
+  public static String AttackORDecisio="Maximum Probability";
+  public static String CounterORDecisio="Maximum Probability";
     SimpleNode computeProperties(SimpleNode node) {
+      
+        System.out.println("Operation is:"+ node.getOperation());
+        if(node.getOperation().contains("AND"))
+         node=AND_Evaluation(node);
+        else{
+       //   System.out.println("Strategy is:"+ CounterORDecisio);
+          node=OR_Evaluation(node);
+        }
+     
+      return node;
+    }
+    
+    public SimpleNode OR_Evaluation(SimpleNode node){
       String key=node.getId();
       ArrayList<SimpleNode> children = treeSchema.get(key);
-    //  SimpleNode node=new SimpleNode(selectedNodeId, selectedNodeType);
+      
+      if(children.size()>1){
+        String cost= computeProperties(children.get(1)).getCost();
+        double min=Double.parseDouble( cost );
+        for(int i=1;i<children.size();i++){
+            cost= computeProperties(children.get(i)).getCost();
+            if(Double.parseDouble(cost)<min)
+                node=computeProperties(children.get(i));
+        }
+      }else
+         node=children.get(0);
+
+      
+      return node;
+    }
+    
+    public SimpleNode AND_Evaluation(SimpleNode node){
+      String key=node.getId();
       double sum=0;
       double finalPro=1;
+      ArrayList<SimpleNode> children = treeSchema.get(key);
       if(children.size()>1)
         for(int i=1;i<children.size();i++){
             String cost= computeProperties(children.get(i)).getCost();
@@ -551,13 +584,14 @@ public class ADTreeCanvas<Type> extends AbstractTreeCanvas {
             sum=sum+Double.parseDouble( cost );
             node.setCost(Double.toString(sum));
             
-           // if(node.getType().contains("PRO")){
+            if(children.get(i).getType().contains("PRO")){
                 int overallCostOfTreatmeant=1;
                 String costOfTreatmeant= computeProperties(children.get(i)).getCostOfDamage();
                 costOfTreatmeant= (costOfTreatmeant.contains("?")) ? "1": costOfTreatmeant;
                 overallCostOfTreatmeant=overallCostOfTreatmeant*Integer.parseInt(costOfTreatmeant );
+
                 node.setCostOfDamage(Integer.toString(overallCostOfTreatmeant));
-          //  }
+            }
             String probability= computeProperties(children.get(i)).getProbability();
             probability = (probability.contains("?")) ? "0": probability;
             if(children.get(i).getType().contains(node.getType()))
@@ -572,6 +606,8 @@ public class ADTreeCanvas<Type> extends AbstractTreeCanvas {
         double pro=Double.parseDouble( node.getProbability())/ (int)Math.pow(100, (children.size()-2));
         node.setProbability(  Double.toString(pro) );
       }
-        return node;
+      return node;
+    
     }
 }
+

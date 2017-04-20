@@ -22,7 +22,7 @@ public class DB
 		    File file = new File(DB.class.getClassLoader().getResource("db/AlignedADTree.sqlite").getFile());
 		//    File file = new File("C://DB/alignedADTree.sqlite");
 		    String DBPath=file.getAbsolutePath();
-		 //   System.out.println(DBPath);
+		    System.out.println(DBPath);
 		    connection = DriverManager.getConnection("jdbc:sqlite:"+DBPath);
 		    connection.setAutoCommit(true);
 		    statement = connection.createStatement();
