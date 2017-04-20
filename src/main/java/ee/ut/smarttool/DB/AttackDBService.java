@@ -43,14 +43,12 @@ public class AttackDBService extends GeneralCRUDs {
         return DB.executeQuery(query);
     }
                       
-    public int updateAttack(String id,String name,String description,String threatAgent_id,String asset_id
-    		,String success,String times,String probability,String countermeasure_id,String operation
-            ,String cost_of_damage, String cost_of_attack,String impact_id) throws Exception{
+    public int updateAttack(String name,String description,String probaility,
+                            String costOfDamage,String costOfAttack,
+                            String assetId,String attackId) throws Exception{
 
-    	String query= "update attack set name='?',description='?',threatAgent_id=?,asset_id=?,success='?',times='?',probability='?',countermeasure_id=?,operation='?',cost_of_damage='?',cost_of_attack='?',impact_id=? where id=?";
-    	query=QueryMaker.queryFitter(query, QueryMaker.createArgList( name,description,threatAgent_id,asset_id,
-                success,times,probability,countermeasure_id,
-                operation,cost_of_damage,cost_of_attack,impact_id,id));
+    	String query= "update attack set name='?',description='?',probability='?',costOfDamage='?',costOfAttack='?',asset_id=? where id=?";
+    	query=QueryMaker.queryFitter(query, QueryMaker.createArgList( name,description,probaility,costOfDamage,costOfAttack,assetId,attackId));
     	return DB.executeQuery(query);
     }
     

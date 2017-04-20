@@ -556,18 +556,29 @@ public class ADTreeCanvas<Type> extends AbstractTreeCanvas {
     public SimpleNode OR_Evaluation(SimpleNode node){
       String key=node.getId();
       ArrayList<SimpleNode> children = treeSchema.get(key);
-      
+      int counterIndex=-1;
       if(children.size()>1){
+          
         String cost= computeProperties(children.get(1)).getCost();
         double min=Double.parseDouble( cost );
         for(int i=1;i<children.size();i++){
-            cost= computeProperties(children.get(i)).getCost();
-            if(Double.parseDouble(cost)<min)
-                node=computeProperties(children.get(i));
+            if(node.getType().contains(children.get(i).getType())){
+                cost= computeProperties(children.get(i)).getCost();
+                if(Double.parseDouble(cost)<=min)
+                    node=computeProperties(children.get(i));
+            }else
+                counterIndex=i;
         }
       }else
          node=children.get(0);
 
+      if(counterIndex!=-1){
+          double proOfCounter = 1-(Double.parseDouble(children.get(counterIndex).getProbability())/100);
+          double pro = Double.parseDouble(node.getProbability())/100;
+          pro=pro*proOfCounter;
+          node.setProbability(Double.toString(pro));
+      }
+          
       
       return node;
     }
