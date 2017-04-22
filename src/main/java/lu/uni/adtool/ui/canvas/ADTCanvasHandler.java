@@ -347,7 +347,11 @@ public class ADTCanvasHandler extends AbstractCanvasHandler {
       public void actionPerformed(final ActionEvent evt) {
         SimpleNode selectedNode=  new SimpleNode(selectedNodeId,selectedNodeType,selectedNodeParentId,selectedNodeOperation);
          SimpleNode node= ((ADTreeCanvas<?>) canvas).computeProperties(selectedNode);
-        new Properties(selectedNodeType,node.getCost(),node.getProbability(),node.getCostOfDamage()).setVisible(true);
+         try{
+             new Properties(selectedNodeType,node.getCost(),node.getProbability(),node.getCostOfDamage()).setVisible(true);
+         }catch(Exception e){
+         
+         }
       }
     });
     pmenu.add(properties);

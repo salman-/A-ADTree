@@ -209,8 +209,9 @@ public class AtomicCountermeasure extends javax.swing.JFrame {
             String name=countermeasureNameTF.getText();
             String description=countermeasureDescriptionTA.getText();
             String cost=countermeasureCostTF.getText();
-          //  String costOfDamage=countermeasureCostTF.getText();
-            String probaility= Integer.toString(100-Integer.parseInt(probabilityjSpinner.getValue().toString())) ;
+            //  String costOfDamage=countermeasureCostTF.getText();
+            String probaility = Double.toString(1-(Integer.parseInt(probabilityjSpinner.getValue().toString())/100.0));
+            
           //   String id =IDGenerator.nextId();
             countermeasureDBService.insertAtomicCountermeasure(name,description,probaility,cost);
             JOptionPane.showMessageDialog(null, "The record is inserted successfully.", "Success",JOptionPane.INFORMATION_MESSAGE );

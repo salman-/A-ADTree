@@ -293,7 +293,8 @@ public class AtomicAttack extends javax.swing.JFrame {
             String costOfAttack=costOfAttackTF.getText();
             String costOfDamage=costOfDamageTF.getText();
             String probaility=probabilityjSpinner.getValue().toString();
-                    
+            probaility=Double.toString(Integer.parseInt(probaility)/100.0);
+            
             if(targetedAssetCombo.getSelectedItem().toString()!=null){
                 asset=targetedAssetCombo.getSelectedItem().toString();
                 assetId=assetDBSerivce.selectIdFromField("asset","name","'"+asset+"'");

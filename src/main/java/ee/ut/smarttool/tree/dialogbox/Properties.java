@@ -21,7 +21,7 @@ public class Properties extends javax.swing.JFrame {
         initComponents();
         type= (type.contains("PRO")) ? "Attack Node" : "Countermeasure Node";
         typeLabel.setText(type);
-        proLabel.setText(pro+" %");
+        proLabel.setText(pro);
         costLabel.setText(cost+" €");
         costOfDamageLabel.setText(costOfDamage+" €");
         if(type.contains("Countermeasure")){

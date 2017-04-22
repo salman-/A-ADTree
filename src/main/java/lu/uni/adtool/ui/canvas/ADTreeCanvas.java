@@ -539,21 +539,22 @@ public class ADTreeCanvas<Type> extends AbstractTreeCanvas {
   protected TermView          terms;
   private static final long   serialVersionUID = 6626362203605041529L;
   public static String AttackORDecisio="Maximum Probability";
-  public static String CounterORDecisio="Maximum Probability";
     SimpleNode computeProperties(SimpleNode node) {
       
         System.out.println("Operation is:"+ node.getOperation());
         if(node.getOperation().contains("AND"))
          node=AND_Evaluation(node);
         else{
-       //   System.out.println("Strategy is:"+ CounterORDecisio);
-          node=OR_Evaluation(node);
+            if(AttackORDecisio.contains("Minimum Cost of Action"))
+                    node=OR_EvaluationMinimumCost(node);
+            if(AttackORDecisio.contains("Maximum Probability"))
+                    node=OR_EvaluationMaximumProbability(node);
         }
      
       return node;
     }
     
-    public SimpleNode OR_Evaluation(SimpleNode node){
+    public SimpleNode OR_EvaluationMinimumCost(SimpleNode node){
       String key=node.getId();
       ArrayList<SimpleNode> children = treeSchema.get(key);
       int counterIndex=-1;
@@ -573,8 +574,8 @@ public class ADTreeCanvas<Type> extends AbstractTreeCanvas {
          node=children.get(0);
 
       if(counterIndex!=-1){
-          double proOfCounter = 1-(Double.parseDouble(children.get(counterIndex).getProbability())/100);
-          double pro = Double.parseDouble(node.getProbability())/100;
+          double proOfCounter = 1-(Double.parseDouble(children.get(counterIndex).getProbability()));
+          double pro = Double.parseDouble(node.getProbability());
           pro=pro*proOfCounter;
           node.setProbability(Double.toString(pro));
       }
@@ -608,17 +609,54 @@ public class ADTreeCanvas<Type> extends AbstractTreeCanvas {
             if(children.get(i).getType().contains(node.getType()))
               finalPro= finalPro*((Double.parseDouble(probability)));
             else
-              finalPro= finalPro*(100-Double.parseDouble(probability));
+              finalPro= finalPro*(1-Double.parseDouble(probability));
             node.setProbability(Double.toString(finalPro));
         }
       else
          node=children.get(0);
-      if(children.size()>=2){
+     /* if(children.size()>=2){
         double pro=Double.parseDouble( node.getProbability())/ (int)Math.pow(100, (children.size()-2));
         node.setProbability(  Double.toString(pro) );
-      }
+      }*/
       return node;
     
+    }
+
+    private SimpleNode OR_EvaluationMaximumProbability(SimpleNode node) {
+      try{
+            String key=node.getId();
+            ArrayList<SimpleNode> children = treeSchema.get(key);
+            int counterIndex=-1;
+            if(children.size()>1){
+
+              String pro= computeProperties(children.get(1)).getProbability();
+              double max=Double.parseDouble( pro );
+              for(int i=1;i<children.size();i++){
+                  if(node.getType().contains(children.get(i).getType())){
+                      pro= computeProperties(children.get(i)).getProbability();
+                      if(Double.parseDouble(pro)>=max)
+                          node=computeProperties(children.get(i));
+                  }else
+                      counterIndex=i;
+              }
+            }else{
+               node=children.get(0);
+                Map<String, ArrayList<String>> res = getActionFromDB(children.get(0).getType(), children.get(0).getAtomicId());
+                node.setProbability(res.get("probability").get(0));
+               
+            }
+            if(counterIndex!=-1){
+                double proOfCounter = 1-(Double.parseDouble(children.get(counterIndex).getProbability()));
+                double pro = Double.parseDouble(node.getProbability());
+                pro=pro*proOfCounter;
+                node.setProbability(Double.toString(pro));
+            }
+       }catch(Exception e){
+           JOptionPane.showMessageDialog(null, "All leaves should be assigned to an atomic action.", "Failure",JOptionPane.ERROR_MESSAGE );
+       //    return null;
+       }
+      
+      return node;
     }
 }
 
