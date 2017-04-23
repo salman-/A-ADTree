@@ -15,33 +15,33 @@ public class ThreatAgentScoreEvaluatorService {
     }
     
     public void motivationSetter(String motive){
+      
       switch(motive){
        
-          case "Personal fame":
-              this.motive= 4;
-              break;
-          case "Personal Gain":
-              this.motive= 6;
-              break;
-          case "Revenge":
-              this.motive= 6;
-              break;
-          case "National interest":
-              this.motive= 6;
-              break;
-          case "Ideology":
-              this.motive= 6;
-              break;
-           default: 
+          case "Personal Fame":
               this.motive= 3;
               break;
-      } 
-      
-        System.out.println("motives:"+this.motive+"capabilities:"+
-                            this.capabilities+"opportunities:"
-                            +this.opportunities+"means: "+means);
-  } 
+          case "Personal Gain":
+              this.motive= 5;
+              break;
+          case "Revenge":
+              this.motive= 7;
+              break;
+          case "National Interest":
+              this.motive= 9;
+              break;
+          case "Ideology":
+              this.motive= 11;
+              break;
+           default: 
+              this.motive= 1;
+              break;
+      }
+      System.out.println("|"+motive+" | "+this.motive);
+    }
+    
     public void capabilitiesSetter(String capabilities){
+        
       switch(capabilities){
        
           case "Undergraduate":
@@ -51,19 +51,18 @@ public class ThreatAgentScoreEvaluatorService {
               this.capabilities= 10;
               break;
           case "Master":
-              this.capabilities= 6;
+              this.capabilities= 7;
               break;
           default:
-              this.capabilities= 2;
+              this.capabilities= 1;
               break;
       } 
-        System.out.println("motives:"+this.motive+"capabilities:"+
-                            this.capabilities+"opportunities:"
-                            +this.opportunities+"means: "+means);
+      System.out.println("|"+capabilities+" | "+this.capabilities);
     }
     public void opportunitiesSetter(String opportunities){
+        
         switch(opportunities){
-            case "One":
+            case "1":
                 this.opportunities= 1;
                 break;
             case "Finite":
@@ -72,14 +71,13 @@ public class ThreatAgentScoreEvaluatorService {
             case "Infinite":
                 this.opportunities= 10;
                 break;
-            case "Zero":
+            case "0":
                 this.opportunities= 0;
                 break;
 
-        } 
-            System.out.println("motives:"+this.motive+"capabilities:"+
-                            this.capabilities+"opportunities:"
-                            +this.opportunities+"means: "+means);
+        }
+        System.out.println("|"+opportunities+" | "+this.opportunities);
+
       }
     
     public void meansSetter(String ins){
@@ -88,15 +86,13 @@ public class ThreatAgentScoreEvaluatorService {
         else 
             means=means-5;
          scoreEvaluator(); 
-        System.out.println("motives:"+this.motive+"capabilities:"+
-                            this.capabilities+"opportunities:"
-                            +this.opportunities+"means: "+means);
+        System.out.println("means: "+means);
       }
     
-    public double scoreEvaluator(){
+    public String scoreEvaluator(){
            
-              score=(capabilities+means+motive)*opportunities/4;
+              score=((capabilities+means+motive)*opportunities)/4;
               System.out.println("Score: "+score);
-              return score;
+              return Double.toString(score);
     }
 }

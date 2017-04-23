@@ -444,6 +444,7 @@ public class ADTreeCanvas<Type> extends AbstractTreeCanvas {
     }
 
     public static void updateChildNodeInTree(String parentId,String nodeId,String attomicActionId){
+        try{
         for (String key : treeSchema.keySet()) {   //Brute force search to find the selected node in treeSchema
      
         //    if(key.contains(parentId)){
@@ -466,29 +467,32 @@ public class ADTreeCanvas<Type> extends AbstractTreeCanvas {
           //  }
             
         }
+        }catch(Exception e){ }
     }
     
     private static Map<String, ArrayList<String>> getActionFromDB(String type,String attomicActionId) {
-       if(type.contains("PRO")){
-           AttackDBService attack=new AttackDBService();
-           try {
-               Map<String, ArrayList<String>> atomicAttack = attack.select("attack", attomicActionId);
-              
-               return atomicAttack;
-            } catch (Exception ex) {
-               Logger.getLogger(ADTreeCanvas.class.getName()).log(Level.SEVERE, null, ex);
-               return null;
-           }
-       }else{
-            CountermeasureDBService counter=new CountermeasureDBService();
+        
+        if(type.contains("PRO")){
+            AttackDBService attack=new AttackDBService();
             try {
-               Map<String, ArrayList<String>> atomicAttack = counter.select("countermeasure", attomicActionId);
-               return atomicAttack;
-            } catch (Exception ex) {
-               Logger.getLogger(ADTreeCanvas.class.getName()).log(Level.SEVERE, null, ex);
-               return null;
+                Map<String, ArrayList<String>> atomicAttack = attack.select("attack", attomicActionId);
+
+                return atomicAttack;
+             } catch (Exception ex) {
+            //    Logger.getLogger(ADTreeCanvas.class.getName()).log(Level.SEVERE, null, ex);
+                return null;
             }
-       }
+        }else{
+             CountermeasureDBService counter=new CountermeasureDBService();
+             try {
+                Map<String, ArrayList<String>> atomicAttack = counter.select("countermeasure", attomicActionId);
+                return atomicAttack;
+             } catch (Exception ex) {
+             //   Logger.getLogger(ADTreeCanvas.class.getName()).log(Level.SEVERE, null, ex);
+                return null;
+             }
+        }
+
     }
         
     private  String getSelectedActionId(String selectedNodeId,ListSelectionModel selectionModel, TableModel tableModel,String type) {
