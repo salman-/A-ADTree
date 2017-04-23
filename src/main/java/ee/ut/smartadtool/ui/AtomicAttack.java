@@ -59,7 +59,7 @@ public class AtomicAttack extends javax.swing.JFrame {
              targetedAssetCombo.setModel( model );
           
         } catch (Exception ex) {
-            Logger.getLogger(AtomicAttack.class.getName()).log(Level.SEVERE, null, ex);
+         //   Logger.getLogger(AtomicAttack.class.getName()).log(Level.SEVERE, null, ex);
         };
     
 
@@ -308,7 +308,7 @@ public class AtomicAttack extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Make sure you have inserted asset records and try again", "Failure",JOptionPane.ERROR_MESSAGE );
                       
         } catch (Exception ex) {
-            Logger.getLogger(AtomicAttack.class.getName()).log(Level.SEVERE, null, ex);
+          //  Logger.getLogger(AtomicAttack.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_addAtomicAttackActionPerformed
 
@@ -322,7 +322,7 @@ public class AtomicAttack extends javax.swing.JFrame {
             }
 
         } catch (Exception e1) {
-            Logger.getLogger(Asset.class.getName()).log(Level.SEVERE, null, e1);
+          //  Logger.getLogger(Asset.class.getName()).log(Level.SEVERE, null, e1);
         }
 
     }//GEN-LAST:event_attackTabbedPaneStateChanged

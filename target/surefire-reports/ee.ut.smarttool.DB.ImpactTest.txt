@@ -1,8 +1,8 @@
 -------------------------------------------------------------------------------
 Test set: ee.ut.smarttool.DB.ImpactTest
 -------------------------------------------------------------------------------
-Tests run: 2, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 3.498 sec <<< FAILURE!
-testInsertImpact(ee.ut.smarttool.DB.ImpactTest)  Time elapsed: 3.496 sec  <<< FAILURE!
+Tests run: 2, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 2.475 sec <<< FAILURE!
+testInsertImpact(ee.ut.smarttool.DB.ImpactTest)  Time elapsed: 2.472 sec  <<< FAILURE!
 java.lang.AssertionError: expected:<1> but was:<-1>
 	at org.junit.Assert.fail(Assert.java:88)
 	at org.junit.Assert.failNotEquals(Assert.java:834)

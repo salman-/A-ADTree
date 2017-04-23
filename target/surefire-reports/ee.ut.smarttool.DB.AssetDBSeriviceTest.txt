@@ -1,8 +1,8 @@
 -------------------------------------------------------------------------------
 Test set: ee.ut.smarttool.DB.AssetDBSeriviceTest
 -------------------------------------------------------------------------------
-Tests run: 2, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0 sec <<< FAILURE!
-testUpdateAsset(ee.ut.smarttool.DB.AssetDBSeriviceTest)  Time elapsed: 0 sec  <<< ERROR!
+Tests run: 2, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.005 sec <<< FAILURE!
+testUpdateAsset(ee.ut.smarttool.DB.AssetDBSeriviceTest)  Time elapsed: 0.002 sec  <<< ERROR!
 java.lang.NullPointerException
 	at ee.ut.smarttool.DB.DB.executeQuery(DB.java:38)
 	at ee.ut.smarttool.DB.AssetDBSerivice.updateAsset(AssetDBSerivice.java:12)

@@ -40,7 +40,7 @@ public class GeneralCRUDs implements CRUD {
             //    System.out.println("Table:"+table+" "+"ID is: "+id);
                 return id;
             }catch(Exception e){
-                 Logger.getLogger(GeneralCRUDs.class.getName()).log(Level.SEVERE, null, e);
+              ///   Logger.getLogger(GeneralCRUDs.class.getName()).log(Level.SEVERE, null, e);
                 return null;}
 	}
         

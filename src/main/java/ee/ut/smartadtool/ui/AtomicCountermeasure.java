@@ -217,7 +217,7 @@ public class AtomicCountermeasure extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "The record is inserted successfully.", "Success",JOptionPane.INFORMATION_MESSAGE );
 
         } catch (Exception ex) {
-            Logger.getLogger(AtomicAttack.class.getName()).log(Level.SEVERE, null, ex);
+       //     Logger.getLogger(AtomicAttack.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_addAtomicAttackActionPerformed
     public void chartDrawer(int success){
