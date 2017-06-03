@@ -182,15 +182,9 @@ public class Properties extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap(40, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(jPanel1Layout.createSequentialGroup()
-                                    .addComponent(jCheckBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(score, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(104, 104, 104))
-                                .addGroup(jPanel1Layout.createSequentialGroup()
-                                    .addComponent(jCheckBox5, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(20, 20, 20)))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jCheckBox5, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(205, 205, 205))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jCheckBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -199,7 +193,11 @@ public class Properties extends javax.swing.JFrame {
                                     .addComponent(jCheckBox3, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(20, 20, 20)))))
+                                .addGap(20, 20, 20))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(jCheckBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(score, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap(73, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
@@ -353,7 +351,8 @@ public class Properties extends javax.swing.JFrame {
         double probability =(double)Math.round(pro* 100000d) / 100000d; 
         proLabel.setText(Double.toString(probability));
         
-        double severity = Double.parseDouble(costOfDamageLabel.getText()); 
+        String[] sev = costOfDamageLabel.getText().split(" €");
+        double severity = Double.parseDouble(sev[0]); 
         double riskValue =(double)Math.round(probability*severity* 100000d) / 100000d; 
         String risk= Double.toString((riskValue));
         riskLabel.setText(risk);  
@@ -361,6 +360,7 @@ public class Properties extends javax.swing.JFrame {
 
     private void threatAgentMotivesComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_threatAgentMotivesComboActionPerformed
      tAService.motivationSetter(threatAgentMotivesCombo.getSelectedItem().toString());
+  //   double probability =(double)Math.round(pro* 100000d) / 100000d; 
       score.setText(tAService.scoreEvaluator());
     }//GEN-LAST:event_threatAgentMotivesComboActionPerformed
 

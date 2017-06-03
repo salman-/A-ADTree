@@ -47,7 +47,7 @@ public class Asset extends javax.swing.JPanel {
              vulnerabilityCombo.setModel( model );
             
         } catch (Exception ex) {
-            Logger.getLogger(AtomicAttack.class.getName()).log(Level.SEVERE, null, ex);
+          //  Logger.getLogger(AtomicAttack.class.getName()).log(Level.SEVERE, null, ex);
         };
         
     }

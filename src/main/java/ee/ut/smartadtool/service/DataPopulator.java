@@ -1,5 +1,6 @@
 package ee.ut.smartadtool.service;
 
+
 import java.util.ArrayList;
 import java.util.Map;
 

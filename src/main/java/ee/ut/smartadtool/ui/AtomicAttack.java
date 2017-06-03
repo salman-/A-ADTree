@@ -191,9 +191,9 @@ public class AtomicAttack extends javax.swing.JFrame {
 
         jLabel11.setText("Cost of Damage (Gain)");
         jPanel1.add(jLabel11);
-        jLabel11.setBounds(390, 180, 140, 14);
+        jLabel11.setBounds(390, 170, 150, 14);
         jPanel1.add(costOfDamageTF);
-        costOfDamageTF.setBounds(520, 170, 80, 20);
+        costOfDamageTF.setBounds(550, 170, 80, 20);
 
         attackTabbedPane.addTab("Add Atomic Attack", jPanel1);
 
