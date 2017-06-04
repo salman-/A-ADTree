@@ -24,8 +24,7 @@ A-ADTree is a project based on Attack-Defense Tree, but we added the asset, vuln
 
 * Measurement of the likelihood of the risk based on threat agent, and historical data, and [OCTAVE](http://www.informit.com/articles/article.aspx?p=28469&seqNum=6)
 
-* A tool is developed to show how the A-ADTree works
- 
+* A tool is developed to show how the A-ADTree works 
 
 The below table shows the comparison between the potentiality of ADTree, and A-ADTree![A-ADTree vs ADTree](https://cloud.githubusercontent.com/assets/4312244/26752247/23a14034-4854-11e7-8480-1dfc4180025c.png)
 
@@ -33,3 +32,10 @@ The below table shows the comparison between the potentiality of ADTree, and A-A
 
 This project has been done as a master thesis at the University of Tartu. The complete thesis can be found [here](https://comserv.cs.ut.ee/home/files/Lashkarara_softwareengineering_2017.pdf?study=ATILoputoo&reference=8762E33F0FF55E8E65DE28C8C5CA31E7F4285F2E).
 
+Here is the more explanation over the project
+
+## * [Alignment](https://github.com/salman-/A-ADTree/wiki/Alignment-of-ADTree-to-ISSRM)
+
+## * [Measurement](https://github.com/salman-/A-ADTree/wiki/Measurement)
+
+## * [Implementation](https://github.com/salman-/A-ADTree/wiki/Implementation)
